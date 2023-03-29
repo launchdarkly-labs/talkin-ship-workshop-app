@@ -11,7 +11,7 @@ import { blackA, blueDark, slate, mauve, grass } from '@radix-ui/colors'
 import * as AlertDialog from '@radix-ui/react-alert-dialog'
 import * as Form from '@radix-ui/react-form'
 import { useShoppingCart } from 'use-shopping-cart'
-import { useFlags } from 'launchdarkly-react-client-sdk'
+import { useFlags, useLDClient } from 'launchdarkly-react-client-sdk'
 import product from '@/config/products'
 import * as Toast from '@radix-ui/react-toast';
 import { RocketIcon } from '@radix-ui/react-icons'
@@ -63,9 +63,15 @@ const onButtonClick = async () => {
 		}
 	};
 
-  const [errorState, setErrorState] = useState(false)
-  const {cartCount} = useShoppingCart();
+  // define metric for experimentation
+  const client = useLDClient();
+  function experimentData() {
+    client?.track("storeClicks")
+    console.log("We're sending data to the experiment")
+  }
 
+  // check if API is returning error message
+  const [errorState, setErrorState] = useState(false)
   const errorTesting = async () => {
     try {
       let res = ''
@@ -140,7 +146,8 @@ return (
             <Toast.Provider key={product.id} swipeDirection="left">
             <Button key={product.id} onClick={ () => {
             addItem(product),
-            errorTesting(), 
+            errorTesting(),
+            experimentData(), 
             setOpen(false);
           window.clearTimeout(timerRef.current);
           timerRef.current = window.setTimeout(() => {
@@ -158,7 +165,7 @@ return (
             :    
             <AlertDialog.Root>
                 <AlertDialog.Trigger>
-            <Button>Contact Sales</Button>
+            <Button onClick={()=>{experimentData()}}>Contact Sales</Button>
             </AlertDialog.Trigger>
             <AlertDialog.Portal>
       <AlertDialogOverlay />
