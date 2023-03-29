@@ -1,0 +1,35 @@
+version: '3.7'
+
+services:
+  db: 
+    container_name: postgres
+    image: pcmccarron/toggle-store-db:v1
+    ports:
+      - '5432:5432'
+    environment:
+      PG_USER: postgres
+      PG_PASSWORD: postgres_password
+      PG_DATABASE: demo
+    volumes:
+      - ./pgdata:/var/lib/postgres/data
+    healthcheck:
+      test: ["CMD", "curl", "http://localhost:5432"]
+  api:
+    container_name: api
+    image: pcmccarron/toggle-store-api:v1
+    ports: 
+      - '4000:4000'
+    depends_on:
+      db:
+        condition: service_started
+    environment: 
+      EXTERNAL_PORT: 4000
+      PG_USER: postgres
+      PG_HOST: db
+      PG_PASSWORD: postgres_password
+      PG_DATABASE: demo
+      LD_SDK_KEY: sdk-f2228242-ab2a-4714-8956-06991df2753e
+      STRIPE_SECRET_KEY: sk_test_51MoVoDIMSMVrlrM0rkEdu0goR3pNAwk1PFJAe0MPX9Rle5nwZwc4TMfAchHPN5sQ1GYmNytx1f69z9SPAqimVQK300L1zgpGRZ
+
+
+        

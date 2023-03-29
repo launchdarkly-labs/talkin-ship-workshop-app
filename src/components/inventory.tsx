@@ -72,6 +72,7 @@ const onButtonClick = async () => {
 
   // check if API is returning error message
   const [errorState, setErrorState] = useState(false)
+  const {clearCart} = useShoppingCart()
   const errorTesting = async () => {
     try {
       let res = ''
@@ -84,6 +85,7 @@ const onButtonClick = async () => {
       console.log(jsonData)
       if (jsonData == "the API is unreachable") {
         setErrorState(true)
+        clearCart()
       }
       else {
         setErrorState(false)

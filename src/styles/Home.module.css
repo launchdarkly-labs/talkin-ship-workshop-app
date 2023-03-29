@@ -2,8 +2,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem;
-  min-height: 92vh;
+  padding: 1rem;
+  min-height: 93vh;
   background: radial-gradient(circle, rgba(237, 244, 201, 1) 7%, rgba(158, 173, 241, 1) 75%);
 }
 
@@ -20,8 +20,8 @@
   display: flex;
   flex-direction: row;
   align-items: end;
-  padding: 2rem;
-  position: relative;
+  padding: 1rem;
+  position: sticky;
   background-color: black;
 }
 

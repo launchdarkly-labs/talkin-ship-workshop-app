@@ -38,7 +38,7 @@ else {
 const VIEWPORT_PADDING = 25;
 
 const ToastViewport = styled(Toast.Viewport, {
-  position: 'sticky',
+  position: 'relative',
   bottom: 0,
   center: 0,
   display: 'flex',

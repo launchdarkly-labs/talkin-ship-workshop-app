@@ -97,8 +97,8 @@ export default function Home() {
         />
         <h3 className={inter.className} style={{margin: 5}}>For information about ordering our toggles, please contact <a href='mailto:thetogglestore@toggles.com' style={{color: 'blue'}}>thetogglestore@toggles.com</a></h3>
         </div>
-      </main>}
-        <footer className={styles.footer} style={{justifyContent:'center'}}>  
+      </main>}      
+        <footer className={styles.footer} style={{justifyContent:'center'}}> 
         <BillingState />
         </footer>
   </ApolloProvider>

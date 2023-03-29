@@ -28,9 +28,10 @@ async function init() {
 
   //connect to the dc postgres db
   const postgres = await new Client({
-    user: "pcmccarron",
-    host: "localhost",
-    database: "demo",
+    user: process.env.PG_USER,
+    host: process.env.PG_HOST,
+    database: process.env.PG_DATABASE,
+    password: process.env.PG_PASSWORD,
     port: "5432",
   });
   postgres.connect();
@@ -42,7 +43,7 @@ async function init() {
     name: "Toggles",
     extensions: {
       joinMonster: {
-        sqlTable: "toggleTable",
+        sqlTable: "toggletable",
         uniqueKey: "id",
       },
     },
@@ -102,7 +103,7 @@ async function init() {
     try {
       const { name, email } = req.body;
       const newFormFill = await postgres.query(
-        "INSERT INTO formFills (name, email) VALUES($1,$2) RETURNING *",
+        "INSERT INTO formfills (name, email) VALUES($1,$2) RETURNING *",
         [name, email]
       );
       res.json(newFormFill.rows[0]);
@@ -113,7 +114,7 @@ async function init() {
 
   app.get("/form", cors(), async (req, res) => {
     try {
-      const formFills = await postgres.query("SELECT * FROM formFills");
+      const formFills = await postgres.query("SELECT * FROM formfills");
       res.json(formFills.rows);
     } catch (error) {
       console.error(error.message);
@@ -167,7 +168,7 @@ async function init() {
 
   app.get("/inventory", cors(), async (req, res) => {
     try {
-      const inventory = await postgres.query("SELECT * FROM toggleTable");
+      const inventory = await postgres.query("SELECT * FROM toggletable");
       res.json(inventory.rows);
     } catch (error) {
       console.error(error.message);
