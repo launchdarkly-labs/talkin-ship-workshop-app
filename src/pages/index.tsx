@@ -1,3 +1,4 @@
+"use client"
 import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
@@ -7,9 +8,8 @@ import Inventory from '@/components/inventory'
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import { useFlags } from 'launchdarkly-react-client-sdk'
 import BillingState from '@/components/status-toast'
-import { v4 as uuid } from 'uuid'
-import * as React from 'react'
-import { useLDClient} from 'launchdarkly-react-client-sdk'
+import {useState, useEffect} from 'react'
+import ErrorAlert from '@/pages/error-page'
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -19,11 +19,13 @@ const inter = Inter({ subsets: ['latin'] })
     cache: new InMemoryCache()
   });
 
+
 export default function Home() {
   //import flag values 
-  const {storeEnabled} = useFlags();
+  const {enableStripe, storeEnabled} = useFlags();
 
   return (
+    <>
     <ApolloProvider client={client}>
       <Head>
         <title>The Toggle Store</title>
@@ -48,8 +50,8 @@ export default function Home() {
           <Inventory />
         </div>
       </main>
-      : <main className = {styles.main} style={{}}>
-        <div style={{position: 'absolute', bottom: '225px', textAlign:'center', height: '800px'}}>
+      : <main className = {styles.main}>
+        <div style={{position: 'absolute', textAlign:'center', height: '800px'}}>
         <Image
         src = '/high-five.png'
         alt = 'Toggle'
@@ -100,5 +102,6 @@ export default function Home() {
         <BillingState />
         </footer>
   </ApolloProvider>
+  </>
   )
-}
+  }

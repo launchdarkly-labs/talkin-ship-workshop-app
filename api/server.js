@@ -148,7 +148,20 @@ async function init() {
         console.error(error.message);
       }
     } else {
-      console.log("There was a problem");
+      return res.send("the API is unreachable");
+    }
+  });
+
+  app.get("/checkout", cors(), async (req, res) => {
+    const enableStripe = await client.variation("enableStripe", context, false);
+    if (enableStripe) {
+      try {
+        res.send("You are good to go!");
+      } catch (error) {
+        console.error(error.message);
+      }
+    } else {
+      return res.json("the API is unreachable");
     }
   });
 

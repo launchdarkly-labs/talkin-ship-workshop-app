@@ -33,7 +33,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 const Inventory = () => {
 // import flags
-const {billing} = useFlags();
+const {billing, storeEnabled} = useFlags();
 
 //function for adding form fill data to database
 const [name, setName] = useState("")
@@ -63,9 +63,38 @@ const onButtonClick = async () => {
 		}
 	};
 
+  const [errorState, setErrorState] = useState(false)
+  const {cartCount} = useShoppingCart();
+
+  const errorTesting = async () => {
+    try {
+      let res = ''
+      const response = await fetch('/checkout', {
+        method: 'GET',
+        mode: 'cors',
+        headers: {'Content-Type': 'application/json'}
+      })
+      const jsonData = await response.json()
+      console.log(jsonData)
+      if (jsonData == "the API is unreachable") {
+        setErrorState(true)
+      }
+      else {
+        setErrorState(false)
+      }
+    }
+     catch (e) {
+      console.log('is it running?')
+    }
+  }
+
+  useEffect(() => {
+    setErrorState(false)
+    console.log(errorState)
+  },[])
+
   // some button config things
 const {addItem} = useShoppingCart();
-const [images, addImages] = useState<Array<number>>([])
 const [open, setOpen] = React.useState(false);
   const timerRef = React.useRef(0);
 
@@ -110,14 +139,13 @@ return (
             product.filter(product => product.id === id).map((product) => (
             <Toast.Provider key={product.id} swipeDirection="left">
             <Button key={product.id} onClick={ () => {
-            addItem(product), 
-            addImages(images =>[...images, product.id]),
+            addItem(product),
+            errorTesting(), 
             setOpen(false);
           window.clearTimeout(timerRef.current);
           timerRef.current = window.setTimeout(() => {
             setOpen(true);
           }, 10);
-            console.log(images)
             }}>
               Add to Cart
             </Button>
@@ -173,6 +201,24 @@ return (
       </AlertDialogContent>
     </AlertDialog.Portal>
 </AlertDialog.Root>}
+          { errorState ?
+          <AlertDialog.Root defaultOpen={true}>
+            <AlertDialog.Trigger />
+        <AlertDialog.Portal>
+      <AlertDialogOverlay />
+      <AlertDialogContent>
+        <FormRoot onSubmit={(e) => {e.preventDefault()}}>
+        <AlertDialogTitle>Uh oh! Looks like an error!</AlertDialogTitle>
+        <Flex css={{ justifyContent: 'flex-end' }}>
+          <AlertDialog.Cancel asChild>
+            <Button variant="green" onClick={() => {setErrorState(false)}}>Close</Button>
+        </AlertDialog.Cancel>
+        </Flex>
+        </FormRoot>
+      </AlertDialogContent>
+    </AlertDialog.Portal>
+</AlertDialog.Root>
+: null}
             </div>
           </div>
         ))}

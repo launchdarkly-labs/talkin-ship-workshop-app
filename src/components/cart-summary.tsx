@@ -9,11 +9,10 @@ import {AiOutlineShopping} from 'react-icons/Ai'
 
 const inter = Inter({ subsets: ['latin'] });
 
-const CartSummary = ({}) => {
+const CartSummary = () => {
   const [loading, setLoading] = useState(false)
   const [cartEmpty, setCartEmpty] = useState(true)
   const [errorMessage, setErrorMessage] = useState('')
-  const [caughtError, setAPIError] = useState<boolean>(false)
   const {
     formattedTotalPrice,
     cartCount,
@@ -29,7 +28,6 @@ const CartSummary = ({}) => {
     event.preventDefault()
     setLoading(true)
     setErrorMessage('')
-
     try {
 	const body = { cartDetails };
 	const res = await fetch('/checkout', {
@@ -46,13 +44,11 @@ const CartSummary = ({}) => {
       referrerPolicy: 'no-referrer', // no-referrer, *client
 	  body: JSON.stringify(body || {}),
 	    });
-        setAPIError(false);
       const url = await res.json()
       window.location.href = url.url
     }
-    catch (error) {
-        console.log(errorMessage);
-        setAPIError(true);
+    catch (e) {
+        console.log('there was an error')
     }
     }
 
