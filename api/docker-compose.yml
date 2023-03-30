@@ -1,0 +1,35 @@
+version: '3.7'
+
+services:
+  db: 
+    container_name: postgres
+    image: pcmccarron/toggle-store-db:v1
+    ports:
+      - '5432:5432'
+    environment:
+      PG_USER: postgres
+      PG_PASSWORD: postgres_password
+      PG_DATABASE: demo
+    volumes:
+      - ./pgdata:/var/lib/postgres/data
+    healthcheck:
+      test: ["CMD", "curl", "http://localhost:5432"]
+  api:
+    container_name: api
+    image: pcmccarron/toggle-store-api:v1
+    ports: 
+      - '4000:4000'
+    depends_on:
+      db:
+        condition: service_started
+    environment: 
+      EXTERNAL_PORT: 4000
+      PG_USER: postgres
+      PG_HOST: db
+      PG_PASSWORD: postgres_password
+      PG_DATABASE: demo
+      LD_SDK_KEY: # Add your LD SDK key here
+      STRIPE_SECRET_KEY: # Add your Stripe Secret Key here
+
+
+        

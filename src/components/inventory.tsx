@@ -75,7 +75,8 @@ const Inventory = () => {
   }
 
   // check if API is returning error message
-  const [errorState, setErrorState] = useState(false);
+  const [errorState, setErrorState] = useState(false)
+  const {clearCart} = useShoppingCart()
   const errorTesting = async () => {
     try {
       let res = "";
@@ -86,9 +87,11 @@ const Inventory = () => {
       const jsonData = await response.json();
       console.log(jsonData);
       if (jsonData == "the API is unreachable") {
-        setErrorState(true);
-      } else {
-        setErrorState(false);
+        setErrorState(true)
+        clearCart()
+      }
+      else {
+        setErrorState(false)
       }
     } catch (e) {
       console.log("is it running?");

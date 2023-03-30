@@ -39,9 +39,9 @@ async function init() {
 
   //connect to the dc postgres db
   const postgres = await new Client({
-    user: "postgres",
-    host: "db.uhbwlolqikhfmyqqnalp.supabase.co",
-    database: "postgres",
+    user: process.env.PG_USER,
+    host: process.env.PG_HOST,
+    database: process.env.PG_DATABASE,
     port: "5432",
     password: process.env.PGPASS
   });
@@ -54,7 +54,7 @@ async function init() {
     name: "Toggles",
     extensions: {
       joinMonster: {
-        sqlTable: "toggleTable",
+        sqlTable: "toggletable",
         uniqueKey: "id",
       },
     },
@@ -179,7 +179,7 @@ async function init() {
 
   app.get("/inventory", cors(), async (req, res) => {
     try {
-      const inventory = await postgres.query("SELECT * FROM toggleTable");
+      const inventory = await postgres.query("SELECT * FROM toggletable");
       res.json(inventory.rows);
     } catch (error) {
       console.error(error.message);
