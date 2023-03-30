@@ -98,13 +98,12 @@ const Inventory = () => {
     }
   };
 
-  useEffect(() => {
-    setErrorState(false);
-    console.log(errorState);
-  }, []);
+
 
   // retrieve product info from Stripe API
   const [stripeProducts, setStripeProducts] = useState<any>([])
+  const [handleModal, setHandleModal] = useState(false)
+
   const getStripeProducts = async () => {
     const res = await fetch('/api/products', {    
       method: 'GET',
@@ -115,8 +114,18 @@ const Inventory = () => {
     }
 
   useEffect(() => {
+    setErrorState(false);
+    console.log(errorState);
     getStripeProducts()
+    return () => clearTimeout(timerRef.current);
   },[])
+
+  async function handleClickTest(e: any) {
+    e.preventDefault()
+    console.log("value before is "+handleModal)
+    setHandleModal(false)
+    console.log("value after is "+handleModal)
+  }
 
   // create product object from Stripe values
 
@@ -136,17 +145,13 @@ const Inventory = () => {
   const [open, setOpen] = React.useState(false);
   const timerRef = React.useRef(0);
 
-  React.useEffect(() => {
-    return () => clearTimeout(timerRef.current);
-  }, []);
-
   // load GraphQL data for mapping inventory
   const { loading, error, data } = useQuery(TOGGLE_QUERY);
   // console.log(data.toggletableCollection.edges);
   if (loading) return <p>loading</p>;
   if (error) return <p> Error: {error.message}</p>;
   const items = data.toggletableCollection.edges
-  return (
+  return (    
     <div className={styles.grid}>
       {items.map(
         (id:any, node:any) => (
@@ -175,10 +180,11 @@ const Inventory = () => {
             <div style={{ alignItems: "center", marginTop: 10 }}>
               {billing ? (
                 productsList
-                  .filter((productsList) => productsList.product_id === id['node'].toggle_name)
-                  .map((productsList) => (
+                  .filter((productsList: any) => productsList.product_id === id['node'].toggle_name)
+                  .map((productsList: any) => (
                     <Toast.Provider key={productsList.id} swipeDirection="left">
                       <Button
+                        variant="green"
                         key={productsList.id}
                         onClick={() => {
                           addItem(productsList),
@@ -208,16 +214,18 @@ const Inventory = () => {
                   <AlertDialog.Trigger>
                     <Button
                       onClick={() => {
+                        setHandleModal(true)
                         experimentData();
                       }}
                     >
                       Contact Sales
                     </Button>
                   </AlertDialog.Trigger>
+                  {handleModal && (
                   <AlertDialog.Portal>
                     <AlertDialogOverlay />
                     <AlertDialogContent>
-                      <FormRoot>
+                      <FormRoot onSubmit={handleClickTest}>
                         <AlertDialogTitle>
                           Thanks for your interest in our Toggles!
                         </AlertDialogTitle>
@@ -276,7 +284,7 @@ const Inventory = () => {
                           </AlertDialog.Cancel>
                           <Form.Submit
                             asChild
-                            onSubmit={(e) => e.preventDefault()}
+                            onSubmit={(e) => handleClickTest(e)}
                           >
                             <Button
                               variant="green"
@@ -291,6 +299,7 @@ const Inventory = () => {
                       </FormRoot>
                     </AlertDialogContent>
                   </AlertDialog.Portal>
+                  )}
                 </AlertDialog.Root>
               )}
               {errorState ? (
@@ -344,7 +353,7 @@ const FormField = styled(Form.Field, {
 
 const FormLabel = styled(Form.Label, {
   fontSize: 15,
-  // fontFamily: "inter",
+  fontFamily: "Sohne",
   fontWeight: 500,
   lineHeight: "35px",
   paddingTop: "10px",
@@ -367,7 +376,7 @@ const inputStyles = {
   borderRadius: 4,
 
   fontSize: 15,
-  // fontFamily: "inter",
+  fontFamily: "Sohne",
   color: "black",
   backgroundColor: blackA.blackA5,
   boxShadow: `0 0 0 1px ${blackA.blackA9}`,
@@ -430,14 +439,14 @@ const AlertDialogTitle = styled(AlertDialog.Title, {
   color: mauve.mauve12,
   fontSize: 17,
   fontWeight: 500,
-  // fontFamily: "inter",
+  fontFamily: "Sohne",
 });
 
 const AlertDialogDescription = styled(AlertDialog.Description, {
   marginBottom: 20,
   color: mauve.mauve11,
   fontSize: 15,
-  // fontFamily: "Inter",
+  fontFamily: "Sohne",
   lineHeight: 1.5,
 });
 
@@ -451,7 +460,7 @@ const Button = styled("button", {
   borderRadius: 4,
   padding: "0 15px",
   fontSize: 15,
-  // fontFamily: "Inter",
+  fontFamily: "Sohne",
   lineHeight: 1,
   fontWeight: 500,
   height: 35,

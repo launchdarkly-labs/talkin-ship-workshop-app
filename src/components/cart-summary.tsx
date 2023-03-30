@@ -33,7 +33,6 @@ const CartSummary = () => {
 	const body = { cartDetails };
 	const res = await fetch('/api/checkout', {
 	  	method: 'POST', // *GET, POST, PUT, DELETE, etc.
-      mode: 'cors', // no-cors, *cors, same-origin
       cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
       credentials: 'same-origin', // include, *same-origin, omit
       headers: {
@@ -52,8 +51,6 @@ const CartSummary = () => {
         console.log('there was an error')
     }
     }
-
-    console.log(cartDetails)
   return (
     <Box css={{width: '100%', maxWidth: 600, margin: '0 15px'}}>
     <form onSubmit={handleCheckout}>
