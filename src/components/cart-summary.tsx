@@ -5,7 +5,7 @@ import { Inter } from 'next/font/google';
 import * as Separator from '@radix-ui/react-separator';
 import { styled } from '@stitches/react';
 import { blueDark, grass, slate } from '@radix-ui/colors';
-import {AiOutlineShopping} from 'react-icons/Ai'
+import { AiOutlineShopping } from 'react-icons/ai';
 import { loadStripe } from '@stripe/stripe-js';
 
 // const inter = Inter({ subsets: ['latin'] });
