@@ -6,8 +6,9 @@ import * as Separator from '@radix-ui/react-separator';
 import { styled } from '@stitches/react';
 import { blueDark, grass, slate } from '@radix-ui/colors';
 import {AiOutlineShopping} from 'react-icons/Ai'
+import { loadStripe } from '@stripe/stripe-js';
 
-const inter = Inter({ subsets: ['latin'] });
+// const inter = Inter({ subsets: ['latin'] });
 
 const CartSummary = () => {
   const [loading, setLoading] = useState(false)
@@ -30,8 +31,8 @@ const CartSummary = () => {
     setErrorMessage('')
     try {
 	const body = { cartDetails };
-	const res = await fetch('/checkout', {
-	  method: 'POST', // *GET, POST, PUT, DELETE, etc.
+	const res = await fetch('/api/checkout', {
+	  	method: 'POST', // *GET, POST, PUT, DELETE, etc.
       mode: 'cors', // no-cors, *cors, same-origin
       cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
       credentials: 'same-origin', // include, *same-origin, omit
@@ -52,9 +53,10 @@ const CartSummary = () => {
     }
     }
 
+    console.log(cartDetails)
   return (
     <Box css={{width: '100%', maxWidth: 600, margin: '0 15px'}}>
-    <form onSubmit={handleCheckout} className={inter.className}>
+    <form onSubmit={handleCheckout}>
       <h1 style={{display: 'flex', verticalAlign: 'middle'}}><AiOutlineShopping style={{ height: '30px', width:'30px'}}/>Cart</h1>
       <SeparatorRoot css={{margin: '15px 0'}} />
       {errorMessage ? (
@@ -64,9 +66,6 @@ const CartSummary = () => {
       <h3 suppressHydrationWarning>
         <strong>Number of Items:</strong> {cartCount}
       </h3>
-      <Text>
-        Total: {formattedTotalPrice}
-      </Text>
 
       {/* Redirects the user to Stripe */}
       <Button
@@ -101,7 +100,7 @@ const Box = styled('div', {});
 const Text = styled('div', {
   color: 'black',
   fontSize: 15,
-  fontFamily: 'inter',
+  //fontFamily: "inter",,
   lineHeight: '20px',
   marginBottom: 10,
 });
@@ -114,7 +113,7 @@ const Button = styled('button', {
   borderRadius: 4,
   padding: '0 15px',
   fontSize: 15,
-  fontFamily: 'Inter',
+  //fontFamily: "inter",,
   lineHeight: 1,
   fontWeight: 500,
   height: 35,

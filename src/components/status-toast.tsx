@@ -76,7 +76,7 @@ const ToastTitle = styled(Toast.Title, {
   fontWeight: 500,
   color: slate.slate12,
   fontSize: 20,
-  fontFamily: 'inter',
+  // fontFamily: 'inter',
 });
 
 export default BillingState;

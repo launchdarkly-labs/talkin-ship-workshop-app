@@ -4,7 +4,6 @@ import * as NavigationMenu from '@radix-ui/react-navigation-menu';
 import { styled, keyframes } from '@stitches/react';
 import { AvatarIcon, CaretDownIcon } from '@radix-ui/react-icons';
 import { violet, mauve, indigo, purple, blackA, blue, gray, whiteA, green, blueDark, grayDark, orange } from '@radix-ui/colors';
-import { Inter } from 'next/font/google';
 import Image from 'next/image';
 import CartSummary from './cart-summary';
 import { useShoppingCart } from 'use-shopping-cart';
@@ -12,7 +11,6 @@ import { useFlags, useLDClient } from 'launchdarkly-react-client-sdk';
 import Login from './login';
 import {v4 as uuid} from 'uuid'
 
-const inter = Inter({ subsets: ['latin'] });
 
 const NavigationMenuDemo = () => {
 const {billing, storeEnabled, adminMode} = useFlags();
@@ -33,7 +31,7 @@ React.useEffect(() => {
 }, [userName])
 
   return (
-    <NavigationMenuRoot className={inter.className}>
+    <NavigationMenuRoot>
          <Image 
         src = '/images/ld-logo.png' 
         alt = 'LaunchDarkly Logo'
@@ -187,6 +185,7 @@ const NavigationMenuTrigger = styled(NavigationMenu.Trigger, {
 const NavigationMenuLink = styled(NavigationMenu.Link, {
   ...itemStyles,
   display: 'block',
+  fontFamily: 'Sohne',
   textDecoration: 'none',
   fontSize: 15,
   lineHeight: 1,

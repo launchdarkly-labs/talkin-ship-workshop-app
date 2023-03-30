@@ -1,8 +1,8 @@
-import * as React from 'react'
-import Head from 'next/head';
+import * as React from "react";
+import Head from "next/head";
 
 const Success = () => {
-return (
+  return (
     <>
       <Head>
         <title>The Toggle Store</title>
@@ -10,15 +10,15 @@ return (
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/osmo.png" />
       </Head>
-<body>
-    <section>
-        <p>
+      <body>
+        <section>
+          <p>
             We appreciate your business! If you have any questions, please email
             <a href="mailto:orders@example.com">orders@example.com</a>.
-        </p>
-    </section>
-</body>
-</>
-)
-}
+          </p>
+        </section>
+      </body>
+    </>
+  );
+};
 export default Success;

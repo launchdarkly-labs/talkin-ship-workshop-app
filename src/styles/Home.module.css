@@ -2,15 +2,17 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1rem;
-  min-height: 93vh;
+  font-family: 'Sohne';
+  padding: 2rem;
+  min-height: 92vh;
   background: radial-gradient(circle, rgba(237, 244, 201, 1) 7%, rgba(158, 173, 241, 1) 75%);
 }
 
 .header {
   display: flex;
   flex-direction: row;
-  align-items: end;
+  font-family: 'Sohne';
+  align-items: flex-end;
   padding: 1rem;
   position: sticky;
   background-color: black;
@@ -19,9 +21,10 @@
 .footer {
   display: flex;
   flex-direction: row;
-  align-items: end;
-  padding: 1rem;
-  position: sticky;
+  font-family: 'Sohne';
+  align-items: flex-end;
+  padding: 2rem;
+  position: relative;
   background-color: black;
 }
 
@@ -29,16 +32,17 @@
   display: inherit;
   justify-content: inherit;
   align-items: inherit;
+  font-family: 'Sohne';
   font-size: 0.85rem;
   max-width: var(--max-width);
   width: 100%;
   z-index: 2;
-  font-family: var(--font-mono);
 }
 
 .description a {
   display: flex;
   justify-content: center;
+  font-family: 'Sohne';
   align-items: center;
   gap: 0.5rem;
 }
@@ -47,6 +51,7 @@
   position: relative;
   margin: 0;
   padding: 1rem;
+  font-family: 'Sohne';
   background-color: rgba(var(--callout-rgb), 0.5);
   border: 1px solid rgba(var(--callout-border-rgb), 0.3);
   border-radius: var(--border-radius);
@@ -54,7 +59,7 @@
 
 .code {
   font-weight: 700;
-  font-family: var(--font-mono);
+  font-family: 'Sohne';
 }
 
 .grid {
@@ -79,6 +84,7 @@
 
 .card h2 {
   font-weight: 600;
+  font-family: 'Sohne';
   margin-bottom: 0.7rem;
 }
 
@@ -86,9 +92,9 @@
   margin: 0;
   opacity: 0.6;
   font-size: 0.9rem;
+  font-family: 'Sohne';
   line-height: 1.5;
   max-width: 30ch;
-  font-family: 'inter';
 }
 
 .center {
@@ -110,6 +116,7 @@
   align-items: center;
   width: 75px;
   height: 75px;
+  font-family: 'Sohne';
   padding: 25px 10px;
   margin-left: 16px;
   transform: translateZ(0);
@@ -200,6 +207,8 @@
 
   .description {
     font-size: 0.8rem;
+    font-family: 'Sohne';
+
   }
 
   .description a {
