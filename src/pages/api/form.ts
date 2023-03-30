@@ -10,12 +10,10 @@ export default async function handler(
       const supabase = createClient(process.env.NEXT_PUBLIC_DB_URL || "", process.env.NEXT_PUBLIC_DB_ANON_KEY || "")
 
       const formData = JSON.parse(req.body)
-      console.log(formData.name)
-      console.log(formData.email)
 
       const { data, error } = await supabase
-          .from('formfill')
-          .insert({name: formData.name, email: formData.email}).select()
+          .from('formfills')
+          .insert({name: formData['name'], email: formData['email']}).select()
 
       res.status(200);
     } catch (error:any) {

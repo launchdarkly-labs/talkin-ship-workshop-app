@@ -7,7 +7,6 @@ export default async function handler(
 ) {
     if (req.method === 'GET') {
         const products = await stripe.products.list({})
-
         return res.json(products['data'])
     }
 }

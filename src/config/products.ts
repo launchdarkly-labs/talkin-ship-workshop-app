@@ -4,7 +4,7 @@ const product = [
         name: "Classic Toggle",
         price: 200,
         table_price: '$2',
-        price_id: "price_1MosAuIMSMVrlrM0slCNvBgl",
+        price_id: "price_1MrT6lADAOT9FmnUWXmbUnPh",
         image: '/toggle-1.jpg',
         inventory: 500
     },
@@ -13,7 +13,7 @@ const product = [
         name: "Fancy Toggle",
         price: 500,
         table_price: '$5',
-        price_id: "price_1MosBXIMSMVrlrM0LZKjEqft",
+        price_id: "price_1MrT6lADAOT9FmnU497LUP7Q",
         image: '/toggle-2.webp',
         inventory: 300
     },
@@ -22,7 +22,7 @@ const product = [
         name: "Plastic Toggle",
         price: 100,
         table_price: '$1',
-        price_id: "price_1MosC7IMSMVrlrM0PperhIWX",
+        price_id: "price_1MrT6lADAOT9FmnUoWqSr1Ll",
         image: '/toggle-3.webp',
         inventory: 200
     },
@@ -31,7 +31,7 @@ const product = [
         name: "Metal Toggle",
         price: 1000,
         table_price: "$10",
-        price_id: "price_1MosCkIMSMVrlrM07RbEt52q",
+        price_id: "price_1MrT6lADAOT9FmnUkPmfFYr3",
         image: '/toggle-4.webp',
         inventory: 65
     },
@@ -40,7 +40,7 @@ const product = [
         name: "Bulk Toggle",
         price: 1500,
         table_price: '$15',
-        price_id: "price_1MosDNIMSMVrlrM0WZAKlXjZ",
+        price_id: "price_1MrT6lADAOT9FmnUwKGo9wLB",
         image: '/toggle-5.jpeg',
         inventory: 78
     },
@@ -49,7 +49,7 @@ const product = [
         name: "Corded Toggle",
         price: 500,
         table_price: '$50',
-        price_id: "price_1MosDqIMSMVrlrM0kGD2qRKH",
+        price_id: "price_1MrT6lADAOT9FmnUjincVl4q",
         image: '/toggle-6.jpeg',
         inventory: 20
     },
@@ -58,7 +58,7 @@ const product = [
         name: "Historic Toggle",
         price: 2500,
         table_price: '$25',
-        price_id: "price_1MosEbIMSMVrlrM0kglXUCVi",
+        price_id: "price_1MrT6lADAOT9FmnUgR6Uw67Y",
         image: '/toggle-7.jpeg',
         inventory: 15
     },
@@ -67,7 +67,7 @@ const product = [
         name: "Horn Toggle",
         price: 5000,
         table_price: '$50',
-        price_id: "price_1MosFAIMSMVrlrM0CbDngpyh",
+        price_id: "price_1MrT6lADAOT9FmnU7ZLUvEEt",
         image: '/toggle-8.jpeg',
         inventory: 7
     },

@@ -111,7 +111,7 @@ const FormField = styled(Form.Field, {
 
 const FormLabel = styled(Form.Label, {
   fontSize: 15,
-  //fontFamily: "inter",
+  fontFamily: "inter",
   fontWeight: 500,
   lineHeight: "35px",
   paddingTop: "10px",
@@ -134,7 +134,7 @@ const inputStyles = {
   borderRadius: 4,
 
   fontSize: 15,
-  //fontFamily: "inter",
+  fontFamily: "Sohne",
   color: "black",
   backgroundColor: blackA.blackA5,
   boxShadow: `0 0 0 1px ${blackA.blackA9}`,
@@ -196,7 +196,7 @@ const AlertDialogTitle = styled(AlertDialog.Title, {
   margin: 0,
   color: mauve.mauve12,
   fontSize: 24,
-  //fontFamily: "inter",
+  fontFamily: "Sohne",
   fontWeight: 500,
 });
 
@@ -212,7 +212,7 @@ const Button = styled("button", {
   fontWeight: 500,
   lineHeight: 1,
   fontSize: 15,
-  //fontFamily: "inter",
+  fontFamily: "Sohne",
   color: blueDark.blue10,
 
   variants: {
