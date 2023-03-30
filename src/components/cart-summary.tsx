@@ -53,6 +53,7 @@ const CartSummary = () => {
     }
     }
 
+    console.log(cartDetails)
   return (
     <Box css={{width: '100%', maxWidth: 600, margin: '0 15px'}}>
     <form onSubmit={handleCheckout}>
@@ -65,9 +66,6 @@ const CartSummary = () => {
       <h3 suppressHydrationWarning>
         <strong>Number of Items:</strong> {cartCount}
       </h3>
-      <Text>
-        Total: {formattedTotalPrice}
-      </Text>
 
       {/* Redirects the user to Stripe */}
       <Button

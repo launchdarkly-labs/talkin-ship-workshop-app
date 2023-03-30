@@ -25,7 +25,7 @@ export default async function handler(
     
     if (enableStripe) {
       try {
-        const cartDetails = req.body;
+        const cartDetails = await req.body;
         let line_items: any = [];
       let i = 0;
         Object.keys(cartDetails['cartDetails']).forEach((key) => {
@@ -44,6 +44,7 @@ export default async function handler(
           success_url: "http://localhost:3000",
           cancel_url: "http://localhost:3000",
         });
+        console.log(session.url)
         return res.json({ url: session.url });
       } catch (error: any) {
         // console.error(error.message);

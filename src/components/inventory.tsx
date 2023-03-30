@@ -11,7 +11,6 @@ import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import * as Form from "@radix-ui/react-form";
 import { useShoppingCart } from "use-shopping-cart";
 import { useFlags, useLDClient } from "launchdarkly-react-client-sdk";
-import product from "@/config/products";
 import * as Toast from "@radix-ui/react-toast";
 import { RocketIcon } from "@radix-ui/react-icons";
 
@@ -101,6 +100,34 @@ const Inventory = () => {
     console.log(errorState);
   }, []);
 
+  // retrieve product info from Stripe API
+  const [stripeProducts, setStripeProducts] = useState<any>([])
+  const getStripeProducts = async () => {
+    const res = await fetch('/api/products', {    
+      method: 'GET',
+      headers: {"Content-Type": "application/json"},
+    })
+    const jsonData = await res.json();
+    setStripeProducts(jsonData)
+    }
+
+  useEffect(() => {
+    getStripeProducts()
+  },[])
+
+  // create product object from Stripe values
+
+  let productsList = [] as any
+  let i = 0
+  Object.keys(stripeProducts).forEach((key) => {
+    productsList[i] = {
+      id: i,
+      product_id: stripeProducts[key]["metadata"]["product_id"],
+      price_id: stripeProducts[key]["default_price"]
+    }
+    i++;
+  })
+
   // some button config things
   const { addItem } = useShoppingCart();
   const [open, setOpen] = React.useState(false);
@@ -116,7 +143,6 @@ const Inventory = () => {
   if (loading) return <p>loading</p>;
   if (error) return <p> Error: {error.message}</p>;
   const items = data.toggletableCollection.edges
-  console.log(product)
   return (
     <div className={styles.grid}>
       {items.map(
@@ -145,14 +171,14 @@ const Inventory = () => {
             </p>
             <div style={{ alignItems: "center", marginTop: 10 }}>
               {billing ? (
-                product
-                  .filter((product) => product.id === node)
-                  .map((product) => (
-                    <Toast.Provider key={product.id} swipeDirection="left">
+                productsList
+                  .filter((productsList) => productsList.product_id === id['node'].toggle_name)
+                  .map((productsList) => (
+                    <Toast.Provider key={productsList.id} swipeDirection="left">
                       <Button
-                        key={product.id}
+                        key={productsList.id}
                         onClick={() => {
-                          addItem(product),
+                          addItem(productsList),
                             errorTesting(),
                             experimentData(),
                             setOpen(false);
