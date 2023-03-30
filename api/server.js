@@ -9,6 +9,7 @@ const { database } = require("pg/lib/defaults");
 const cors = require("cors");
 const ld = require("launchdarkly-node-server-sdk");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const { createClient } = require('@supabase/supabase-js')
 
 const app = express();
 app.use(express.json());
@@ -20,6 +21,16 @@ async function init() {
     await client.waitForInitialization();
   } catch (err) {}
 
+
+//  const supabase = createClient('https://uhbwlolqikhfmyqqnalp.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVoYndsb2xxaWtoZm15cXFuYWxwIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODAxMjY3NjMsImV4cCI6MTk5NTcwMjc2M30.BekS_LfTnwJnWgmzrTq9g0kzq5ZGA2Q-DhX6QiVeJv8')
+
+//const { data, error } = await supabase
+//  .from('toggletable')
+//  .select()
+
+//console.log(data)
+
+
   const context = {
     kind: "user",
     key: "abc-123",
@@ -28,10 +39,11 @@ async function init() {
 
   //connect to the dc postgres db
   const postgres = await new Client({
-    user: "pcmccarron",
-    host: "localhost",
-    database: "demo",
+    user: "postgres",
+    host: "db.uhbwlolqikhfmyqqnalp.supabase.co",
+    database: "postgres",
     port: "5432",
+    password: process.env.PGPASS
   });
   postgres.connect();
 
@@ -102,7 +114,7 @@ async function init() {
     try {
       const { name, email } = req.body;
       const newFormFill = await postgres.query(
-        "INSERT INTO formFills (name, email) VALUES($1,$2) RETURNING *",
+        "INSERT INTO formfills (name, email) VALUES($1,$2) RETURNING *",
         [name, email]
       );
       res.json(newFormFill.rows[0]);
@@ -113,7 +125,7 @@ async function init() {
 
   app.get("/form", cors(), async (req, res) => {
     try {
-      const formFills = await postgres.query("SELECT * FROM formFills");
+      const formFills = await postgres.query("SELECT * FROM formfills");
       res.json(formFills.rows);
     } catch (error) {
       console.error(error.message);

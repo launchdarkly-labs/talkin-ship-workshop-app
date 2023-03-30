@@ -5,10 +5,12 @@ import {withLDProvider } from 'launchdarkly-react-client-sdk'
 import dynamic from 'next/dynamic'
 import {v4 as uuid} from 'uuid'
 import {osName, isMobile} from 'react-device-detect'
-
+import { globalStyles } from '@/stitches.config'
 
 const CartWithoutSSR = dynamic(() => import('../components/cart'), {ssr: false})
+
 function App({ Component, pageProps }: AppProps) {
+  globalStyles()
   return (
   <CartWithoutSSR>
     <Component {...pageProps} />

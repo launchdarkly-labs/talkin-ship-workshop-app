@@ -1,6 +1,6 @@
 const product = [
     {
-        id: 1,
+        id: 0,
         name: "Classic Toggle",
         price: 200,
         table_price: '$2',
@@ -9,7 +9,7 @@ const product = [
         inventory: 500
     },
     {
-        id: 2,
+        id: 1,
         name: "Fancy Toggle",
         price: 500,
         table_price: '$5',
@@ -18,7 +18,7 @@ const product = [
         inventory: 300
     },
      {
-        id: 3,
+        id: 2,
         name: "Plastic Toggle",
         price: 100,
         table_price: '$1',
@@ -27,7 +27,7 @@ const product = [
         inventory: 200
     },
      {
-        id: 4,
+        id: 3,
         name: "Metal Toggle",
         price: 1000,
         table_price: "$10",
@@ -36,7 +36,7 @@ const product = [
         inventory: 65
     },
      {
-        id: 5,
+        id: 4,
         name: "Bulk Toggle",
         price: 1500,
         table_price: '$15',
@@ -45,7 +45,7 @@ const product = [
         inventory: 78
     },
      {
-        id: 6,
+        id: 5,
         name: "Corded Toggle",
         price: 500,
         table_price: '$50',
@@ -54,7 +54,7 @@ const product = [
         inventory: 20
     },
      {
-        id: 7,
+        id: 6,
         name: "Historic Toggle",
         price: 2500,
         table_price: '$25',
@@ -63,7 +63,7 @@ const product = [
         inventory: 15
     },
      {
-        id: 8,
+        id: 7,
         name: "Horn Toggle",
         price: 5000,
         table_price: '$50',

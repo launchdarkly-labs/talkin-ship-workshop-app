@@ -6,8 +6,13 @@ import * as Separator from '@radix-ui/react-separator';
 import { styled } from '@stitches/react';
 import { blueDark, grass, slate } from '@radix-ui/colors';
 import {AiOutlineShopping} from 'react-icons/Ai'
+import { loadStripe } from '@stripe/stripe-js';
 
-const inter = Inter({ subsets: ['latin'] });
+// const inter = Inter({ subsets: ['latin'] });
+
+const stripePromise = loadStripe(
+  process.env.STRIPE_PUBLISHABLE_KEY as any
+);
 
 const CartSummary = () => {
   const [loading, setLoading] = useState(false)
@@ -30,22 +35,10 @@ const CartSummary = () => {
     setErrorMessage('')
     try {
 	const body = { cartDetails };
-	const res = await fetch('/checkout', {
-	  method: 'POST', // *GET, POST, PUT, DELETE, etc.
-      mode: 'cors', // no-cors, *cors, same-origin
-      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: 'same-origin', // include, *same-origin, omit
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': "*",
-        // 'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      redirect: 'follow', // manual, *follow, error
-      referrerPolicy: 'no-referrer', // no-referrer, *client
+	const res = await fetch('/api/checkout', {
+	  method: 'POST',
 	  body: JSON.stringify(body || {}),
 	    });
-      const url = await res.json()
-      window.location.href = url.url
     }
     catch (e) {
         console.log('there was an error')
@@ -54,7 +47,7 @@ const CartSummary = () => {
 
   return (
     <Box css={{width: '100%', maxWidth: 600, margin: '0 15px'}}>
-    <form onSubmit={handleCheckout} className={inter.className}>
+    <form onSubmit={handleCheckout}>
       <h1 style={{display: 'flex', verticalAlign: 'middle'}}><AiOutlineShopping style={{ height: '30px', width:'30px'}}/>Cart</h1>
       <SeparatorRoot css={{margin: '15px 0'}} />
       {errorMessage ? (
@@ -101,7 +94,7 @@ const Box = styled('div', {});
 const Text = styled('div', {
   color: 'black',
   fontSize: 15,
-  fontFamily: 'inter',
+  //fontFamily: "inter",,
   lineHeight: '20px',
   marginBottom: 10,
 });
@@ -114,7 +107,7 @@ const Button = styled('button', {
   borderRadius: 4,
   padding: '0 15px',
   fontSize: 15,
-  fontFamily: 'Inter',
+  //fontFamily: "inter",,
   lineHeight: 1,
   fontWeight: 500,
   height: 35,
