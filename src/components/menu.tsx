@@ -32,7 +32,7 @@ React.useEffect(() => {
 
   return (
     <NavigationMenuRoot>
-         <Image 
+        <a href="/"><Image 
         src = '/images/ld-logo.png' 
         alt = 'LaunchDarkly Logo'
         width={160}
@@ -40,6 +40,7 @@ React.useEffect(() => {
         quality={100}
         style={{margin: 2, position: 'initial'}}
         />
+        </a>
       <NavigationMenuList>
         {adminMode ? 
         <NavigationMenu.Item>
