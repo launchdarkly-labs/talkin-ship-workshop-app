@@ -10,10 +10,6 @@ import { loadStripe } from '@stripe/stripe-js';
 
 // const inter = Inter({ subsets: ['latin'] });
 
-const stripePromise = loadStripe(
-  process.env.STRIPE_PUBLISHABLE_KEY as any
-);
-
 const CartSummary = () => {
   const [loading, setLoading] = useState(false)
   const [cartEmpty, setCartEmpty] = useState(true)
@@ -36,9 +32,21 @@ const CartSummary = () => {
     try {
 	const body = { cartDetails };
 	const res = await fetch('/api/checkout', {
-	  method: 'POST',
+	  	method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      mode: 'cors', // no-cors, *cors, same-origin
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: 'same-origin', // include, *same-origin, omit
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': "*",
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      redirect: 'follow', // manual, *follow, error
+      referrerPolicy: 'no-referrer', // no-referrer, *client
 	  body: JSON.stringify(body || {}),
 	    });
+      const url = await res.json()
+      window.location.href = url.url
     }
     catch (e) {
         console.log('there was an error')

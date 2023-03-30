@@ -26,20 +26,17 @@ export default async function handler(
     if (enableStripe) {
       try {
         const cartDetails = req.body;
-        console.log(cartDetails)
         let line_items: any = [];
-        let i = 0;
-        Object.keys(cartDetails.cartDetails).forEach((key) => {
-          console.log(cartDetails.cartDetails[key])
+      let i = 0;
+        Object.keys(cartDetails['cartDetails']).forEach((key) => {
           line_items[i] = {
-            price: cartDetails.cartDetails[key].price_id,
-            quantity: cartDetails.cartDetails[key].quantity,
+            price: cartDetails['cartDetails'][key].price_id,
+            quantity: cartDetails['cartDetails'][key].quantity,
           };
           i++;
         }
         );
-
-        console.log("here we go")
+        console.log(line_items)
 
         const session = await stripe.checkout.sessions.create({
           mode: "payment",
@@ -47,8 +44,7 @@ export default async function handler(
           success_url: "http://localhost:3000",
           cancel_url: "http://localhost:3000",
         });
-        console.log(session)
-        res.redirect(303, session.url);
+        return res.json({ url: session.url });
       } catch (error: any) {
         // console.error(error.message);
       }

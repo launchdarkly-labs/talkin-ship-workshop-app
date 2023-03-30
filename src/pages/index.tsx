@@ -14,6 +14,7 @@ import { setContext } from "@apollo/client/link/context";
 import { useFlags } from "launchdarkly-react-client-sdk";
 import BillingState from "@/components/status-toast";
 import { globalStyles } from "@/stitches.config";
+import {loadStripe} from '@stripe/stripe-js'
 // const inter = Inter({ subsets: ["latin"] });
 // initialize Apollo Client
 
