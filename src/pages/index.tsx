@@ -55,6 +55,7 @@ export default function Home() {
         </header>
         {storeEnabled ? (
           <main className={styles.main}>
+            <a href='/'>
             <Image
               src="/high-five.png"
               alt="Toggle"
@@ -62,6 +63,7 @@ export default function Home() {
               height={250}
               quality={100}
             />
+            </a>
             <h1>Welcome to Toggle&apos;s Toggle Store!</h1>
             <div className={styles.center}>
               <Inventory />
