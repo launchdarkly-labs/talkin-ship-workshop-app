@@ -1,5 +1,5 @@
-import * as React from "react";
-import { useState, useEffect } from "react";
+"use client";
+import { useState, useEffect, useRef } from "react";
 import styles from "@/styles/Home.module.css";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/client";
@@ -79,6 +79,24 @@ const Inventory = () => {
     console.log("We're sending data to the experiment");
   }
 
+  // flag trigger function
+  async function flagTrigger() {
+    await fetch(
+      "https://app.launchdarkly.com/webhook/triggers/64271ecb903a3a12d177d139/f794f38f-1316-4fba-8291-b0dc41f53028",
+      {
+        method: "POST",
+        mode: "no-cors",
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: "same-origin", // include, *same-origin, omit
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+        body: JSON.stringify({ eventName: "The API was unreachable" }),
+      }
+    );
+  }
+
   // check if API is returning error message
   const [errorState, setErrorState] = useState(false);
   const { clearCart } = useShoppingCart();
@@ -94,6 +112,7 @@ const Inventory = () => {
       if (jsonData == "the API is unreachable") {
         setErrorState(true);
         clearCart();
+        flagTrigger();
       } else {
         setErrorState(false);
       }
@@ -101,7 +120,6 @@ const Inventory = () => {
       console.log("is it running?");
     }
   };
-
   // retrieve product info from Stripe API
   const [stripeProducts, setStripeProducts] = useState<any>([]);
   const [handleModal, setHandleModal] = useState(false);
@@ -114,7 +132,6 @@ const Inventory = () => {
     const jsonData = await res.json();
     setStripeProducts(jsonData);
   };
-
   useEffect(() => {
     setErrorState(false);
     console.log(errorState);
@@ -128,7 +145,6 @@ const Inventory = () => {
     setHandleModal(false);
     console.log("value after is " + handleModal);
   }
-
   // create product object from Stripe values
 
   let productsList = [] as any;
@@ -144,8 +160,14 @@ const Inventory = () => {
 
   // some button config things
   const { addItem } = useShoppingCart();
-  const [open, setOpen] = React.useState(false);
-  const timerRef = React.useRef(0);
+  const [open, setOpen] = useState(false);
+  const timerRef = useRef(0);
+
+  useEffect(() => {
+    getStripeProducts();
+    setErrorState(false);
+    return () => clearTimeout(timerRef.current);
+  }, []);
 
   // load GraphQL data for mapping inventory
   const { loading, error, data } = useQuery(TOGGLE_QUERY);

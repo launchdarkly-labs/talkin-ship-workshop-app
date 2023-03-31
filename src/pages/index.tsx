@@ -1,12 +1,16 @@
 import Head from "next/head";
 import styles from "@/styles/Home.module.css";
 import NavigationMenuDemo from "@/components/menu";
-import { ApolloProvider, ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
+import {
+  ApolloProvider,
+  ApolloClient,
+  InMemoryCache,
+  createHttpLink,
+} from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { useFlags } from "launchdarkly-react-client-sdk";
 import StoreContent from "@/components/storecontent";
 import InitialContent from "@/components/initialcontent";
-
 
 const httpLink = createHttpLink({
   uri: process.env.NEXT_PUBLIC_DB_URL + "/graphql/v1",
@@ -39,7 +43,7 @@ export default function Home() {
         <header className={styles.header}>
           <NavigationMenuDemo />
         </header>
-        {storeEnabled ? <StoreContent /> : <InitialContent />}  
+        {storeEnabled ? <StoreContent /> : <InitialContent />}
       </ApolloProvider>
     </>
   );

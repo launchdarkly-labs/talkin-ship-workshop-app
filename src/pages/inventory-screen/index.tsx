@@ -35,7 +35,7 @@ const InventoryPage = () => {
 
   const getInventory = async () => {
     try {
-      console.log("calling external inventory")
+      console.log("calling external inventory");
       const response = await fetch("/api/inventory");
       const jsonData = await response.json();
       setInventory(jsonData);
@@ -46,7 +46,7 @@ const InventoryPage = () => {
 
   const getOrders = async () => {
     try {
-      console.log("caught db testing change")
+      console.log("caught db testing change");
       const response = await fetch("/api/form");
       const jsonData = await response.json();
       setOrders(jsonData);
@@ -160,6 +160,6 @@ const InventoryPage = () => {
 
 const InvText = styled("h1", {
   color: "white",
-})
+});
 
 export default InventoryPage;
