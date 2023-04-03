@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import * as Form from "@radix-ui/react-form";
 import PropTypes from "prop-types";
@@ -11,15 +12,17 @@ import {
   red,
   whiteA,
 } from "@radix-ui/colors";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useLDClient } from "launchdarkly-react-client-sdk";
 import { setCookie } from "cookies-next";
+import { deleteCookie } from "cookies-next";
+import { Login_data } from "@/context/state";
 
 
-export default function Login({ login }: { login: any }) {
+export default function Login() {
   const [userTemporaryName, setTemporaryUserName] = useState("");
-  const [loggedIn, setLoggedIn] = useState(false);
-
+  const { isLoggedIn, setIsLoggedIn } = useContext(Login_data);
+  const [handleModal, setHandleModal] = useState(false);
   const ldclient = useLDClient();
 
   const updateUsername = (e: any) => {
@@ -27,91 +30,112 @@ export default function Login({ login }: { login: any }) {
     setTemporaryUserName(e.target.value);
   };
 
-  return (
-    <AlertDialog.Root>
-      <AlertDialog.Trigger style={{ border: 0, margin: 2 }}>
-         <Button>Login</Button>
-      </AlertDialog.Trigger>
-      <AlertDialog.Portal>
-        <AlertDialogOverlay />
-        <AlertDialogContent>
-          <FormRoot
-            onSubmit={(e) => {
-              e.preventDefault();
-            }}
-          >
-            <AlertDialogTitle>Toggle Store Login</AlertDialogTitle>
-            <FormField name="name">
-              <Flex
-                css={{
-                  alignItems: "baseline",
-                  justifyContent: "space-between",
-                }}
-              >
-                <FormLabel>Username</FormLabel>
-                <FormMessage match="valueMissing">
-                  Please enter your name
-                </FormMessage>
-              </Flex>
-              <Form.Control asChild>
-                <Input type="username" required onChange={updateUsername} />
-              </Form.Control>
-            </FormField>
-            <FormField name="password">
-              <FormLabel>Password</FormLabel>
-              <Form.Control asChild>
-                <Input type="password" required />
-              </Form.Control>
-            </FormField>
-            <Flex css={{ justifyContent: "flex-end" }}>
-              <AlertDialog.Cancel asChild>
-                <Button variant="blue" css={{ marginRight: 25 }}>
-                  Cancel
-                </Button>
-              </AlertDialog.Cancel>
-              <Form.Submit asChild>
-                  <Button
-                  variant="green"
-                  onClick={() => {
-                    login(userTemporaryName);
-                    setLoggedIn(true)
-                    console.log(userTemporaryName);
-                    const context: any = ldclient?.getContext()
-                    context.user.name = userTemporaryName
-                    ldclient?.identify(context)
-                    setCookie('user', userTemporaryName)
-                    console.log(context)
-                  }}
-                >
-                  Submit
-                </Button>
-              </Form.Submit>
-            </Flex>
-          </FormRoot>
-        </AlertDialogContent>
-      </AlertDialog.Portal>
-    </AlertDialog.Root>
-  );
-}
+  function handleLogin(e: Event) {
+    e.preventDefault();
+    setIsLoggedIn(true);
+    const context: any = ldclient?.getContext();
+    console.log(context);
+    context.user.name = userTemporaryName;
+    ldclient?.identify(context);
+    setCookie("user", userTemporaryName);
+    console.log(context);
+    setHandleModal(false);
+  }
 
-Login.propTypes = {
-  login: PropTypes.func,
-};
+  function handleLogout() {
+    setIsLoggedIn(false);
+    const user: any = ldclient?.getContext();
+    user.user.name = "Anonymous";
+    ldclient?.identify(user);
+    deleteCookie("user");
+  }
+
+  if (!isLoggedIn) {
+    return (
+      <AlertDialog.Root>
+            <AlertDialogTrigger
+              onClick={(e) => {
+                setHandleModal(true);
+              }}
+            >
+              <Button>Login</Button>
+            </AlertDialogTrigger>
+        {handleModal && (
+          <AlertDialog.Portal>
+            <AlertDialogOverlay />
+            <AlertDialogContent>
+              <FormRoot onSubmit={(e) => e.preventDefault()}>
+                <AlertDialogTitle>Toggle Store Login</AlertDialogTitle>
+                <FormField name="name">
+                  <Flex
+                    css={{
+                      alignItems: "baseline",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <FormLabel>Username</FormLabel>
+                    <FormMessage match="valueMissing">
+                      Please enter your name
+                    </FormMessage>
+                  </Flex>
+                  <Form.Control asChild>
+                    <Input type="username" required onChange={updateUsername} />
+                  </Form.Control>
+                </FormField>
+                <FormField name="password">
+                  <FormLabel>Password</FormLabel>
+                  <Form.Control asChild>
+                    <Input type="password" required />
+                  </Form.Control>
+                </FormField>
+                <Flex css={{ justifyContent: "flex-end" }}>
+                  <AlertDialog.Cancel asChild>
+                    <Button variant="blue" css={{ marginRight: 25 }}>
+                      Cancel
+                    </Button>
+                  </AlertDialog.Cancel>
+                  <Form.Submit asChild>
+                    <Button onClick={(e) => handleLogin(e)} variant="green">
+                      Submit
+                    </Button>
+                  </Form.Submit>
+                </Flex>
+              </FormRoot>
+            </AlertDialogContent>
+          </AlertDialog.Portal>
+        )}
+      </AlertDialog.Root>
+    );
+  } else {
+    return (
+      <AlertDialog.Root>
+        <AlertDialogTrigger>
+          <Button variant={"red"} onClick={handleLogout}>
+            Logout
+          </Button>
+        </AlertDialogTrigger>
+      </AlertDialog.Root>
+    );
+  }
+}
 
 //Form styling
 
 const FormRoot = styled(Form.Root, {
   width: 425,
+  zIndex: 999,
 });
 
 const FormField = styled(Form.Field, {
   display: "grid",
   marginBottom: 10,
+  zIndex: 999,
 });
 
 const FormLabel = styled(Form.Label, {
   fontSize: 15,
-  fontFamily: "inter",
+  zIndex: 999,
+  fontFamily: "Sohne",
   fontWeight: 500,
   lineHeight: "35px",
   paddingTop: "10px",
@@ -120,6 +144,7 @@ const FormLabel = styled(Form.Label, {
 
 const FormMessage = styled(Form.Message, {
   fontSize: 13,
+  zIndex: 999,
   color: "black",
   opacity: 0.8,
 });
@@ -127,12 +152,12 @@ const FormMessage = styled(Form.Message, {
 const inputStyles = {
   all: "unset",
   boxSizing: "border-box",
+  zIndex: 999,
   width: "100%",
   display: "inline-flex",
   alignItems: "center",
   justifyContent: "center",
   borderRadius: 4,
-
   fontSize: 15,
   fontFamily: "Sohne",
   color: "black",
@@ -167,6 +192,10 @@ const contentShow = keyframes({
   "100%": { opacity: 1, transform: "translate(-50%, -50%) scale(1)" },
 });
 
+const AlertDialogTrigger = styled(AlertDialog.Trigger, {
+  all: "unset"
+})
+
 const AlertDialogOverlay = styled(AlertDialog.Overlay, {
   backgroundColor: blackA.blackA9,
   position: "fixed",
@@ -176,6 +205,7 @@ const AlertDialogOverlay = styled(AlertDialog.Overlay, {
 
 const AlertDialogContent = styled(AlertDialog.Content, {
   backgroundColor: "white",
+  zIndex: 999,
   borderRadius: 6,
   boxShadow:
     "hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px",
@@ -202,16 +232,16 @@ const AlertDialogTitle = styled(AlertDialog.Title, {
 
 const Flex = styled("div", { display: "flex" });
 
-const Button = styled("button", {
+export const Button = styled("button", {
   all: "unset",
   display: "block",
   textDecoration: "none",
-  padding: "6px 12px",
+  background: "black",
+  padding: "6px",
   outline: "none",
   userSelect: "none",
-  fontWeight: 500,
-  lineHeight: 1,
-  fontSize: 15,
+  // lineHeight: 1,
+  fontSize: 20,
   fontFamily: "Sohne",
   color: blueDark.blue10,
 
@@ -221,10 +251,10 @@ const Button = styled("button", {
         backgroundColor: "black",
         color: blueDark.blue10,
         "&:hover": { backgroundColor: blueDark.blue3 },
-        "&:focus": { boxShadow: `0 0 0 2px ${blackA.blackA1}` },
+        // "&:focus": { boxShadow: `0 0 0 2px ${blackA.blackA1}` },
       },
       red: {
-        backgroundColor: red.red4,
+        backgroundColor: "black",
         color: red.red10,
         "&:hover": { backgroundColor: red.red6 },
         "&:focus": { boxShadow: `0 0 0 2px ${red.red7}` },

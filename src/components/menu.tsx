@@ -1,10 +1,10 @@
 "use client"
 import * as React from 'react';
+import Link from 'next/link';
 import * as NavigationMenu from '@radix-ui/react-navigation-menu';
 import { styled, keyframes } from '@stitches/react';
-import { AvatarIcon, CaretDownIcon } from '@radix-ui/react-icons';
-import { violet, mauve, indigo, purple, blackA, blue, gray, whiteA, green, blueDark, grayDark, orange } from '@radix-ui/colors';
-import Image from 'next/image';
+import { CaretDownIcon } from '@radix-ui/react-icons';
+import { mauve, blackA, blueDark, grayDark, red, slate, whiteA } from '@radix-ui/colors';
 import CartSummary from './cart-summary';
 import { useShoppingCart } from 'use-shopping-cart';
 import { useFlags, useLDClient } from 'launchdarkly-react-client-sdk';
@@ -12,43 +12,33 @@ import Login from './login';
 import {v4 as uuid} from 'uuid'
 
 
+
 const NavigationMenuDemo = () => {
 const {billing, storeEnabled, adminMode} = useFlags();
 const {cartCount} = useShoppingCart();
-
-const [userName, setUserName] = React.useState<any>('');
-const ldClient = useLDClient();
-
-React.useEffect(() => {
-  if (userName) {
-    ldClient?.identify(
-      {kind: 'user',
-      key: uuid(),
-      name: userName,
-    }
-    )
-  }
-}, [userName])
+const [userName, setUserName] = React.useState<string>('');
 
   return (
     <NavigationMenuRoot>
-        <a href="/"><Image 
-        src = '/images/ld-logo.png' 
-        alt = 'LaunchDarkly Logo'
-        width={160}
-        height={25}
-        quality={100}
-        style={{margin: 2, position: 'initial'}}
-        />
-        </a>
+        <Link href="/">
+          <TextArea>Toggle's Toggle Store!</TextArea>
+        </Link>
       <NavigationMenuList>
-        {adminMode ? 
-        <NavigationMenu.Item>
-          <NavigationMenuLink href='/inventory-screen'>Admin Panel</NavigationMenuLink>
-        </NavigationMenu.Item> :
+        
+      
+        {adminMode ? (
         <NavigationMenu.Item>
           <NavigationMenuTrigger>
+          <Button>
+            <Link href='/inventory-screen'>Admin Panel</Link>
+          </Button>
+          </NavigationMenuTrigger>
+        </NavigationMenu.Item>):null}
+        <NavigationMenu.Item>
+          <NavigationMenuTrigger>
+            <Button>
             Learn <CaretDown aria-hidden />
+            </Button>
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <List>
@@ -63,7 +53,6 @@ React.useEffect(() => {
                   </Callout>
                 </NavigationMenu.Link>
               </li>
-
               <ListItem href="https://docs.launchdarkly.com/home/getting-started/feature-flags" title="Feature Flags">
                Learn how to deploy your first feature flag.
               </ListItem>
@@ -75,11 +64,13 @@ React.useEffect(() => {
               </ListItem>
             </List>
           </NavigationMenuContent>
-        </NavigationMenu.Item>}
+        </NavigationMenu.Item>
         {(billing && storeEnabled) ?
         <NavigationMenu.Item>
           <NavigationMenuTrigger>
+            <Button>
             Cart ({cartCount}) <CaretDown aria-hidden />
+            </Button>
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <div style={{minWidth: '275px', margin: 30}}>
@@ -87,13 +78,12 @@ React.useEffect(() => {
             </div>
           </NavigationMenuContent>
         </NavigationMenu.Item>
-        : null }
-      {userName ?<NavigationMenu.Item>
-        <NavigationMenuLink>
-         {userName}
-          </NavigationMenuLink>
-        </NavigationMenu.Item>:                
-      <Login login={setUserName} />}
+        : null } 
+        <NavigationMenu.Item>
+          <NavigationMenuTrigger>
+            <Login />
+          </NavigationMenuTrigger>
+        </NavigationMenu.Item>
       </NavigationMenuList>
       <ViewportPosition>
         <NavigationMenuViewport />
@@ -143,11 +133,17 @@ const fadeOut = keyframes({
 });
 
 const NavigationMenuRoot = styled(NavigationMenu.Root, {
+  // position: 'relative',
+  // display: 'flex',
+  // justifyContent: 'center',
+  // width: '100vw',
+  // zIndex: 999,
   position: 'relative',
   display: 'flex',
   justifyContent: 'space-between',
   width: '100vw',
-  zIndex: 0,
+  zIndex: 999,
+  
 });
 
 const NavigationMenuList = styled(NavigationMenu.List, {
@@ -155,6 +151,7 @@ const NavigationMenuList = styled(NavigationMenu.List, {
   justifyContent: 'space-between',
   backgroundColor: 'none',
   padding: 4,
+  zIndex: 999,
   borderRadius: 6,
   listStyle: 'none',
   boxShadow: `0 2px 10px ${blackA.blackA7}`,
@@ -180,6 +177,7 @@ const NavigationMenuTrigger = styled(NavigationMenu.Trigger, {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
+  zIndex: 999,
   gap: 2,
 });
 
@@ -190,10 +188,20 @@ const NavigationMenuLink = styled(NavigationMenu.Link, {
   textDecoration: 'none',
   fontSize: 15,
   lineHeight: 1,
+  zIndex: 999
 });
+
+const TextArea = styled('h1', {
+  fontFamily: 'Sohne',
+  color: slate.slate1,
+  fontSize: 35,
+  verticalAlign: 'middle',
+  display: 'block',
+})
 
 const NavigationMenuContent = styled(NavigationMenu.Content, {
   position: 'absolute',
+  zIndex: 999,
   top: 0,
   left: 0,
   width: '100%',
@@ -213,7 +221,7 @@ const NavigationMenuIndicator = styled(NavigationMenu.Indicator, {
   height: 10,
   top: '100%',
   overflow: 'hidden',
-  zIndex: 1,
+  // zIndex: 1,
   transition: 'width, transform 250ms ease',
   '&[data-state="visible"]': { animation: `${fadeIn} 200ms ease` },
   '&[data-state="hidden"]': { animation: `${fadeOut} 200ms ease` },
@@ -223,6 +231,7 @@ const NavigationMenuViewport = styled(NavigationMenu.Viewport, {
   position: 'relative',
   transformOrigin: 'top center',
   marginTop: 10,
+  zIndex: 999,
   width: '100%',
   backgroundColor: 'white',
   borderRadius: 6,
@@ -241,6 +250,7 @@ const List = styled('ul', {
   display: 'grid',
   padding: 22,
   margin: 0,
+  zIndex: 999,
   columnGap: 10,
   listStyle: 'none',
   variants: {
@@ -362,6 +372,47 @@ const Arrow = styled('div', {
   height: 10,
   transform: 'rotate(45deg)',
   borderTopLeftRadius: 2,
+});
+
+const Button = styled("button", {
+  all: "unset",
+  display: "block",
+  textDecoration: "none",
+  padding: "6px 12px",
+  outline: "none",
+  userSelect: "none",
+  // lineHeight: 1,
+  fontSize: 20,
+  fontFamily: "Sohne",
+  color: blueDark.blue10,
+
+  variants: {
+    variant: {
+      black: {
+        backgroundColor: "black",
+        color: blueDark.blue10,
+        "&:hover": { backgroundColor: blueDark.blue3 },
+        "&:focus": { boxShadow: `0 0 0 2px ${blackA.blackA1}` },
+      },
+      red: {
+        backgroundColor: red.red4,
+        color: red.red10,
+        "&:hover": { backgroundColor: red.red6 },
+        "&:focus": { boxShadow: `0 0 0 2px ${red.red7}` },
+      },
+      blue: {
+        backgroundColor: "white",
+        color: blueDark.blue1,
+        boxShadow: `0 2px 10px ${blackA.blackA7}`,
+        "&:hover": { backgroundColor: slate.slate7 },
+        "&:focus": { boxShadow: `0 0 0 2px ${whiteA.whiteA1}` },
+      },
+    },
+  },
+
+  defaultVariants: {
+    variant: "black",
+  },
 });
 
 export default NavigationMenuDemo;

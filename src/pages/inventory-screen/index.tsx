@@ -1,76 +1,59 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
 import Head from "next/head";
 import styles from "@/styles/Home.module.css";
-import { styled } from "@stitches/react";
-import {
-  violet,
-  mauve,
-  indigo,
-  purple,
-  blackA,
-  blue,
-  gray,
-  whiteA,
-  green,
-  blueDark,
-  grayDark,
-  orange,
-} from "@radix-ui/colors";
-import * as NavigationMenu from "@radix-ui/react-navigation-menu";
+import { blueDark } from "@radix-ui/colors";
 import { Table } from "@nextui-org/react";
 import DatabaseState from "@/components/database-status";
-import Image from "next/image";
 import product from "@/config/products";
 import { useFlags } from "launchdarkly-react-client-sdk";
+import NavigationMenuDemo from "@/components/menu";
 
-type inventory = {
+type Inventory = {
   id: number;
   toggle_name: string;
   price: string;
   description: string;
 };
 
-type orders = {
+type Orders = {
   name: string;
   email: string;
 };
 
-type product = {
+type Product = {
   name: string;
   table_price: string;
   inventory: number;
 };
 
 const InventoryPage = () => {
-  const { dbTesting } = useFlags();
-  // retrieve data from postgres
-  const [inventory, setInventory] = React.useState<any>([]);
-  const getInventory = async () => {
-    try {
-      const response = await fetch("/api/inventory");
-      const jsonData = await response.json();
-      setInventory(jsonData);
-    } catch (error) {
-      console.log("there was an error");
-    }
-  };
+  const { devdebug, dbTesting } = useFlags();
+  const [inventory, setInventory] = useState<Inventory[]>([]);
+  const [orders, setOrders] = useState<Orders[]>([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
+    const getInventory = async () => {
+      try {
+        const response = await fetch("/api/inventory");
+        const jsonData = await response.json();
+        setInventory(jsonData);
+      } catch (error) {
+        console.log("there was an error");
+      }
+    };
+
+    const getOrders = async () => {
+      try {
+        const response = await fetch("/api/form");
+        const jsonData = await response.json();
+        setOrders(jsonData);
+      } catch (error) {
+        console.log("there was an error");
+      }
+    };
+
     getInventory();
-  }, [dbTesting]);
-
-  const [orders, setOrders] = React.useState<any>([]);
-  const getOrders = async () => {
-    try {
-      const response = await fetch("/api/form");
-      const jsonData = await response.json();
-      setOrders(jsonData);
-    } catch (error) {
-      console.log("there was an error");
-    }
-  };
-
-  React.useEffect(() => {
     getOrders();
   }, [dbTesting]);
 
@@ -83,23 +66,10 @@ const InventoryPage = () => {
         <link rel="icon" href="/osmo.png" />
       </Head>
       <header className={styles.header}>
-        <NavigationMenuRoot>
-          <Image
-            src="/images/ld-logo.png"
-            alt="LaunchDarkly Logo"
-            width={160}
-            height={25}
-            quality={100}
-            style={{ margin: 2, position: "initial" }}
-          />
-          <NavigationMenuList>
-            <NavigationMenu.Item>
-              <NavigationMenuLink href="/">Home</NavigationMenuLink>
-            </NavigationMenu.Item>
-          </NavigationMenuList>
-        </NavigationMenuRoot>
+        <NavigationMenuDemo />
       </header>
       <main className={styles.main}>
+        {devdebug && <DatabaseState />}
         <h1 style={{ padding: "10px" }}>Current Inventory</h1>
         {dbTesting == "postgres" ? (
           <Table
@@ -119,7 +89,7 @@ const InventoryPage = () => {
               <Table.Column>OUTSTANDING ORDERS</Table.Column>
             </Table.Header>
             <Table.Body>
-              {inventory.map((inventory: inventory) => (
+              {inventory.map((inventory: Inventory) => (
                 <Table.Row key="1">
                   <Table.Cell>{inventory.toggle_name}</Table.Cell>
                   <Table.Cell>{inventory.price}</Table.Cell>
@@ -146,7 +116,7 @@ const InventoryPage = () => {
               <Table.Column>CURRENT INVENTORY</Table.Column>
             </Table.Header>
             <Table.Body>
-              {product.map((product: product) => (
+              {product.map((product: Product) => (
                 <Table.Row key="1">
                   <Table.Cell>{product.name}</Table.Cell>
                   <Table.Cell>{product.table_price}</Table.Cell>
@@ -172,7 +142,7 @@ const InventoryPage = () => {
             <Table.Column>EMAIL</Table.Column>
           </Table.Header>
           <Table.Body>
-            {orders.map((orders: orders) => (
+            {orders.map((orders: Orders) => (
               <Table.Row key="1">
                 <Table.Cell>{orders.name}</Table.Cell>
                 <Table.Cell>{orders.email}</Table.Cell>
@@ -181,31 +151,28 @@ const InventoryPage = () => {
           </Table.Body>
         </Table>
       </main>
-      <footer className={styles.footer} suppressHydrationWarning>
-        <DatabaseState />
-      </footer>
     </>
   );
 };
 
-const NavigationMenuRoot = styled(NavigationMenu.Root, {
-  position: "relative",
-  display: "flex",
-  justifyContent: "space-between",
-  width: "100vw",
-  zIndex: 0,
-});
+// const NavigationMenuRoot = styled(NavigationMenu.Root, {
+//   position: "relative",
+//   display: "flex",
+//   justifyContent: "space-between",
+//   width: "100vw",
+//   zIndex: 0,
+// });
 
-const NavigationMenuList = styled(NavigationMenu.List, {
-  display: "flex",
-  justifyContent: "space-between",
-  backgroundColor: "none",
-  padding: 4,
-  borderRadius: 6,
-  listStyle: "none",
-  boxShadow: `0 2px 10px ${blackA.blackA7}`,
-  margin: 0,
-});
+// const NavigationMenuList = styled(NavigationMenu.List, {
+//   display: "flex",
+//   justifyContent: "space-between",
+//   backgroundColor: "none",
+//   padding: 4,
+//   borderRadius: 6,
+//   listStyle: "none",
+//   boxShadow: `0 2px 10px ${blackA.blackA7}`,
+//   margin: 0,
+// });
 
 const itemStyles = {
   padding: "8px 12px",
@@ -220,21 +187,21 @@ const itemStyles = {
   "&:hover": { backgroundColor: blueDark.blue3 },
 };
 
-const NavigationMenuTrigger = styled(NavigationMenu.Trigger, {
-  all: "unset",
-  ...itemStyles,
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-  gap: 2,
-});
+// const NavigationMenuTrigger = styled(NavigationMenu.Trigger, {
+//   all: "unset",
+//   ...itemStyles,
+//   display: "flex",
+//   alignItems: "center",
+//   justifyContent: "space-between",
+//   gap: 2,
+// });
 
-const NavigationMenuLink = styled(NavigationMenu.Link, {
-  ...itemStyles,
-  display: "block",
-  textDecoration: "none",
-  fontSize: 15,
-  lineHeight: 1,
-});
+// const NavigationMenuLink = styled(NavigationMenu.Link, {
+//   ...itemStyles,
+//   display: "block",
+//   textDecoration: "none",
+//   fontSize: 15,
+//   lineHeight: 1,
+// });
 
 export default InventoryPage;

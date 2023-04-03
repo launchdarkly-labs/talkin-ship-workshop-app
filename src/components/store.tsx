@@ -1,4 +1,3 @@
-"use client";
 import * as React from "react";
 import { useState, useEffect } from "react";
 import styles from "@/styles/Home.module.css";
@@ -6,13 +5,14 @@ import gql from "graphql-tag";
 import { useQuery } from "@apollo/client";
 import Image from "next/image";
 import { styled, keyframes } from "@stitches/react";
-import { blackA, blueDark, slate, mauve, grass } from "@radix-ui/colors";
+import { blackA, blueDark, slate, mauve, grass, whiteA } from "@radix-ui/colors";
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import * as Form from "@radix-ui/react-form";
 import { useShoppingCart } from "use-shopping-cart";
 import { useFlags, useLDClient } from "launchdarkly-react-client-sdk";
 import * as Toast from "@radix-ui/react-toast";
 import { RocketIcon } from "@radix-ui/react-icons";
+import APIMigrationState from "./status-toast";
 
 //GraphQL query for the inventory
 const TOGGLE_QUERY = gql`
@@ -32,11 +32,9 @@ const TOGGLE_QUERY = gql`
   }
 `;
 
-// const inter = Inter({ subsets: ["latin"] });
-
 const Inventory = () => {
   // import flags
-  const { billing } = useFlags();
+  const { devdebug, billing } = useFlags();
 
   //function for adding form fill data to database
   const [name, setName] = useState("");
@@ -53,7 +51,7 @@ const Inventory = () => {
   };
 
   const onButtonClick = async () => {
-    console.log("going")
+    console.log("going");
     try {
       const body = { name, email };
       const response = await fetch("/api/form", {
@@ -61,7 +59,7 @@ const Inventory = () => {
         method: "POST",
         body: JSON.stringify(body),
       });
-      return response.status
+      return response.status;
     } catch (error) {
       console.log("there was a problem");
     }
@@ -75,8 +73,8 @@ const Inventory = () => {
   }
 
   // check if API is returning error message
-  const [errorState, setErrorState] = useState(false)
-  const {clearCart} = useShoppingCart()
+  const [errorState, setErrorState] = useState(false);
+  const { clearCart } = useShoppingCart();
   const errorTesting = async () => {
     try {
       let res = "";
@@ -87,58 +85,55 @@ const Inventory = () => {
       const jsonData = await response.json();
       console.log(jsonData);
       if (jsonData == "the API is unreachable") {
-        setErrorState(true)
-        clearCart()
-      }
-      else {
-        setErrorState(false)
+        setErrorState(true);
+        clearCart();
+      } else {
+        setErrorState(false);
       }
     } catch (e) {
       console.log("is it running?");
     }
   };
 
-
-
   // retrieve product info from Stripe API
-  const [stripeProducts, setStripeProducts] = useState<any>([])
-  const [handleModal, setHandleModal] = useState(false)
+  const [stripeProducts, setStripeProducts] = useState<any>([]);
+  const [handleModal, setHandleModal] = useState(false);
 
   const getStripeProducts = async () => {
-    const res = await fetch('/api/products', {    
-      method: 'GET',
-      headers: {"Content-Type": "application/json"},
-    })
+    const res = await fetch("/api/products", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
     const jsonData = await res.json();
-    setStripeProducts(jsonData)
-    }
+    setStripeProducts(jsonData);
+  };
 
   useEffect(() => {
     setErrorState(false);
     console.log(errorState);
-    getStripeProducts()
+    getStripeProducts();
     return () => clearTimeout(timerRef.current);
-  },[])
+  }, []);
 
   async function handleClickTest(e: any) {
-    e.preventDefault()
-    console.log("value before is "+handleModal)
-    setHandleModal(false)
-    console.log("value after is "+handleModal)
+    e.preventDefault();
+    console.log("value before is " + handleModal);
+    setHandleModal(false);
+    console.log("value after is " + handleModal);
   }
 
   // create product object from Stripe values
 
-  let productsList = [] as any
-  let i = 0
+  let productsList = [] as any;
+  let i = 0;
   Object.keys(stripeProducts).forEach((key) => {
     productsList[i] = {
       id: i,
       product_id: stripeProducts[key]["metadata"]["product_id"],
-      price_id: stripeProducts[key]["default_price"]
-    }
+      price_id: stripeProducts[key]["default_price"],
+    };
     i++;
-  })
+  });
 
   // some button config things
   const { addItem } = useShoppingCart();
@@ -150,15 +145,20 @@ const Inventory = () => {
   // console.log(data.toggletableCollection.edges);
   if (loading) return <p>loading</p>;
   if (error) return <p> Error: {error.message}</p>;
-  const items = data.toggletableCollection.edges
-  return (    
-    <div className={styles.grid}>
-      {items.map(
-        (id:any, node:any) => (
+  const items = data.toggletableCollection.edges;
+  return (
+    <div>
+      {devdebug && (
+        <div className={styles.apistatus} style={{ justifyContent: "center" }}>
+          <APIMigrationState />
+        </div>
+      )}
+      <div className={styles.grid}>
+        {items.map((id: any, node: any) => (
           <div key={node} className={styles.card}>
             <Image
               key={node}
-              src={`${id['node'].image}?w=248&fit=crop&auto=format`}
+              src={`${id["node"].image}`}
               alt={id.toggle_name}
               loading="lazy"
               width={200}
@@ -166,21 +166,18 @@ const Inventory = () => {
               quality={100}
               style={{ padding: 10 }}
             />
-            <h3 >
-              {id['node'].toggle_name}
-              <span>-&gt;</span>
-            </h3>
-            <p  style={{ paddingTop: "10px" }}>
-              {id['node'].description}
-            </p>
-            <br></br>
-            <p >
-              <strong>Price per unit: {id['node'].price} </strong>
-            </p>
+            <h2 className="text-2xl">
+              {id["node"].toggle_name}
+            </h2>
+            <p style={{padding: 4}}>{id["node"].description}</p>
+            Price per unit: <span style={{color: "green"}}>{id["node"].price} </span>
             <div style={{ alignItems: "center", marginTop: 10 }}>
               {billing ? (
                 productsList
-                  .filter((productsList: any) => productsList.product_id === id['node'].toggle_name)
+                  .filter(
+                    (productsList: any) =>
+                      productsList.product_id === id["node"].toggle_name
+                  )
                   .map((productsList: any) => (
                     <Toast.Provider key={productsList.id} swipeDirection="left">
                       <Button
@@ -214,91 +211,91 @@ const Inventory = () => {
                   <AlertDialog.Trigger>
                     <Button
                       onClick={() => {
-                        setHandleModal(true)
+                        setHandleModal(true);
                         experimentData();
                       }}
                     >
-                      Contact Sales
+                      Reserve Yours!
                     </Button>
                   </AlertDialog.Trigger>
                   {handleModal && (
-                  <AlertDialog.Portal>
-                    <AlertDialogOverlay />
-                    <AlertDialogContent>
-                      <FormRoot onSubmit={handleClickTest}>
-                        <AlertDialogTitle>
-                          Thanks for your interest in our Toggles!
-                        </AlertDialogTitle>
-                        <AlertDialogDescription>
-                          Please provide your contact info and our Toggle
-                          Specialists will contact you in 3-5 business days
-                        </AlertDialogDescription>
-                        <FormField name="name">
-                          <Flex
-                            css={{
-                              alignItems: "baseline",
-                              justifyContent: "space-between",
-                            }}
-                          >
-                            <FormLabel>Name</FormLabel>
-                            <FormMessage match="valueMissing">
-                              Please enter your name
-                            </FormMessage>
-                          </Flex>
-                          <Form.Control asChild>
-                            <Input
-                              type="name"
-                              required
-                              value={name}
-                              onChange={updateName}
-                            />
-                          </Form.Control>
-                        </FormField>
-                        <FormField name="email">
-                          <Flex
-                            css={{
-                              alignItems: "baseline",
-                              justifyContent: "space-between",
-                            }}
-                          >
-                            <FormLabel>Email</FormLabel>
-                            <FormMessage match="valueMissing">
-                              Please enter your email
-                            </FormMessage>
-                            <FormMessage match="typeMismatch">
-                              Please enter a valid email
-                            </FormMessage>
-                          </Flex>
-                          <Form.Control asChild>
-                            <Input
-                              type="email"
-                              required
-                              value={email}
-                              onChange={updateEmail}
-                            />
-                          </Form.Control>
-                        </FormField>
-                        <Flex css={{ justifyContent: "flex-end" }}>
-                          <AlertDialog.Cancel asChild>
-                            <Button css={{ marginRight: 25 }}>Cancel</Button>
-                          </AlertDialog.Cancel>
-                          <Form.Submit
-                            asChild
-                            onSubmit={(e) => handleClickTest(e)}
-                          >
-                            <Button
-                              variant="green"
-                              onClick={() => {
-                                onButtonClick();
+                    <AlertDialog.Portal>
+                      <AlertDialogOverlay />
+                      <AlertDialogContent>
+                        <FormRoot onSubmit={handleClickTest}>
+                          <AlertDialogTitle>
+                            Thanks for your interest in our Toggles!
+                          </AlertDialogTitle>
+                          <AlertDialogDescription>
+                            Please provide your contact info and our Toggle
+                            Specialists will contact you in 3-5 business days
+                          </AlertDialogDescription>
+                          <FormField name="name">
+                            <Flex
+                              css={{
+                                alignItems: "baseline",
+                                justifyContent: "space-between",
                               }}
                             >
-                              Submit
-                            </Button>
-                          </Form.Submit>
-                        </Flex>
-                      </FormRoot>
-                    </AlertDialogContent>
-                  </AlertDialog.Portal>
+                              <FormLabel>Name</FormLabel>
+                              <FormMessage match="valueMissing">
+                                Please enter your name
+                              </FormMessage>
+                            </Flex>
+                            <Form.Control asChild>
+                              <Input
+                                type="name"
+                                required
+                                value={name}
+                                onChange={updateName}
+                              />
+                            </Form.Control>
+                          </FormField>
+                          <FormField name="email">
+                            <Flex
+                              css={{
+                                alignItems: "baseline",
+                                justifyContent: "space-between",
+                              }}
+                            >
+                              <FormLabel>Email</FormLabel>
+                              <FormMessage match="valueMissing">
+                                Please enter your email
+                              </FormMessage>
+                              <FormMessage match="typeMismatch">
+                                Please enter a valid email
+                              </FormMessage>
+                            </Flex>
+                            <Form.Control asChild>
+                              <Input
+                                type="email"
+                                required
+                                value={email}
+                                onChange={updateEmail}
+                              />
+                            </Form.Control>
+                          </FormField>
+                          <Flex css={{ justifyContent: "flex-end" }}>
+                            <AlertDialog.Cancel asChild>
+                              <Button css={{ marginRight: 25 }}>Cancel</Button>
+                            </AlertDialog.Cancel>
+                            <Form.Submit
+                              asChild
+                              onSubmit={(e) => handleClickTest(e)}
+                            >
+                              <Button
+                                variant="green"
+                                onClick={() => {
+                                  onButtonClick();
+                                }}
+                              >
+                                Submit
+                              </Button>
+                            </Form.Submit>
+                          </Flex>
+                        </FormRoot>
+                      </AlertDialogContent>
+                    </AlertDialog.Portal>
                   )}
                 </AlertDialog.Root>
               )}
@@ -335,8 +332,8 @@ const Inventory = () => {
               ) : null}
             </div>
           </div>
-        )
-      )}
+        ))}
+      </div>
     </div>
   );
 };
@@ -458,7 +455,7 @@ const Button = styled("button", {
   alignItems: "center",
   justifyContent: "center",
   borderRadius: 4,
-  padding: "0 15px",
+  padding: "0 20px",
   fontSize: 15,
   fontFamily: "Sohne",
   lineHeight: 1,
@@ -474,7 +471,7 @@ const Button = styled("button", {
         "&:hover": { backgroundColor: slate.slate7 },
       },
       green: {
-        backgroundColor: grass.grass4,
+        backgroundColor: whiteA.whiteA11,
         color: grass.grass11,
         "&:hover": { backgroundColor: grass.grass5 },
         "&:focus": { boxShadow: `0 0 0 2px ${grass.grass7}` },
@@ -501,7 +498,7 @@ const ToastViewport = styled(Toast.Viewport, {
   maxWidth: "100vw",
   margin: 0,
   listStyle: "none",
-  zIndex: 2147483647,
+  // zIndex: 1,
   outline: "none",
 });
 

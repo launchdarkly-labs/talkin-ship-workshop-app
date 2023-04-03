@@ -14,7 +14,7 @@ const DatabaseState = () => {
 
 
 const ToastRoot = styled(Toast.Root, {
-  backgroundColor: (dbTesting == 'postgres') ? grass.grass7 : tomatoDark.tomato11,
+  backgroundColor: (dbTesting == 'postgres') ? grass.grass10 : tomatoDark.tomato11,
   borderRadius: 6,
   boxShadow: 'hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px',
   padding: 15,
@@ -31,7 +31,7 @@ const ToastRoot = styled(Toast.Root, {
     { storeEnabled ?
     <Toast.Provider swipeDirection="right"> 
       <ToastRoot open={open}>
-        <ToastTitle>Currently using <u><strong>{dbTesting}</strong></u></ToastTitle>
+        <ToastTitle>Connected Database <u><strong>{dbTesting}</strong></u></ToastTitle>
       </ToastRoot>
       <ToastViewport />
     </Toast.Provider>
@@ -43,18 +43,18 @@ const ToastRoot = styled(Toast.Root, {
 const VIEWPORT_PADDING = 25;
 
 const ToastViewport = styled(Toast.Viewport, {
-  position: 'fixed',
-  bottom: 0,
-  right: 0,
+  position: 'relative',
+  // bottom: 0,
+  // right: 0,
   display: 'flex',
   flexDirection: 'column',
   padding: VIEWPORT_PADDING,
   gap: 10,
-  width: 395,
+  width: '25vw',
   maxWidth: '100vw',
   margin: 0,
   listStyle: 'none',
-  zIndex: 2147483647,
+  // zIndex: 2147483647,
   outline: 'none',
 });
 
@@ -67,9 +67,9 @@ const ToastTitle = styled(Toast.Title, {
   gridArea: 'title',
   marginBottom: 0,
   fontWeight: 500,
-  color: slate.slate12,
+  color: slate.slate1,
   fontSize: 20,
-  fontFamily: 'inter',
+  fontFamily: 'Sohne',
 });
 
 export default DatabaseState;
