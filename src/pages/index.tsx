@@ -4,10 +4,8 @@ import NavigationMenuDemo from "@/components/menu";
 import { ApolloProvider, ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { useFlags } from "launchdarkly-react-client-sdk";
-import APIMigrationState from "@/components/status-toast";
 import StoreContent from "@/components/storecontent";
 import InitialContent from "@/components/initialcontent";
-import { useState } from "react";
 
 
 const httpLink = createHttpLink({
@@ -31,15 +29,12 @@ const client = new ApolloClient({
 export default function Home() {
   //import flag values
   const { storeEnabled } = useFlags();
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-
 
   return (
     <>
       <ApolloProvider client={client}>
         <Head>
           <title>The Toggle Store</title>
-          {/* ...remaining head content... */}
         </Head>
         <header className={styles.header}>
           <NavigationMenuDemo />

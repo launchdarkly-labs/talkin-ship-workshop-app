@@ -12,7 +12,7 @@ import {
   red,
   whiteA,
 } from "@radix-ui/colors";
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import { useLDClient } from "launchdarkly-react-client-sdk";
 import { setCookie } from "cookies-next";
 import { deleteCookie } from "cookies-next";
@@ -26,6 +26,7 @@ export default function Login() {
   const ldclient = useLDClient();
 
   const updateUsername = (e: any) => {
+    console.log("update")
     e.preventDefault();
     setTemporaryUserName(e.target.value);
   };
@@ -43,6 +44,7 @@ export default function Login() {
   }
 
   function handleLogout() {
+    console.log("logout-happened")
     setIsLoggedIn(false);
     const user: any = ldclient?.getContext();
     user.user.name = "Anonymous";

@@ -1,9 +1,8 @@
 import * as React from 'react';
 import * as Toast from '@radix-ui/react-toast';
 import { styled, keyframes } from '@stitches/react';
-import { violet, blackA, mauve, slate, green, red, whiteA, slateA } from '@radix-ui/colors';
+import { slate, grass, tomatoDark} from '@radix-ui/colors';
 import { useFlags } from 'launchdarkly-react-client-sdk';
-import { CheckCircledIcon } from '@radix-ui/react-icons';
 
 const APIMigrationState = () => {
     const [open, setOpen] = React.useState(true);
@@ -16,19 +15,22 @@ if (billing) {
     setBillingPath("Migrated")
 }
 else {
-    setBillingPath("Self Hosted")
+    setBillingPath("Self-Hosted")
 }
 },[billing]);
 
 const ToastRoot = styled(Toast.Root, {
-  backgroundColor: (billing ? green.green10 : slateA.slateA11),
+  backgroundColor: (billing ? grass.grass10 : tomatoDark.tomato11),
   borderRadius: 6,
   boxShadow: 'hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px',
   padding: 15,
-  display: 'flex',
+  gridTemplateAreas: '"title action" "description action"',
+  gridTemplateColumns: 'auto max-content',
+  display: 'grid',
   width: '15vw',
   columnGap: 15,
   alignItems: 'center',
+  textAlign: 'center',
 });
 
 const ToastTitle = styled(Toast.Title, {
@@ -63,7 +65,6 @@ const hide = keyframes({
     <Toast.Provider swipeDirection="right"> 
       <ToastRoot open={open}>
         <ToastTitle>Billing API status is <u><strong>{billingPath}</strong></u></ToastTitle>
-        <CheckCircledIcon color="green" />
       </ToastRoot>
       <ToastViewport />
     </Toast.Provider>

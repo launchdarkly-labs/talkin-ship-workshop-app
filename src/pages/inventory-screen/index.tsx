@@ -8,6 +8,7 @@ import DatabaseState from "@/components/database-status";
 import product from "@/config/products";
 import { useFlags } from "launchdarkly-react-client-sdk";
 import NavigationMenuDemo from "@/components/menu";
+import { styled } from "@stitches/react";
 
 type Inventory = {
   id: number;
@@ -32,27 +33,29 @@ const InventoryPage = () => {
   const [inventory, setInventory] = useState<Inventory[]>([]);
   const [orders, setOrders] = useState<Orders[]>([]);
 
+  const getInventory = async () => {
+    try {
+      console.log("calling external inventory")
+      const response = await fetch("/api/inventory");
+      const jsonData = await response.json();
+      setInventory(jsonData);
+    } catch (error) {
+      console.log("there was an error");
+    }
+  };
+
+  const getOrders = async () => {
+    try {
+      console.log("caught db testing change")
+      const response = await fetch("/api/form");
+      const jsonData = await response.json();
+      setOrders(jsonData);
+    } catch (error) {
+      console.log("there was an error");
+    }
+  };
+
   useEffect(() => {
-    const getInventory = async () => {
-      try {
-        const response = await fetch("/api/inventory");
-        const jsonData = await response.json();
-        setInventory(jsonData);
-      } catch (error) {
-        console.log("there was an error");
-      }
-    };
-
-    const getOrders = async () => {
-      try {
-        const response = await fetch("/api/form");
-        const jsonData = await response.json();
-        setOrders(jsonData);
-      } catch (error) {
-        console.log("there was an error");
-      }
-    };
-
     getInventory();
     getOrders();
   }, [dbTesting]);
@@ -70,7 +73,7 @@ const InventoryPage = () => {
       </header>
       <main className={styles.main}>
         {devdebug && <DatabaseState />}
-        <h1 style={{ padding: "10px" }}>Current Inventory</h1>
+        <InvText style={{ padding: "10px" }}>Current Inventory</InvText>
         {dbTesting == "postgres" ? (
           <Table
             css={{
@@ -90,7 +93,7 @@ const InventoryPage = () => {
             </Table.Header>
             <Table.Body>
               {inventory.map((inventory: Inventory) => (
-                <Table.Row key="1">
+                <Table.Row>
                   <Table.Cell>{inventory.toggle_name}</Table.Cell>
                   <Table.Cell>{inventory.price}</Table.Cell>
                   <Table.Cell>{inventory.description}</Table.Cell>
@@ -117,7 +120,7 @@ const InventoryPage = () => {
             </Table.Header>
             <Table.Body>
               {product.map((product: Product) => (
-                <Table.Row key="1">
+                <Table.Row>
                   <Table.Cell>{product.name}</Table.Cell>
                   <Table.Cell>{product.table_price}</Table.Cell>
                   <Table.Cell>{product.inventory}</Table.Cell>
@@ -127,7 +130,7 @@ const InventoryPage = () => {
           </Table>
         )}
         <br></br>
-        <h1 style={{ padding: "10px" }}>Current Orders</h1>
+        <InvText style={{ padding: "10px" }}>Current Orders</InvText>
         <Table
           css={{
             height: "auto",
@@ -155,53 +158,8 @@ const InventoryPage = () => {
   );
 };
 
-// const NavigationMenuRoot = styled(NavigationMenu.Root, {
-//   position: "relative",
-//   display: "flex",
-//   justifyContent: "space-between",
-//   width: "100vw",
-//   zIndex: 0,
-// });
-
-// const NavigationMenuList = styled(NavigationMenu.List, {
-//   display: "flex",
-//   justifyContent: "space-between",
-//   backgroundColor: "none",
-//   padding: 4,
-//   borderRadius: 6,
-//   listStyle: "none",
-//   boxShadow: `0 2px 10px ${blackA.blackA7}`,
-//   margin: 0,
-// });
-
-const itemStyles = {
-  padding: "8px 12px",
-  outline: "none",
-  userSelect: "none",
-  fontWeight: 500,
-  lineHeight: 1,
-  borderRadius: 4,
-  fontSize: 15,
-  color: blueDark.blue10,
-  "&:focus": { boxShadow: `0 0 0 2px ${blueDark.blue7}` },
-  "&:hover": { backgroundColor: blueDark.blue3 },
-};
-
-// const NavigationMenuTrigger = styled(NavigationMenu.Trigger, {
-//   all: "unset",
-//   ...itemStyles,
-//   display: "flex",
-//   alignItems: "center",
-//   justifyContent: "space-between",
-//   gap: 2,
-// });
-
-// const NavigationMenuLink = styled(NavigationMenu.Link, {
-//   ...itemStyles,
-//   display: "block",
-//   textDecoration: "none",
-//   fontSize: 15,
-//   lineHeight: 1,
-// });
+const InvText = styled("h1", {
+  color: "white",
+})
 
 export default InventoryPage;

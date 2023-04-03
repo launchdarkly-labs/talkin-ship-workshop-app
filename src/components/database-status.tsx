@@ -9,9 +9,6 @@ import { CheckCircledIcon } from '@radix-ui/react-icons';
 const DatabaseState = () => {
     const {dbTesting, storeEnabled} = useFlags();
     const [open, setOpen] = React.useState(true);
-    const [billingPath, setBillingPath] = React.useState("");
-    let toastColor = ""
-
 
 const ToastRoot = styled(Toast.Root, {
   backgroundColor: (dbTesting == 'postgres') ? grass.grass10 : tomatoDark.tomato11,

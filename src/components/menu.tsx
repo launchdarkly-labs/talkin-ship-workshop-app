@@ -7,21 +7,19 @@ import { CaretDownIcon } from '@radix-ui/react-icons';
 import { mauve, blackA, blueDark, grayDark, red, slate, whiteA } from '@radix-ui/colors';
 import CartSummary from './cart-summary';
 import { useShoppingCart } from 'use-shopping-cart';
-import { useFlags, useLDClient } from 'launchdarkly-react-client-sdk';
+import { useFlags } from 'launchdarkly-react-client-sdk';
 import Login from './login';
-import {v4 as uuid} from 'uuid'
-
+import Image from 'next/image';
 
 
 const NavigationMenuDemo = () => {
 const {billing, storeEnabled, adminMode} = useFlags();
 const {cartCount} = useShoppingCart();
-const [userName, setUserName] = React.useState<string>('');
 
   return (
     <NavigationMenuRoot>
         <Link href="/">
-          <TextArea>Toggle's Toggle Store!</TextArea>
+          <Image src="/osmo.png" alt="logo" width={50} height={50} />
         </Link>
       <NavigationMenuList>
         

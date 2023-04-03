@@ -1,7 +1,6 @@
 "use client"
 import React, { useState, useEffect } from 'react'
 import { useShoppingCart } from 'use-shopping-cart'
-import { Inter } from 'next/font/google';
 import * as Separator from '@radix-ui/react-separator';
 import { styled } from '@stitches/react';
 import { blueDark, grass, slate } from '@radix-ui/colors';

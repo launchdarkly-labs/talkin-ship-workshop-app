@@ -29,7 +29,7 @@ export default withLDProvider({
         "user": 
         {
           key: uuid(),
-          name: "anonymous"
+          user: "anonymous",
         },
         "session":
         {
