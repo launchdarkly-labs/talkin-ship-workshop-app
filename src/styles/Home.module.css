@@ -182,8 +182,7 @@
 /* Enable hover only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {
   .card:hover {
-    background: rgb(158, 241, 161);
-    border: 1px solid rgba(var(--card-border-rgb), 0.15);
+    border: 3px solid rgb(140, 248, 149);
   }
 
   .card:hover span {

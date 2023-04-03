@@ -5,7 +5,14 @@ import gql from "graphql-tag";
 import { useQuery } from "@apollo/client";
 import Image from "next/image";
 import { styled, keyframes } from "@stitches/react";
-import { blackA, blueDark, slate, mauve, grass, whiteA } from "@radix-ui/colors";
+import {
+  blackA,
+  blueDark,
+  slate,
+  mauve,
+  grass,
+  whiteA,
+} from "@radix-ui/colors";
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import * as Form from "@radix-ui/react-form";
 import { useShoppingCart } from "use-shopping-cart";
@@ -166,11 +173,10 @@ const Inventory = () => {
               quality={100}
               style={{ padding: 10 }}
             />
-            <h2 className="text-2xl">
-              {id["node"].toggle_name}
-            </h2>
-            <p style={{padding: 4}}>{id["node"].description}</p>
-            Price per unit: <span style={{color: "green"}}>{id["node"].price} </span>
+            <h2 className="text-2xl">{id["node"].toggle_name}</h2>
+            <p style={{ padding: 4 }}>{id["node"].description}</p>
+            Price per unit:{" "}
+            <span style={{ color: "green" }}>{id["node"].price} </span>
             <div style={{ alignItems: "center", marginTop: 10 }}>
               {billing ? (
                 productsList
@@ -471,7 +477,7 @@ const Button = styled("button", {
         "&:hover": { backgroundColor: slate.slate7 },
       },
       green: {
-        backgroundColor: whiteA.whiteA11,
+        backgroundColor: slate.slate7,
         color: grass.grass11,
         "&:hover": { backgroundColor: grass.grass5 },
         "&:focus": { boxShadow: `0 0 0 2px ${grass.grass7}` },
