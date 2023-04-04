@@ -123,7 +123,6 @@ const Inventory = () => {
   // retrieve product info from Stripe API
   const [stripeProducts, setStripeProducts] = useState<any>([]);
   const [handleModal, setHandleModal] = useState(false);
-
   const getStripeProducts = async () => {
     const res = await fetch("/api/products", {
       method: "GET",

@@ -1,41 +1,52 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
 import Head from "next/head";
 import styles from "@/styles/Home.module.css";
-import { blueDark } from "@radix-ui/colors";
+import { styled } from "@stitches/react";
+import {
+  violet,
+  mauve,
+  indigo,
+  purple,
+  blackA,
+  blue,
+  gray,
+  whiteA,
+  green,
+  blueDark,
+  grayDark,
+  orange,
+} from "@radix-ui/colors";
+import * as NavigationMenu from "@radix-ui/react-navigation-menu";
 import { Table } from "@nextui-org/react";
 import DatabaseState from "@/components/database-status";
+import Image from "next/image";
 import product from "@/config/products";
 import { useFlags } from "launchdarkly-react-client-sdk";
-import NavigationMenuDemo from "@/components/menu";
-import { styled } from "@stitches/react";
 
-type Inventory = {
+type inventory = {
   id: number;
   toggle_name: string;
   price: string;
   description: string;
 };
 
-type Orders = {
+type orders = {
   name: string;
   email: string;
 };
 
-type Product = {
+type product = {
   name: string;
   table_price: string;
   inventory: number;
 };
 
 const InventoryPage = () => {
-  const { devdebug, dbTesting } = useFlags();
-  const [inventory, setInventory] = useState<Inventory[]>([]);
-  const [orders, setOrders] = useState<Orders[]>([]);
-
+  const { dbTesting } = useFlags();
+  // retrieve data from postgres
+  const [inventory, setInventory] = React.useState<any>([]);
   const getInventory = async () => {
     try {
-      console.log("calling external inventory");
       const response = await fetch("/api/inventory");
       const jsonData = await response.json();
       setInventory(jsonData);
@@ -44,9 +55,13 @@ const InventoryPage = () => {
     }
   };
 
+  React.useEffect(() => {
+    getInventory();
+  }, [dbTesting]);
+
+  const [orders, setOrders] = React.useState<any>([]);
   const getOrders = async () => {
     try {
-      console.log("caught db testing change");
       const response = await fetch("/api/form");
       const jsonData = await response.json();
       setOrders(jsonData);
@@ -55,8 +70,7 @@ const InventoryPage = () => {
     }
   };
 
-  useEffect(() => {
-    getInventory();
+  React.useEffect(() => {
     getOrders();
   }, [dbTesting]);
 
@@ -69,11 +83,24 @@ const InventoryPage = () => {
         <link rel="icon" href="/osmo.png" />
       </Head>
       <header className={styles.header}>
-        <NavigationMenuDemo />
+        <NavigationMenuRoot>
+          <Image
+            src="/images/ld-logo.png"
+            alt="LaunchDarkly Logo"
+            width={160}
+            height={25}
+            quality={100}
+            style={{ margin: 2, position: "initial" }}
+          />
+          <NavigationMenuList>
+            <NavigationMenu.Item>
+              <NavigationMenuLink href="/">Home</NavigationMenuLink>
+            </NavigationMenu.Item>
+          </NavigationMenuList>
+        </NavigationMenuRoot>
       </header>
       <main className={styles.main}>
-        {devdebug && <DatabaseState />}
-        <InvText style={{ padding: "10px" }}>Current Inventory</InvText>
+        <h1 style={{ padding: "10px" }}>Current Inventory</h1>
         {dbTesting == "postgres" ? (
           <Table
             css={{
@@ -92,8 +119,8 @@ const InventoryPage = () => {
               <Table.Column>OUTSTANDING ORDERS</Table.Column>
             </Table.Header>
             <Table.Body>
-              {inventory.map((inventory: Inventory) => (
-                <Table.Row>
+              {inventory.map((inventory: inventory) => (
+                <Table.Row key="1">
                   <Table.Cell>{inventory.toggle_name}</Table.Cell>
                   <Table.Cell>{inventory.price}</Table.Cell>
                   <Table.Cell>{inventory.description}</Table.Cell>
@@ -119,8 +146,8 @@ const InventoryPage = () => {
               <Table.Column>CURRENT INVENTORY</Table.Column>
             </Table.Header>
             <Table.Body>
-              {product.map((product: Product) => (
-                <Table.Row>
+              {product.map((product: product) => (
+                <Table.Row key="1">
                   <Table.Cell>{product.name}</Table.Cell>
                   <Table.Cell>{product.table_price}</Table.Cell>
                   <Table.Cell>{product.inventory}</Table.Cell>
@@ -130,7 +157,7 @@ const InventoryPage = () => {
           </Table>
         )}
         <br></br>
-        <InvText style={{ padding: "10px" }}>Current Orders</InvText>
+        <h1 style={{ padding: "10px" }}>Current Orders</h1>
         <Table
           css={{
             height: "auto",
@@ -145,7 +172,7 @@ const InventoryPage = () => {
             <Table.Column>EMAIL</Table.Column>
           </Table.Header>
           <Table.Body>
-            {orders.map((orders: Orders) => (
+            {orders.map((orders: orders) => (
               <Table.Row key="1">
                 <Table.Cell>{orders.name}</Table.Cell>
                 <Table.Cell>{orders.email}</Table.Cell>
@@ -154,12 +181,60 @@ const InventoryPage = () => {
           </Table.Body>
         </Table>
       </main>
+      <footer className={styles.footer} suppressHydrationWarning>
+        <DatabaseState />
+      </footer>
     </>
   );
 };
 
-const InvText = styled("h1", {
-  color: "white",
+const NavigationMenuRoot = styled(NavigationMenu.Root, {
+  position: "relative",
+  display: "flex",
+  justifyContent: "space-between",
+  width: "100vw",
+  zIndex: 0,
+});
+
+const NavigationMenuList = styled(NavigationMenu.List, {
+  display: "flex",
+  justifyContent: "space-between",
+  backgroundColor: "none",
+  padding: 4,
+  borderRadius: 6,
+  listStyle: "none",
+  boxShadow: `0 2px 10px ${blackA.blackA7}`,
+  margin: 0,
+});
+
+const itemStyles = {
+  padding: "8px 12px",
+  outline: "none",
+  userSelect: "none",
+  fontWeight: 500,
+  lineHeight: 1,
+  borderRadius: 4,
+  fontSize: 15,
+  color: blueDark.blue10,
+  "&:focus": { boxShadow: `0 0 0 2px ${blueDark.blue7}` },
+  "&:hover": { backgroundColor: blueDark.blue3 },
+};
+
+const NavigationMenuTrigger = styled(NavigationMenu.Trigger, {
+  all: "unset",
+  ...itemStyles,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  gap: 2,
+});
+
+const NavigationMenuLink = styled(NavigationMenu.Link, {
+  ...itemStyles,
+  display: "block",
+  textDecoration: "none",
+  fontSize: 15,
+  lineHeight: 1,
 });
 
 export default InventoryPage;
