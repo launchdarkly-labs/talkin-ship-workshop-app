@@ -187,7 +187,7 @@ const Inventory = () => {
             <Image
               key={node}
               src={`${id["node"].image}`}
-              alt={id.toggle_name}
+              alt={`${id.toggle_name}`}
               loading="lazy"
               width={200}
               height={200}
