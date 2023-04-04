@@ -12,8 +12,11 @@ export const stitches = createStitches({
 });
 
 export const globalStyles = stitches.globalCss({
-  "@font-face": {
+  "@font-face": [{
     fontFamily: "Sohne",
     src: "url('/fonts/sohne.otf')"
-  }
+  },{
+    fontFamily: "Audimat",
+    src: "url('/fonts/audimat.otf')"
+  }],
 });

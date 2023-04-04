@@ -6,15 +6,19 @@ import dynamic from 'next/dynamic'
 import {v4 as uuid} from 'uuid'
 import {osName, isMobile} from 'react-device-detect'
 import { globalStyles } from '@/stitches.config'
+import Context from '@/context/state'
+
 
 const CartWithoutSSR = dynamic(() => import('../components/cart'), {ssr: false})
 
 function App({ Component, pageProps }: AppProps) {
   globalStyles()
   return (
-  <CartWithoutSSR>
-    <Component {...pageProps} />
-  </CartWithoutSSR>
+  <Context>
+    <CartWithoutSSR>
+      <Component {...pageProps} />
+    </CartWithoutSSR>
+  </Context>
   )
 }
 
@@ -25,7 +29,7 @@ export default withLDProvider({
         "user": 
         {
           key: uuid(),
-          name: "anonymous"
+          user: "anonymous",
         },
         "session":
         {
@@ -39,7 +43,7 @@ export default withLDProvider({
           operating_system: osName,
           mobile_device: isMobile
         }
-      }
+      },
   })(App as any);
 
 

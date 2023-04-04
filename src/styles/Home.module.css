@@ -3,9 +3,20 @@
   flex-direction: column;
   align-items: center;
   font-family: 'Sohne';
-  padding: 2rem;
-  min-height: 92vh;
-  background: radial-gradient(circle, rgba(237, 244, 201, 1) 7%, rgba(158, 173, 241, 1) 75%);
+  /* padding: 2rem; */
+  min-height: 93vh;
+  /* background: radial-gradient(circle, rgba(237, 244, 201, 1) 7%, rgba(158, 173, 241, 1) 75%); */
+  background-image: url('/ld-bg.png');
+  /* background-image: url('/ld-bg-yellow.png'); */
+  background-repeat: no-repeat;  
+  background-size: cover;
+
+}
+
+.img-center > div {
+  display: block !important;
+  margin: auto !important;
+  max-width: max-content !important;;
 }
 
 .header {
@@ -14,18 +25,23 @@
   font-family: 'Sohne';
   align-items: flex-end;
   padding: 1rem;
-  position: sticky;
+  width: 100%;
+  /* z-index: 5; */
   background-color: black;
+}
+
+.apistatus {
+    display: flex;
+    font-family: 'Sohne';
+    padding: 1rem;
+    position: relative;
 }
 
 .footer {
   display: flex;
-  flex-direction: row;
   font-family: 'Sohne';
-  align-items: flex-end;
-  padding: 2rem;
+  padding: 1rem;
   position: relative;
-  background-color: black;
 }
 
 .description {
@@ -36,7 +52,7 @@
   font-size: 0.85rem;
   max-width: var(--max-width);
   width: 100%;
-  z-index: 2;
+  /* z-index: 2; */
 }
 
 .description a {
@@ -71,8 +87,12 @@
 
 .card {
   padding: 1rem 1.2rem;
+  margin: .5rem;
+  align-items: center;
+  background:rgb(255, 255, 255);
+  justify-content: center;
+  text-align: center;
   border-radius: var(--border-radius);
-  background: rgba(var(--card-rgb), 0);
   border: 1px solid rgba(var(--card-border-rgb), 0);
   transition: background 200ms, border 200ms;
 }
@@ -102,7 +122,9 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  padding: 4rem 0;
+  /* background: white; */
+  /* width: '100vw'; */
+  padding: 1rem 0;
 }
 
 .logo,
@@ -129,7 +151,7 @@
 .thirteen::after {
   content: '';
   position: absolute;
-  z-index: -1;
+  /* z-index: -1; */
 }
 
 /* Conic Gradient Animation */
@@ -153,11 +175,14 @@
   background-clip: content-box;
 }
 
+.fix button {
+  background: black
+}
+
 /* Enable hover only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {
   .card:hover {
-    background: rgba(var(--card-rgb), 0.1);
-    border: 1px solid rgba(var(--card-border-rgb), 0.15);
+    border: 3px solid rgb(140, 248, 149);
   }
 
   .card:hover span {
@@ -250,7 +275,7 @@
       transparent 0%,
       rgb(var(--background-end-rgb)) 40%
     );
-    z-index: 1;
+    /* z-index: 1; */
   }
 }
 

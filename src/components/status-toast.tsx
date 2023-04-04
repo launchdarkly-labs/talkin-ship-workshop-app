@@ -1,11 +1,10 @@
 import * as React from 'react';
 import * as Toast from '@radix-ui/react-toast';
 import { styled, keyframes } from '@stitches/react';
-import { violet, blackA, mauve, slate, green } from '@radix-ui/colors';
+import { slate, grass, tomatoDark} from '@radix-ui/colors';
 import { useFlags } from 'launchdarkly-react-client-sdk';
-import { CheckCircledIcon } from '@radix-ui/react-icons';
 
-const BillingState = () => {
+const APIMigrationState = () => {
     const [open, setOpen] = React.useState(true);
     const {billing, storeEnabled} = useFlags();
     const [billingPath, setBillingPath] = React.useState("");
@@ -13,43 +12,45 @@ const BillingState = () => {
 
 React.useEffect(() => {
 if (billing) {
-    setBillingPath("Stripe")
+    setBillingPath("Migrated")
 }
 else {
-    setBillingPath("Self Hosted")
+    setBillingPath("Self-Hosted")
 }
 },[billing]);
 
-  return (
-    <>
-    { storeEnabled ?
-    <Toast.Provider swipeDirection="right"> 
-      <ToastRoot open={open}>
-        <ToastTitle>Currently using <u><strong>{billingPath}</strong></u></ToastTitle>
-        <CheckCircledIcon color="green" style={{height: '30px', width: '30px'}}/>
-      </ToastRoot>
-      <ToastViewport />
-    </Toast.Provider>
- : null}
-      </>
-  );
-};
+const ToastRoot = styled(Toast.Root, {
+  backgroundColor: (billing ? grass.grass10 : tomatoDark.tomato11),
+  borderRadius: 6,
+  boxShadow: 'hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px',
+  padding: 15,
+  gridTemplateAreas: '"title action" "description action"',
+  gridTemplateColumns: 'auto max-content',
+  display: 'grid',
+  width: '15vw',
+  columnGap: 15,
+  alignItems: 'center',
+  textAlign: 'center',
+});
 
-const VIEWPORT_PADDING = 25;
+const ToastTitle = styled(Toast.Title, {
+  gridArea: 'title',
+  marginBottom: 0,
+  fontWeight: 500,
+  color: slate.slate1,
+  fontSize: 20,
+  fontFamily: 'Sohne'
+});
+
+const VIEWPORT_PADDING = 5;
 
 const ToastViewport = styled(Toast.Viewport, {
   position: 'relative',
-  bottom: 0,
-  center: 0,
   display: 'flex',
   flexDirection: 'column',
-  padding: VIEWPORT_PADDING,
-  gap: 10,
-  width: 395,
-  maxWidth: '100vw',
-  margin: 0,
+  width: '15vw',
+  textAlign: 'center',
   listStyle: 'none',
-  zIndex: 2147483647,
   outline: 'none',
 });
 
@@ -58,25 +59,18 @@ const hide = keyframes({
   '100%': { opacity: 0 },
 });
 
-const ToastRoot = styled(Toast.Root, {
-  backgroundColor: 'white',
-  borderRadius: 6,
-  boxShadow: 'hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px',
-  padding: 15,
-  display: 'grid',
-  gridTemplateAreas: '"title action" "description action"',
-  gridTemplateColumns: 'auto max-content',
-  columnGap: 15,
-  alignItems: 'center',
-});
+  return (
+    <>
+    { storeEnabled ?
+    <Toast.Provider swipeDirection="right"> 
+      <ToastRoot open={open}>
+        <ToastTitle>Billing API status is <u><strong>{billingPath}</strong></u></ToastTitle>
+      </ToastRoot>
+      <ToastViewport />
+    </Toast.Provider>
+ : null}
+      </>
+  );
+};
 
-const ToastTitle = styled(Toast.Title, {
-  gridArea: 'title',
-  marginBottom: 0,
-  fontWeight: 500,
-  color: slate.slate12,
-  fontSize: 20,
-  // fontFamily: 'inter',
-});
-
-export default BillingState;
+export default APIMigrationState;

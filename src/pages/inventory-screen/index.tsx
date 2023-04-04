@@ -84,7 +84,6 @@ const InventoryPage = () => {
       </Head>
       <header className={styles.header}>
         <NavigationMenuRoot>
-          <a href='/'>
           <Image
             src="/images/ld-logo.png"
             alt="LaunchDarkly Logo"
@@ -92,7 +91,7 @@ const InventoryPage = () => {
             height={25}
             quality={100}
             style={{ margin: 2, position: "initial" }}
-          /></a>
+          />
           <NavigationMenuList>
             <NavigationMenu.Item>
               <NavigationMenuLink href="/">Home</NavigationMenuLink>
