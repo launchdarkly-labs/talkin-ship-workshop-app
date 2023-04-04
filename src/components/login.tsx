@@ -12,39 +12,32 @@ import {
   red,
   whiteA,
 } from "@radix-ui/colors";
-import { useState, useContext } from "react";
+import { useState, useContext, useRef } from "react";
 import { useLDClient } from "launchdarkly-react-client-sdk";
 import { setCookie } from "cookies-next";
 import { deleteCookie } from "cookies-next";
 import { Login_data } from "@/context/state";
 
-
 export default function Login() {
-  const [userTemporaryName, setTemporaryUserName] = useState("");
+  const inputRef = useRef();
   const { isLoggedIn, setIsLoggedIn } = useContext(Login_data);
   const [handleModal, setHandleModal] = useState(false);
   const ldclient = useLDClient();
-
-  const updateUsername = (e: any) => {
-    console.log("update")
-    e.preventDefault();
-    setTemporaryUserName(e.target.value);
-  };
 
   function handleLogin(e: Event) {
     e.preventDefault();
     setIsLoggedIn(true);
     const context: any = ldclient?.getContext();
     console.log(context);
-    context.user.name = userTemporaryName;
+    context.user.name = inputRef.current.value;
     ldclient?.identify(context);
-    setCookie("user", userTemporaryName);
+    setCookie("user", inputRef.current.value);
     console.log(context);
     setHandleModal(false);
   }
 
   function handleLogout() {
-    console.log("logout-happened")
+    console.log("logout-happened");
     setIsLoggedIn(false);
     const user: any = ldclient?.getContext();
     user.user.name = "Anonymous";
@@ -55,13 +48,13 @@ export default function Login() {
   if (!isLoggedIn) {
     return (
       <AlertDialog.Root>
-            <AlertDialogTrigger
-              onClick={(e) => {
-                setHandleModal(true);
-              }}
-            >
-              <Button>Login</Button>
-            </AlertDialogTrigger>
+        <AlertDialogTrigger
+          onClick={(e) => {
+            setHandleModal(true);
+          }}
+        >
+          <Button>Login</Button>
+        </AlertDialogTrigger>
         {handleModal && (
           <AlertDialog.Portal>
             <AlertDialogOverlay />
@@ -81,7 +74,7 @@ export default function Login() {
                     </FormMessage>
                   </Flex>
                   <Form.Control asChild>
-                    <Input type="username" required onChange={updateUsername} />
+                    <Input type="username" required ref={inputRef} />
                   </Form.Control>
                 </FormField>
                 <FormField name="password">
@@ -195,8 +188,8 @@ const contentShow = keyframes({
 });
 
 const AlertDialogTrigger = styled(AlertDialog.Trigger, {
-  all: "unset"
-})
+  all: "unset",
+});
 
 const AlertDialogOverlay = styled(AlertDialog.Overlay, {
   backgroundColor: blackA.blackA9,
