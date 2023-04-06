@@ -6,7 +6,7 @@ import { styled } from "@stitches/react";
 const StoreContent = () => (
   <main className={styles.main}>
     <ToggleFive>
-    <h1>Welcome to Toggle&apos;s Toggle Store!</h1>
+    <h1>Welcome to Toggle Outfitters!</h1>
     <Image src="/high-five.png" alt="Toggle" width={225} height={225} quality={100} />
     </ToggleFive>
     <div className={styles.center}>

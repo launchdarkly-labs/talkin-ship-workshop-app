@@ -38,7 +38,7 @@ export default function Home() {
     <>
       <ApolloProvider client={client}>
         <Head>
-          <title>The Toggle Store</title>
+          <title>Toggle Outfitters</title>
         </Head>
         <header className={styles.header}>
           <NavigationMenuDemo />
