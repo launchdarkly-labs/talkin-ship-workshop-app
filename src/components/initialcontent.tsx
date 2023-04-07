@@ -11,7 +11,7 @@ const InitialContent = () => (
         height={250}
         quality={100}
       />
-      <h1 style={{ color: "white" }}>Welcome to Toggle&apos;s Toggles!</h1>
+      <h1 style={{ color: "white" }}>Welcome to Toggle Outfitters!</h1>
       <br></br>
       <h3 style={{ margin: 5, color: "white" }}>
         Hand-crafted, 100% organic toggles for all your jacket needs.
