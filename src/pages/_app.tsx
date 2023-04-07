@@ -42,6 +42,10 @@ export default withLDProvider({
           key: uuid(),
           operating_system: osName,
           mobile_device: isMobile
+        }, 
+        "location": {
+          key: uuid(),
+          timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
         }
       },
   })(App as any);
