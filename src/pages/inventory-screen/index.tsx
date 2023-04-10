@@ -16,12 +16,14 @@ import {
   grayDark,
   orange,
 } from "@radix-ui/colors";
-import * as NavigationMenu from "@radix-ui/react-navigation-menu";
 import { Table } from "@nextui-org/react";
 import DatabaseState from "@/components/database-status";
 import Image from "next/image";
 import product from "@/config/products";
 import { useFlags } from "launchdarkly-react-client-sdk";
+import NavigationMenuDemo from "@/components/menu";
+
+
 
 type inventory = {
   id: number;
@@ -83,24 +85,11 @@ const InventoryPage = () => {
         <link rel="icon" href="/osmo.png" />
       </Head>
       <header className={styles.header}>
-        <NavigationMenuRoot>
-          <Image
-            src="/images/ld-logo.png"
-            alt="LaunchDarkly Logo"
-            width={160}
-            height={25}
-            quality={100}
-            style={{ margin: 2, position: "initial" }}
-          />
-          <NavigationMenuList>
-            <NavigationMenu.Item>
-              <NavigationMenuLink href="/">Home</NavigationMenuLink>
-            </NavigationMenu.Item>
-          </NavigationMenuList>
-        </NavigationMenuRoot>
-      </header>
+          <NavigationMenuDemo />
+        </header>
       <main className={styles.main}>
-        <h1 style={{ padding: "10px" }}>Current Inventory</h1>
+      <DatabaseState />
+        <h1 style={{ padding: "10px", color: "white" }}>Current Inventory</h1>
         {dbTesting == "postgres" ? (
           <Table
             css={{
@@ -156,8 +145,7 @@ const InventoryPage = () => {
             </Table.Body>
           </Table>
         )}
-        <br></br>
-        <h1 style={{ padding: "10px" }}>Current Orders</h1>
+        <h1 style={{ padding: "10px", color: "white" }}>Current Orders</h1>
         <Table
           css={{
             height: "auto",
@@ -181,60 +169,8 @@ const InventoryPage = () => {
           </Table.Body>
         </Table>
       </main>
-      <footer className={styles.footer} suppressHydrationWarning>
-        <DatabaseState />
-      </footer>
     </>
   );
 };
-
-const NavigationMenuRoot = styled(NavigationMenu.Root, {
-  position: "relative",
-  display: "flex",
-  justifyContent: "space-between",
-  width: "100vw",
-  zIndex: 0,
-});
-
-const NavigationMenuList = styled(NavigationMenu.List, {
-  display: "flex",
-  justifyContent: "space-between",
-  backgroundColor: "none",
-  padding: 4,
-  borderRadius: 6,
-  listStyle: "none",
-  boxShadow: `0 2px 10px ${blackA.blackA7}`,
-  margin: 0,
-});
-
-const itemStyles = {
-  padding: "8px 12px",
-  outline: "none",
-  userSelect: "none",
-  fontWeight: 500,
-  lineHeight: 1,
-  borderRadius: 4,
-  fontSize: 15,
-  color: blueDark.blue10,
-  "&:focus": { boxShadow: `0 0 0 2px ${blueDark.blue7}` },
-  "&:hover": { backgroundColor: blueDark.blue3 },
-};
-
-const NavigationMenuTrigger = styled(NavigationMenu.Trigger, {
-  all: "unset",
-  ...itemStyles,
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-  gap: 2,
-});
-
-const NavigationMenuLink = styled(NavigationMenu.Link, {
-  ...itemStyles,
-  display: "block",
-  textDecoration: "none",
-  fontSize: 15,
-  lineHeight: 1,
-});
 
 export default InventoryPage;
