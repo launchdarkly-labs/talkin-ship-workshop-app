@@ -17,7 +17,7 @@ const CartWithoutSSR = dynamic(() => import("../components/cart"), {
 let c;
 if (typeof window !== "undefined") {
     const LDProvider = await asyncWithLDProvider({
-    clientSideID: process.env.NEXT_PUBLIC_LD_CLIENT_KEY,
+    clientSideID: process.env.NEXT_PUBLIC_LD_CLIENT_KEY || "",
     context: {
       kind: "multi",
       "user": 
@@ -56,6 +56,8 @@ if (typeof window !== "undefined") {
       </Context>
     );
   };
-} 
+} else {
+  c = () => "window is undefined for some reason";
+}
 
 export default c;
