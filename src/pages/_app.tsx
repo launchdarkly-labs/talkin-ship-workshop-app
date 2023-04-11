@@ -57,7 +57,7 @@ if (typeof window !== "undefined") {
     );
   };
 } else {
-  c = () => "window is undefined for some reason";
+  c = () => null;
 }
 
 export default c;
