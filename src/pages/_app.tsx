@@ -10,19 +10,26 @@ const CartWithoutSSR = dynamic(() => import("../components/cart"), {
   ssr: false,
 });
 
-const LDProvider = await asyncWithLDProvider({
-  clientSideID: process.env.NEXT_PUBLIC_LD_CLIENT_KEY,
-});
+let c;
 
-export default ({ Component, pageProps }: AppProps) => {
-  globalStyles();
-  return (
-    <Context>
-      <CartWithoutSSR>
-        <LDProvider>
-          <Component {...pageProps} />
-        </LDProvider>
-      </CartWithoutSSR>
-    </Context>
-  );
-};
+if (typeof window !== "undefined") {
+  const LDProvider = await asyncWithLDProvider({
+    clientSideID: process.env.NEXT_PUBLIC_LD_CLIENT_KEY,
+  });
+  c = ({ Component, pageProps }: AppProps) => {
+    globalStyles();
+    return (
+      <Context>
+        <CartWithoutSSR>
+          <LDProvider>
+            <Component {...pageProps} />
+          </LDProvider>
+        </CartWithoutSSR>
+      </Context>
+    );
+  };
+} else {
+  c = () => "window is undefined for some reason";
+}
+
+export default c;
