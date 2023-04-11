@@ -1,54 +1,28 @@
-import '@/styles/globals.css'
-import React from 'react'
-import type { AppProps } from 'next/app'
-import {withLDProvider } from 'launchdarkly-react-client-sdk'
-import dynamic from 'next/dynamic'
-import {v4 as uuid} from 'uuid'
-import {osName, isMobile} from 'react-device-detect'
-import { globalStyles } from '@/stitches.config'
-import Context from '@/context/state'
+import "@/styles/globals.css";
+import React from "react";
+import type { AppProps } from "next/app";
+import { asyncWithLDProvider } from "launchdarkly-react-client-sdk";
+import dynamic from "next/dynamic";
+import { globalStyles } from "@/stitches.config";
+import Context from "@/context/state";
 
+const CartWithoutSSR = dynamic(() => import("../components/cart"), {
+  ssr: false,
+});
 
-const CartWithoutSSR = dynamic(() => import('../components/cart'), {ssr: false})
+const LDProvider = await asyncWithLDProvider({
+  clientSideID: process.env.NEXT_PUBLIC_LD_CLIENT_KEY,
+});
 
-function App({ Component, pageProps }: AppProps) {
-  globalStyles()
+export default ({ Component, pageProps }: AppProps) => {
+  globalStyles();
   return (
-  <Context>
-    <CartWithoutSSR>
-      <Component {...pageProps} />
-    </CartWithoutSSR>
-  </Context>
-  )
-}
-
-export default withLDProvider({
-      clientSideID: process.env.NEXT_PUBLIC_LD_CLIENT_KEY as string,
-      context: {
-        kind: "multi",
-        "user": 
-        {
-          key: uuid(),
-          user: "anonymous",
-        },
-        "session":
-        {
-          key: uuid(),
-          name: "new session",
-          description: "session data that we use for experimentation"
-        },
-        "device":
-        {
-          key: uuid(),
-          operating_system: osName,
-          mobile_device: isMobile
-        }, 
-        "location": {
-          key: uuid(),
-          timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
-        }
-      },
-  })(App as any);
-
-
-
+    <Context>
+      <CartWithoutSSR>
+        <LDProvider>
+          <Component {...pageProps} />
+        </LDProvider>
+      </CartWithoutSSR>
+    </Context>
+  );
+};
