@@ -22,30 +22,32 @@ import { RocketIcon } from "@radix-ui/react-icons";
 import APIMigrationState from "./status-toast";
 
 //GraphQL query for the inventory
-const TOGGLE_QUERY = gql`
-  query ToggleQuery {
-    toggletableCollection {
-      edges {
-        node {
-          description
-          id
-          image
-          nodeId
-          price
-          toggle_name
-        }
-      }
-    }
-  }
-`;
 
 const Inventory = () => {
   // import flags
-  const { devdebug, billing } = useFlags();
+  const { devdebug, billing, newProductExperienceAccess } = useFlags();
 
   //function for adding form fill data to database
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+
+  const TOGGLE_QUERY = gql`
+query ToggleQuery {
+  toggletableCollection(filter: { category: {in: [${newProductExperienceAccess}] }}) {
+    edges {
+      node {
+        description
+        id
+        image
+        nodeId
+        price
+        toggle_name
+        category
+      }
+    }
+  }
+}
+`;
 
   const updateName = (e: any) => {
     e.preventDefault();
