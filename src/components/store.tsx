@@ -20,8 +20,7 @@ import { useFlags, useLDClient } from "launchdarkly-react-client-sdk";
 import * as Toast from "@radix-ui/react-toast";
 import { RocketIcon } from "@radix-ui/react-icons";
 import APIMigrationState from "./status-toast";
-
-//GraphQL query for the inventory
+import { isArray } from "@apollo/client/utilities";
 
 const Inventory = () => {
   // import flags
@@ -31,25 +30,26 @@ const Inventory = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
 
+  //GraphQL query for the inventory
   const TOGGLE_QUERY = gql`
-query ToggleQuery {
-  toggletableCollection(
-    filter: { category: {in: [${newProductExperienceAccess}] }}
-    ) {
-    edges {
-      node {
-        description
-        id
-        image
-        nodeId
-        price
-        toggle_name
-        category
+    query ToggleQuery {
+      toggletableCollection(
+        filter: { category: {in: [${newProductExperienceAccess}] }}
+        ) {
+        edges {
+          node {
+            description
+            id
+            image
+            nodeId
+            price
+            toggle_name
+            category
+          }
+        }
       }
     }
-  }
-}
-`;
+    `;
 
   const updateName = (e: any) => {
     e.preventDefault();
@@ -171,7 +171,11 @@ query ToggleQuery {
   // console.log(data.toggletableCollection.edges);
   if (loading) return <p>loading</p>;
   if (error) return <p> Error: {error.message}</p>;
-  const items = data.toggletableCollection.edges;
+  let items = [...data.toggletableCollection.edges];
+  items = items.sort((a: any, b: any) => {
+    if (a.id > b.id) return 1;
+    return -1;
+  });
   return (
     <div>
       {devdebug && (
