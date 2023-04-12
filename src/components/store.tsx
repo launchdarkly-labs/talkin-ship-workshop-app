@@ -33,7 +33,9 @@ const Inventory = () => {
 
   const TOGGLE_QUERY = gql`
 query ToggleQuery {
-  toggletableCollection(filter: { category: {in: [${newProductExperienceAccess}] }}) {
+  toggletableCollection(
+    filter: { category: {in: [${newProductExperienceAccess}] }}
+    ) {
     edges {
       node {
         description

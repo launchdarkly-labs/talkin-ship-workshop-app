@@ -10,11 +10,13 @@ import Context from "@/context/state";
 import {v4 as uuid} from 'uuid'
 import {osName, isMobile} from 'react-device-detect'
 
+
 const CartWithoutSSR = dynamic(() => import("../components/cart"), {
   ssr: false,
 });
 
 let c;
+
 if (typeof window !== "undefined") {
     const LDProvider = await asyncWithLDProvider({
     clientSideID: process.env.NEXT_PUBLIC_LD_CLIENT_KEY || "",
