@@ -25,7 +25,7 @@ if (typeof window !== "undefined") {
       "user": 
       {
         key: uuid(),
-        user: "anonymous",
+        name: "anonymous",
       },
       "session":
       {
