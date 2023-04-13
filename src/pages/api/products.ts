@@ -34,7 +34,6 @@ export default async function handler(
 ) {
   if (req.method === 'GET') {
     const products = await listAllProducts();
-    console.log(products);
     return res.json(products);
   }
 }

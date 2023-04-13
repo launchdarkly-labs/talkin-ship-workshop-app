@@ -10,13 +10,16 @@ import { useShoppingCart } from 'use-shopping-cart';
 import { useFlags, useLDClient } from 'launchdarkly-react-client-sdk';
 import Login from './login';
 import Image from 'next/image';
+import APIMigrationState from './status-toast';
+
 
 // TODO: I had to move ldclient because I couldn't define it here but then I can't call the hook
 // from here. If I move the function inside the component definition I get the same issues. WTAF
 
 
 const NavigationMenuDemo = ({country}: any) => {
-const {billing, storeEnabled, adminMode, newProductExperienceAccess, customerDebugPanel} = useFlags();
+const [uiCountry, setUICountry] = React.useState(country);
+const {billing, storeEnabled, adminMode, newProductExperienceAccess, devdebug} = useFlags();
 const {cartCount} = useShoppingCart();
 
 const ldclient = useLDClient();
@@ -24,6 +27,7 @@ const ldclient = useLDClient();
 const changeCountry = (country: any) => {
   if (ldclient) {
     console.log("foo")
+    setUICountry(country);
     const context: any = ldclient?.getContext();
     console.log(context)
     context.location.country = country;
@@ -46,14 +50,16 @@ const changeCountry = (country: any) => {
           </Button>
           </NavigationMenuTrigger>
         </NavigationMenu.Item>):null}
-        {customerDebugPanel ? (<NavigationMenu.Item>
+        {devdebug ? (
+        
+        <NavigationMenu.Item>
           <NavigationMenuTrigger>
-            <Button>Debug Data <CaretDown aria-hidden /></Button>
+            <Button style={{color: "orange"}}>Debug: App Data<CaretDown aria-hidden /></Button>
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <List>
             <ListItem title="Selected Country">
-              {country}
+              {uiCountry}
             </ListItem>
             <ListItem title="Product Categories">
               {newProductExperienceAccess.replaceAll('"','').replaceAll(',','s, ')}s
@@ -68,9 +74,9 @@ const changeCountry = (country: any) => {
           </NavigationMenuContent>
         </NavigationMenu.Item>
         ):null}
-        {customerDebugPanel ? (<NavigationMenu.Item>
+        {devdebug ? (<NavigationMenu.Item>
           <NavigationMenuTrigger>
-            <Button>Debug Country<CaretDown aria-hidden /></Button>
+            <Button style={{color: "orange"}}>Debug: Country Override<CaretDown aria-hidden /></Button>
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <List>
@@ -84,7 +90,7 @@ const changeCountry = (country: any) => {
           </NavigationMenuContent>
         </NavigationMenu.Item>
         ):null}
-        <NavigationMenu.Item>
+        {/* <NavigationMenu.Item>
           <NavigationMenuTrigger>
             <Button>
             Learn <CaretDown aria-hidden />
@@ -114,7 +120,7 @@ const changeCountry = (country: any) => {
               </ListItem>
             </List>
           </NavigationMenuContent>
-        </NavigationMenu.Item>
+        </NavigationMenu.Item> */}
         {(billing && storeEnabled) ?
         <NavigationMenu.Item>
           <NavigationMenuTrigger>
@@ -195,6 +201,12 @@ const NavigationMenuRoot = styled(NavigationMenu.Root, {
   zIndex: 999,
   
 });
+
+const CenterStatus = styled('div', {
+  display: 'table',
+  marginLeft: 'auto',
+  marginRight: 'auto',
+})
 
 const NavigationMenuList = styled(NavigationMenu.List, {
   display: 'flex',
