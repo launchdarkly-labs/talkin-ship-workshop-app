@@ -183,6 +183,8 @@
 @media (hover: hover) and (pointer: fine) {
   .card:hover {
     border: 3px solid rgb(140, 248, 149);
+    
+    /* background: rgb(204, 192, 104) */
   }
 
   .card:hover span {

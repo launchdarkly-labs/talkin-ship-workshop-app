@@ -21,7 +21,7 @@ const ToggleFive = styled("div", {
   unset: "all",
   marginTop: 10,
   fontSize: 25,
-  color: "white",
+  color: "DarkKhaki",
   textAlign: "center",
   font: "Sohne",
   alignContent: "center",

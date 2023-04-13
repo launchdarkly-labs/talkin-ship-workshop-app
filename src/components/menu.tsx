@@ -54,7 +54,7 @@ const changeCountry = (country: any) => {
         
         <NavigationMenu.Item>
           <NavigationMenuTrigger>
-            <Button style={{color: "orange"}}>Debug: App Data<CaretDown aria-hidden /></Button>
+            <Button style={{color: "orange"}}>Debug: App Data<CaretDownDebug aria-hidden /></Button>
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <List>
@@ -76,7 +76,7 @@ const changeCountry = (country: any) => {
         ):null}
         {devdebug ? (<NavigationMenu.Item>
           <NavigationMenuTrigger>
-            <Button style={{color: "orange"}}>Debug: Country Override<CaretDown aria-hidden /></Button>
+            <Button style={{color: "orange"}}>Debug: Country Override<CaretDownDebug aria-hidden /></Button>
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <List>
@@ -377,30 +377,6 @@ const ListItemText = styled('p', {
   fontWeight: 'initial',
 });
 
-const Callout = styled('a', {
-  display: 'flex',
-  justifyContent: 'flex-end',
-  flexDirection: 'column',
-  width: '100%',
-  height: '100%',
-  background: `linear-gradient(135deg, ${blueDark.blue9} 0%, ${grayDark.gray9} 100%);`,
-  borderRadius: 6,
-  padding: 25,
-  textDecoration: 'none',
-  outline: 'none',
-  userSelect: 'none',
-  '&:focus': { boxShadow: `0 0 0 2px ${blueDark.blue7}` },
-});
-
-const CalloutHeading = styled('div', {
-  color: 'white',
-  fontSize: 18,
-  fontWeight: 500,
-  lineHeight: 1.2,
-  marginTop: 16,
-  marginBottom: 7,
-});
-
 const CalloutText = styled('p', {
   all: 'unset',
   color: mauve.mauve4,
@@ -426,14 +402,12 @@ const CaretDown = styled(CaretDownIcon, {
   '[data-state=open] &': { transform: 'rotate(-180deg)' },
 });
 
-const Arrow = styled('div', {
+const CaretDownDebug = styled(CaretDownIcon, {
   position: 'relative',
-  top: '70%',
-  backgroundColor: 'white',
-  width: 10,
-  height: 10,
-  transform: 'rotate(45deg)',
-  borderTopLeftRadius: 2,
+  color: "orange",
+  top: 1,
+  transition: 'transform 250ms ease',
+  '[data-state=open] &': { transform: 'rotate(-180deg)' },
 });
 
 const Button = styled("button", {
