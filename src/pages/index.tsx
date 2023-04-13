@@ -30,7 +30,7 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-export default function Home({country}) {
+export default function Home({country}: any) {
   const ldclient = useLDClient();
   const context: any = ldclient?.getContext();
   context.location.country = country;
@@ -54,6 +54,6 @@ export default function Home({country}) {
   );
 }
 
-export const getServerSideProps = ({ query }) => ({
+export const getServerSideProps = ({ query }:any) => ({
   props: query
 });

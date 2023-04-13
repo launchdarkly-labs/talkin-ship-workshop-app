@@ -13,20 +13,24 @@ import Image from 'next/image';
 
 // TODO: I had to move ldclient because I couldn't define it here but then I can't call the hook
 // from here. If I move the function inside the component definition I get the same issues. WTAF
-let ldclient;
-const changeCountry = (country) => {
+
+
+const NavigationMenuDemo = ({country}: any) => {
+const {billing, storeEnabled, adminMode, newProductExperienceAccess, customerDebugPanel} = useFlags();
+const {cartCount} = useShoppingCart();
+
+const ldclient = useLDClient();
+
+const changeCountry = (country: any) => {
   if (ldclient) {
     console.log("foo")
     const context: any = ldclient?.getContext();
+    console.log(context)
     context.location.country = country;
     ldclient?.identify(context);
   }
 }
 
-const NavigationMenuDemo = ({country}) => {
-const {billing, storeEnabled, adminMode, newProductExperienceAccess, customerDebugPanel} = useFlags();
-const {cartCount} = useShoppingCart();
-  ldclient = useLDClient();
   return (
     <NavigationMenuRoot>
         <Link href="/">
