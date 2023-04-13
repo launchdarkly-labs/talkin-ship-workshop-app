@@ -41,7 +41,7 @@ if (typeof window !== "undefined") {
       }, 
       "location": {
         key: uuid(),
-        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
+        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
       }
     },
   });

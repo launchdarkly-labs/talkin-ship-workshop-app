@@ -8,7 +8,7 @@ import {
   createHttpLink,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
-import { useFlags } from "launchdarkly-react-client-sdk";
+import { useFlags, useLDClient } from "launchdarkly-react-client-sdk";
 import StoreContent from "@/components/storecontent";
 import InitialContent from "@/components/initialcontent";
 
@@ -30,7 +30,12 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-export default function Home() {
+export default function Home({country}) {
+  const ldclient = useLDClient();
+  const context: any = ldclient?.getContext();
+  context.location.country = country;
+  ldclient?.identify(context);
+
   //import flag values
   const { storeEnabled } = useFlags();
 
@@ -41,10 +46,14 @@ export default function Home() {
           <title>Toggle Outfitters</title>
         </Head>
         <header className={styles.header}>
-          <NavigationMenuDemo />
+          <NavigationMenuDemo country={country} />
         </header>
         {storeEnabled ? <StoreContent /> : <InitialContent />}
       </ApolloProvider>
     </>
   );
 }
+
+export const getServerSideProps = ({ query }) => ({
+  props: query
+});

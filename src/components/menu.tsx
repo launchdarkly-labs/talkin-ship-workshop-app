@@ -7,15 +7,26 @@ import { CaretDownIcon } from '@radix-ui/react-icons';
 import { mauve, blackA, blueDark, grayDark, red, slate, whiteA } from '@radix-ui/colors';
 import CartSummary from './cart-summary';
 import { useShoppingCart } from 'use-shopping-cart';
-import { useFlags } from 'launchdarkly-react-client-sdk';
+import { useFlags, useLDClient } from 'launchdarkly-react-client-sdk';
 import Login from './login';
 import Image from 'next/image';
 
+// TODO: I had to move ldclient because I couldn't define it here but then I can't call the hook
+// from here. If I move the function inside the component definition I get the same issues. WTAF
+let ldclient;
+const changeCountry = (country) => {
+  if (ldclient) {
+    console.log("foo")
+    const context: any = ldclient?.getContext();
+    context.location.country = country;
+    ldclient?.identify(context);
+  }
+}
 
-const NavigationMenuDemo = () => {
-const {billing, storeEnabled, adminMode} = useFlags();
+const NavigationMenuDemo = ({country}) => {
+const {billing, storeEnabled, adminMode, newProductExperienceAccess, customerDebugPanel} = useFlags();
 const {cartCount} = useShoppingCart();
-
+  ldclient = useLDClient();
   return (
     <NavigationMenuRoot>
         <Link href="/">
@@ -23,7 +34,6 @@ const {cartCount} = useShoppingCart();
         </Link>
       <NavigationMenuList>
         
-      
         {adminMode ? (
         <NavigationMenu.Item>
           <NavigationMenuTrigger>
@@ -32,6 +42,44 @@ const {cartCount} = useShoppingCart();
           </Button>
           </NavigationMenuTrigger>
         </NavigationMenu.Item>):null}
+        {customerDebugPanel ? (<NavigationMenu.Item>
+          <NavigationMenuTrigger>
+            <Button>Debug Data <CaretDown aria-hidden /></Button>
+          </NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <List>
+            <ListItem title="Selected Country">
+              {country}
+            </ListItem>
+            <ListItem title="Product Categories">
+              {newProductExperienceAccess.replaceAll('"','').replaceAll(',','s, ')}s
+            </ListItem>
+            <ListItem title="Admin Access">
+              {adminMode ? 'Enabled' : 'Disabled'}
+            </ListItem>
+            <ListItem title="Billing API">
+              {billing ? 'Enabled' : 'Disabled'}
+            </ListItem>
+          </List>
+          </NavigationMenuContent>
+        </NavigationMenu.Item>
+        ):null}
+        {customerDebugPanel ? (<NavigationMenu.Item>
+          <NavigationMenuTrigger>
+            <Button>Debug Country<CaretDown aria-hidden /></Button>
+          </NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <List>
+              <ListItem onClick={changeCountry.bind(null,'US')} title="USA">🇺🇸</ListItem>
+              <ListItem onClick={changeCountry.bind(null,'MX')} title="Mexico">🇲🇽</ListItem>
+              <ListItem onClick={changeCountry.bind(null,'CA')} title="Canada">🇨🇦</ListItem>
+              <ListItem onClick={changeCountry.bind(null,'UK')}title="United Kingdom">🇬🇧</ListItem>
+              <ListItem onClick={changeCountry.bind(null,'FR')} title="France">🇫🇷</ListItem>
+              <ListItem onClick={changeCountry.bind(null,'PT')} title="Portugal">🇵🇹</ListItem>
+            </List>
+          </NavigationMenuContent>
+        </NavigationMenu.Item>
+        ):null}
         <NavigationMenu.Item>
           <NavigationMenuTrigger>
             <Button>
