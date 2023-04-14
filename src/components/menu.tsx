@@ -13,10 +13,6 @@ import Image from 'next/image';
 import APIMigrationState from './status-toast';
 
 
-// TODO: I had to move ldclient because I couldn't define it here but then I can't call the hook
-// from here. If I move the function inside the component definition I get the same issues. WTAF
-
-
 const NavigationMenuDemo = ({country}: any) => {
 const [uiCountry, setUICountry] = React.useState(country);
 const {billing, storeEnabled, adminMode, newProductExperienceAccess, devdebug} = useFlags();
@@ -375,13 +371,6 @@ const ListItemText = styled('p', {
   color: mauve.mauve11,
   lineHeight: 1.4,
   fontWeight: 'initial',
-});
-
-const CalloutText = styled('p', {
-  all: 'unset',
-  color: mauve.mauve4,
-  fontSize: 14,
-  lineHeight: 1.3,
 });
 
 const ViewportPosition = styled('div', {
