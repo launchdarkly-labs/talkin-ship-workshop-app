@@ -30,13 +30,7 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-export default function Home({country}: any) {
-  const ldclient = useLDClient();
-  const context: any = ldclient?.getContext();
-  context.location.country = country;
-  ldclient?.identify(context);
-
-  //import flag values
+export default function Home() {
   const { storeEnabled } = useFlags();
 
   return (
@@ -46,14 +40,10 @@ export default function Home({country}: any) {
           <title>Toggle Outfitters</title>
         </Head>
         <header className={styles.header}>
-          <NavigationMenuDemo country={country} />
+          <NavigationMenuDemo />
         </header>
         {storeEnabled ? <StoreContent /> : <InitialContent />}
       </ApolloProvider>
     </>
   );
 }
-
-export const getServerSideProps = ({ query }:any) => ({
-  props: query
-});
