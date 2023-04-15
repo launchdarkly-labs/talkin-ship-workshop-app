@@ -8,7 +8,7 @@ import AddToCartButton from "./AddToCartButton";
 import { useShoppingCart } from "use-shopping-cart";
 import { useFlags, useLDClient } from "launchdarkly-react-client-sdk";
 import APIMigrationState from "./status-toast";
-import ProductCard from "./productcard";
+import ProductCard from "./ProductCard";
 import ReserveButton from "./ReserveButton";
 import useFetch from "@/hooks/useFetch";
 import useErrorHandling from "@/hooks/useErrorHandling";
