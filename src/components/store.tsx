@@ -11,6 +11,7 @@ import APIMigrationState from "./status-toast";
 import ProductCard from "./productcard";
 import ReserveButton from "./ReserveButton";
 import useFetch from "@/hooks/useFetch";
+import useErrorHandling from "@/hooks/useErrorHandling";
 
 
 const Inventory = () => {
@@ -69,29 +70,8 @@ const Inventory = () => {
     console.log("We're sending data to the experiment");
   }
 
-  // check if API is returning error message
-  const [errorState, setErrorState] = useState(false);
-  const { clearCart } = useShoppingCart();
-  const errorTesting = async () => {
-    try {
-      const response = await fetch("/api/checkout", {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      });
-      const jsonData = await response.json();
-      if (jsonData == "the API is unreachable") {
-        setErrorState(true);
-        clearCart();
-        return 502
-      } else {
-        setErrorState(false);
-      }
-    } catch (e) {
-      console.log("is it running?");
-    }
-  };
 
-  // const { data: errorTestingData, error: errorTestingError, isLoading: errorTestingLoading } = useFetch('/api/checkout');
+  const { errorState, setErrorState, errorTesting } = useErrorHandling();
 
   const [handleModal, setHandleModal] = useState(false);
 
