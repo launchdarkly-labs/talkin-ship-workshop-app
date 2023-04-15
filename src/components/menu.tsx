@@ -13,8 +13,8 @@ import Image from 'next/image';
 import APIMigrationState from './status-toast';
 
 
-const NavigationMenuDemo = ({country}: any) => {
-const [uiCountry, setUICountry] = React.useState(country);
+const NavigationMenuDemo = () => {
+const [uiCountry, setUICountry] = React.useState('US');
 const {billing, storeEnabled, adminMode, newProductExperienceAccess, devdebug} = useFlags();
 const {cartCount} = useShoppingCart();
 
