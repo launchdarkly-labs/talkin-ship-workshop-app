@@ -5,14 +5,12 @@ import gql from "graphql-tag";
 import { useQuery } from "@apollo/client";
 import ErrorDialog from "./ErrorDialog";
 import AddToCartButton from "./AddToCartButton";
-import { useShoppingCart } from "use-shopping-cart";
 import { useFlags, useLDClient } from "launchdarkly-react-client-sdk";
 import APIMigrationState from "./status-toast";
-import ProductCard from "./ProductCard";
 import ReserveButton from "./ReserveButton";
 import useFetch from "@/hooks/useFetch";
 import useErrorHandling from "@/hooks/useErrorHandling";
-
+import ProductCard from "./ProductCard";
 
 const Inventory = () => {
   // import flags
@@ -43,10 +41,10 @@ const Inventory = () => {
     }
     `;
 
-    const updateField = (field: string, event: any) => {
-      if (field === "name") setName(event.target.value);
-      if (field === "email") setEmail(event.target.value);
-    };
+  const updateField = (field: string, event: any) => {
+    if (field === "name") setName(event.target.value);
+    if (field === "email") setEmail(event.target.value);
+  };
 
   const onButtonClick = async () => {
     console.log("going");
@@ -70,27 +68,29 @@ const Inventory = () => {
     console.log("We're sending data to the experiment");
   }
 
-
   const { errorState, setErrorState, errorTesting } = useErrorHandling();
 
   const [handleModal, setHandleModal] = useState(false);
 
-  const { data: stripeProducts, error: stripeProductsError, isLoading: stripeProductsLoading } = useFetch('/api/products');
+  const {
+    data: stripeProducts,
+    error: stripeProductsError,
+    isLoading: stripeProductsLoading,
+  } = useFetch("/api/products");
 
   useEffect(() => {
     setErrorState(false);
-    console.log("1");
     return () => clearTimeout(timerRef.current);
   }, []);
-  
+
   const handleClickTest = (e: any) => {
     e.preventDefault();
     setHandleModal(!handleModal);
   };
-  
+
   const productsList = useMemo(() => {
     if (!stripeProducts) return [];
-  
+
     let productListTemp: any = [];
     let i = 0;
     Object.keys(stripeProducts).forEach((key) => {
@@ -101,26 +101,24 @@ const Inventory = () => {
       };
       i++;
     });
-  
+
     return productListTemp;
   }, [stripeProducts]);
-  
+
   const timerRef = useRef(0);
-  
+
   const { loading, error, data } = useQuery(TOGGLE_QUERY);
   if (loading) return <p>loading</p>;
   if (error) return <p> Error: {error.message}</p>;
-  
+
   if (stripeProductsLoading) return <p>Loading Stripe products...</p>;
   if (stripeProductsError) return <p>Error: {stripeProductsError.message}</p>;
-  
+
   let items = [...data.toggletableCollection.edges];
   items = items.sort((a: any, b: any) => {
     if (a.id > b.id) return 1;
     return -1;
   });
-  
-  
 
   return (
     <div>
@@ -131,11 +129,16 @@ const Inventory = () => {
       )}
       <div className={styles.grid}>
         {items.map((id: any, node: any) => (
-          <ProductCard key={node} item={id["node"]} isGoggle={id["node"].category === "goggle"}>
+          <ProductCard
+            key={node}
+            item={id["node"]}
+            isGoggle={id["node"].category === "goggle"}
+          >
             {billing ? (
               <AddToCartButton
                 product={productsList.find(
-                  (product: any) => product.product_id === id["node"].toggle_name
+                  (product: any) =>
+                    product.product_id === id["node"].toggle_name
                 )}
                 errorTesting={errorTesting}
                 experimentData={experimentData}
@@ -151,7 +154,10 @@ const Inventory = () => {
                 experimentData={experimentData}
               />
             )}
-            <ErrorDialog errorState={errorState} setErrorState={setErrorState} />
+            <ErrorDialog
+              errorState={errorState}
+              setErrorState={setErrorState}
+            />
           </ProductCard>
         ))}
       </div>

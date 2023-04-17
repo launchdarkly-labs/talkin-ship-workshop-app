@@ -93,13 +93,6 @@ const SeparatorRoot = styled(Separator.Root, {
 });
 
 const Box = styled('div', {});
-const Text = styled('div', {
-  color: 'black',
-  fontSize: 15,
-  //fontFamily: "inter",,
-  lineHeight: '20px',
-  marginBottom: 10,
-});
 
 const Button = styled('button', {
   all: 'unset',
