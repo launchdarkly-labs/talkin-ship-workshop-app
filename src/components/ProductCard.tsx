@@ -4,7 +4,10 @@ import styles from "@/styles/Home.module.css";
 
 const ProductCard = ({ item, isGoggle, children }: any) => {
   return (
-    <div className={isGoggle ? styles.newcard : styles.card}>
+    <div className={styles.card}>
+      {isGoggle && 
+          <div className={[styles.ribbon, styles['ribbon-top-right']].join(" ")}><span>NEW</span></div>
+      }
       <Image
         src={item.image}
         alt={item.toggle_name}
