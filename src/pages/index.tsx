@@ -31,10 +31,12 @@ const client = new ApolloClient({
 });
 
 export default function Home({country}: any) {
-  const ldclient = useLDClient();
-  const context: any = ldclient?.getContext();
-  context.location.country = country;
-  ldclient?.identify(context);
+  // TODO: This gets the country from the edge function, but it overwrites the manually set country
+  // TODO: Move country logic to global context
+  //   const ldclient = useLDClient();
+  // const context: any = ldclient?.getContext();
+  // context.location.country = country;
+  // ldclient?.identify(context);
 
   //import flag values
   const { storeEnabled } = useFlags();
