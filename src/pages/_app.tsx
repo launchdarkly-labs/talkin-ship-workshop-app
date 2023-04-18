@@ -43,6 +43,9 @@ if (typeof window !== "undefined") {
         key: uuid(),
         timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
         country: "US"
+      },
+      "environment": {
+        key: "QA Testing"
       }
     },
   });
