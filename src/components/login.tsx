@@ -53,7 +53,7 @@ export default function Login() {
             setHandleModal(true);
           }}
         >
-          <Button>Login</Button>
+          <Button className="text-lddblue">Login</Button>
         </AlertDialogTrigger>
         {handleModal && (
           <AlertDialog.Portal>
@@ -231,10 +231,10 @@ export const Button = styled("button", {
   all: "unset",
   display: "block",
   textDecoration: "none",
-  background: "black",
+  // background: "black",
   padding: "6px",
   outline: "none",
-  userSelect: "none",
+  // userSelect: "none",
   // lineHeight: 1,
   fontSize: 20,
   fontFamily: "Sohne",
@@ -243,16 +243,16 @@ export const Button = styled("button", {
   variants: {
     variant: {
       black: {
-        backgroundColor: "black",
+        // backgroundColor: "black",
         color: blueDark.blue10,
-        "&:hover": { backgroundColor: blueDark.blue3 },
+        // "&:hover": { backgroundColor: blueDark.blue3 },
         // "&:focus": { boxShadow: `0 0 0 2px ${blackA.blackA1}` },
       },
       red: {
-        backgroundColor: "black",
+        // backgroundColor: "black",
         color: red.red10,
-        "&:hover": { backgroundColor: red.red6 },
-        "&:focus": { boxShadow: `0 0 0 2px ${red.red7}` },
+        // "&:hover": { backgroundColor: red.red6 },
+        // "&:focus": { boxShadow: `0 0 0 2px ${red.red7}` },
       },
       green: {
         backgroundColor: grass.grass4,

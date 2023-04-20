@@ -4,10 +4,10 @@ import styles from "@/styles/Home.module.css";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/client";
 import ErrorDialog from "./ErrorDialog";
-import AddToCartButton from "./AddToCartButton";
+import AddToCartButton from "./ui/AddToCartButton";
 import { useFlags, useLDClient } from "launchdarkly-react-client-sdk";
-import APIMigrationState from "./status-toast";
-import ReserveButton from "./ReserveButton";
+import APIMigrationState from "./api-status";
+import ReserveButton from "./ui/ReserveButton";
 import useFetch from "@/hooks/useFetch";
 import useErrorHandling from "@/hooks/useErrorHandling";
 import ProductCard from "./ProductCard";
@@ -120,6 +120,8 @@ const Inventory = () => {
     return -1;
   });
 
+  
+
   return (
     <div>
       {devdebug && (
@@ -127,7 +129,7 @@ const Inventory = () => {
           <APIMigrationState />
         </div>
       )}
-      <div className={styles.grid}>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
         {items.map((id: any, node: any) => (
           <ProductCard
             key={node}
@@ -154,10 +156,11 @@ const Inventory = () => {
                 experimentData={experimentData}
               />
             )}
+            {billing && 
             <ErrorDialog
               errorState={errorState}
               setErrorState={setErrorState}
-            />
+            /> }
           </ProductCard>
         ))}
       </div>

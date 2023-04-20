@@ -1,29 +1,11 @@
 import * as React from "react";
 import Head from "next/head";
 import styles from "@/styles/Home.module.css";
-import { styled } from "@stitches/react";
-import {
-  violet,
-  mauve,
-  indigo,
-  purple,
-  blackA,
-  blue,
-  gray,
-  whiteA,
-  green,
-  blueDark,
-  grayDark,
-  orange,
-} from "@radix-ui/colors";
 import { Table } from "@nextui-org/react";
 import DatabaseState from "@/components/database-status";
-import Image from "next/image";
 import product from "@/config/products";
 import { useFlags } from "launchdarkly-react-client-sdk";
 import NavigationMenuDemo from "@/components/menu";
-
-
 
 type inventory = {
   id: number;
@@ -45,8 +27,9 @@ type product = {
 
 const InventoryPage = () => {
   const { dbTesting } = useFlags();
-  // retrieve data from postgres
+
   const [inventory, setInventory] = React.useState<any>([]);
+
   const getInventory = async () => {
     try {
       const response = await fetch("/api/inventory");
@@ -59,6 +42,7 @@ const InventoryPage = () => {
 
   React.useEffect(() => {
     getInventory();
+    getOrders();
   }, [dbTesting]);
 
   const [orders, setOrders] = React.useState<any>([]);
@@ -72,10 +56,6 @@ const InventoryPage = () => {
     }
   };
 
-  React.useEffect(() => {
-    getOrders();
-  }, [dbTesting]);
-
   return (
     <>
       <Head>
@@ -85,11 +65,14 @@ const InventoryPage = () => {
         <link rel="icon" href="/osmo.png" />
       </Head>
       <header className={styles.header}>
-          <NavigationMenuDemo />
-        </header>
+        <NavigationMenuDemo />
+      </header>
       <main className={styles.main}>
-      <DatabaseState />
+        <DatabaseState />
         <h1 style={{ padding: "10px", color: "white" }}>Current Inventory</h1>
+
+        {/* Database Migration Flag Here */}
+
         {dbTesting == "postgres" ? (
           <Table
             css={{

@@ -11,7 +11,7 @@ import {v4 as uuid} from 'uuid'
 import {osName, isMobile} from 'react-device-detect'
 
 
-const CartWithoutSSR = dynamic(() => import("../components/cart"), {
+const CartWithoutSSR = dynamic(() => import("../components/ui/cart"), {
   ssr: false,
 });
 
