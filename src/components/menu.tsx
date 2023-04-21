@@ -11,12 +11,19 @@ import { useFlags, useLDClient } from 'launchdarkly-react-client-sdk';
 import Login from './login';
 import Image from 'next/image';
 import APIMigrationState from './api-status';
+import AdminPanel from './adminPanel';
+import { Button } from './ui/button';
+import { ShoppingCartIcon } from 'lucide-react';
+import logo from '/public/images/ld-white-wide.png'
 
 
 const NavigationMenuDemo = () => {
 const [uiCountry, setUICountry] = React.useState('US');
 const {billing, storeEnabled, adminMode, newProductExperienceAccess, devdebug} = useFlags();
 const {cartCount} = useShoppingCart();
+
+const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+
 
 const ldclient = useLDClient();
 
@@ -33,15 +40,15 @@ const changeCountry = (country: any) => {
 const context: any = ldclient?.getContext();
 console.log(context)
   return (
-    <NavigationMenuRoot className="shadow-lg">
+    <NavigationMenuRoot className='bg-black p-2 shadow-2xl'>
         <Link href="/">
-          <Image src="/osmo.png" alt="logo" width={50} height={50} />
+          <Image src={logo} alt="logo" height={38} />
         </Link>
       <NavigationMenuList>  
         {devdebug ? (
         <NavigationMenu.Item>
           <NavigationMenuTrigger>
-            <Button style={{color: "orange"}}>Debug: App Data<CaretDownDebug aria-hidden /></Button>
+            <Button className="bg-orange-500 text-white">Debug: App Data<CaretDownDebug aria-hidden /></Button>
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <List>
@@ -63,7 +70,7 @@ console.log(context)
         ):null}
         {devdebug ? (<NavigationMenu.Item>
           <NavigationMenuTrigger>
-            <Button style={{color: "orange"}}>Debug: Country Override<CaretDownDebug aria-hidden /></Button>
+            <Button className="bg-orange-500 text-white">Debug: Country Override<CaretDownDebug aria-hidden /></Button>
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <List>
@@ -77,11 +84,17 @@ console.log(context)
           </NavigationMenuContent>
         </NavigationMenu.Item>
         ):null}
+        {adminMode ? (
+        <NavigationMenu.Item>
+          <NavigationMenuTrigger>
+            <AdminPanel />
+          </NavigationMenuTrigger>
+        </NavigationMenu.Item>):null}
         {(billing && storeEnabled) ?
         <NavigationMenu.Item>
           <NavigationMenuTrigger>
-            <Button>
-            Cart ({cartCount}) <CaretDown aria-hidden />
+            <Button className="bg-blue-500">
+            <ShoppingCartIcon className="mr-2" color="white" size={24} />({cartCount}) <CaretDown color='white' className='ml-2' aria-hidden />
             </Button>
           </NavigationMenuTrigger>
           <NavigationMenuContent>
@@ -91,15 +104,6 @@ console.log(context)
           </NavigationMenuContent>
         </NavigationMenu.Item>
         : null } 
-
-{adminMode ? (
-        <NavigationMenu.Item>
-          <NavigationMenuTrigger>
-          <Button>
-            <Link href='/inventory-screen'>Admin Panel</Link>
-          </Button>
-          </NavigationMenuTrigger>
-        </NavigationMenu.Item>):null}
         <NavigationMenu.Item>
           <NavigationMenuTrigger>
             <Login />
@@ -323,45 +327,45 @@ const CaretDownDebug = styled(CaretDownIcon, {
   '[data-state=open] &': { transform: 'rotate(-180deg)' },
 });
 
-const Button = styled("button", {
-  all: "unset",
-  display: "block",
-  textDecoration: "none",
-  padding: "6px 12px",
-  outline: "none",
-  userSelect: "none",
-  // lineHeight: 1,
-  fontSize: 20,
-  fontFamily: "Sohne",
-  color: blueDark.blue10,
+// const Button = styled("button", {
+//   all: "unset",
+//   display: "block",
+//   textDecoration: "none",
+//   padding: "6px 12px",
+//   outline: "none",
+//   userSelect: "none",
+//   // lineHeight: 1,
+//   fontSize: 20,
+//   fontFamily: "Sohne",
+//   color: blueDark.blue10,
 
-  variants: {
-    variant: {
-      black: {
-        // backgroundColor: "black",
-        // color: blueDark.blue10,
-        // "&:hover": { backgroundColor: blueDark.blue3 },
-        // "&:focus": { boxShadow: `0 0 0 2px ${blackA.blackA1}` },
-      },
-      red: {
-        backgroundColor: red.red4,
-        color: red.red10,
-        "&:hover": { backgroundColor: red.red6 },
-        "&:focus": { boxShadow: `0 0 0 2px ${red.red7}` },
-      },
-      blue: {
-        backgroundColor: "white",
-        color: blueDark.blue1,
-        boxShadow: `0 2px 10px ${blackA.blackA7}`,
-        "&:hover": { backgroundColor: slate.slate7 },
-        "&:focus": { boxShadow: `0 0 0 2px ${whiteA.whiteA1}` },
-      },
-    },
-  },
+//   variants: {
+//     variant: {
+//       black: {
+//         // backgroundColor: "black",
+//         // color: blueDark.blue10,
+//         // "&:hover": { backgroundColor: blueDark.blue3 },
+//         // "&:focus": { boxShadow: `0 0 0 2px ${blackA.blackA1}` },
+//       },
+//       red: {
+//         backgroundColor: red.red4,
+//         color: red.red10,
+//         "&:hover": { backgroundColor: red.red6 },
+//         "&:focus": { boxShadow: `0 0 0 2px ${red.red7}` },
+//       },
+//       blue: {
+//         backgroundColor: "white",
+//         color: blueDark.blue1,
+//         boxShadow: `0 2px 10px ${blackA.blackA7}`,
+//         "&:hover": { backgroundColor: slate.slate7 },
+//         "&:focus": { boxShadow: `0 0 0 2px ${whiteA.whiteA1}` },
+//       },
+//     },
+//   },
 
-  defaultVariants: {
-    variant: "black",
-  },
-});
+//   defaultVariants: {
+//     variant: "black",
+//   },
+// });
 
 export default NavigationMenuDemo;
