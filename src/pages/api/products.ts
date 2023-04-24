@@ -37,19 +37,3 @@ export default async function handler(
     return res.json(products);
   }
 }
-
-
-// import type { NextApiRequest, NextApiResponse } from 'next'
-// const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
-
-// export default async function handler(
-//     req: NextApiRequest,
-//     res: NextApiResponse,
-// ) {
-//     if (req.method === 'GET') {
-//         const products = await stripe.products.list({})
-//         console.log(products['data'])
-//         return res.json(products['data'])
-
-//     }
-// }

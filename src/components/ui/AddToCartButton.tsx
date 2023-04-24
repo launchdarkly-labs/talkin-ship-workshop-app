@@ -40,13 +40,8 @@ const AddToCartButton = ({ product, errorTesting, experimentData }: any) => {
         onClick={() => {
           clickRunner();
         }}><ShoppingCartIcon className="mr-2" color="white" size={24} />
-      {/* <button
-        className="grid mt-4 bottom-0 bg-green-500 hover:bg-green-700 text-white py-2 px-4 border w-full rounded-xl"
-        
-      > */}
         Add to Cart
         </Button>
-      {/* </button> */}
       <ToastRoot open={open} onOpenChange={setOpen}>
         <ToastTitle>Added to Cart!</ToastTitle>
         <RocketIcon

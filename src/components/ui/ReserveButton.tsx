@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { EmailField, NameField } from '../FormFields';
+import { EmailField, NameField } from './FormFields';
 import {
     FormRoot,
     AlertDialogOverlay,

@@ -148,11 +148,6 @@ const scaleOut = keyframes({
 });
 
 const NavigationMenuRoot = styled(NavigationMenu.Root, {
-  // position: 'relative',
-  // display: 'flex',
-  // justifyContent: 'center',
-  // width: '100vw',
-  // zIndex: 999,
   position: 'relative',
   display: 'flex',
   justifyContent: 'space-between',
@@ -167,11 +162,8 @@ const NavigationMenuList = styled(NavigationMenu.List, {
   display: 'flex',
   justifyContent: 'space-between',
   backgroundColor: 'none',
-  // padding: 4,
   zIndex: 999,
-  // borderRadius: 6,
   listStyle: 'none',
-  // boxShadow: `0 2px 10px ${blackA.blackA7}`,
   margin: 0,
 });
 
@@ -326,46 +318,5 @@ const CaretDownDebug = styled(CaretDownIcon, {
   transition: 'transform 250ms ease',
   '[data-state=open] &': { transform: 'rotate(-180deg)' },
 });
-
-// const Button = styled("button", {
-//   all: "unset",
-//   display: "block",
-//   textDecoration: "none",
-//   padding: "6px 12px",
-//   outline: "none",
-//   userSelect: "none",
-//   // lineHeight: 1,
-//   fontSize: 20,
-//   fontFamily: "Sohne",
-//   color: blueDark.blue10,
-
-//   variants: {
-//     variant: {
-//       black: {
-//         // backgroundColor: "black",
-//         // color: blueDark.blue10,
-//         // "&:hover": { backgroundColor: blueDark.blue3 },
-//         // "&:focus": { boxShadow: `0 0 0 2px ${blackA.blackA1}` },
-//       },
-//       red: {
-//         backgroundColor: red.red4,
-//         color: red.red10,
-//         "&:hover": { backgroundColor: red.red6 },
-//         "&:focus": { boxShadow: `0 0 0 2px ${red.red7}` },
-//       },
-//       blue: {
-//         backgroundColor: "white",
-//         color: blueDark.blue1,
-//         boxShadow: `0 2px 10px ${blackA.blackA7}`,
-//         "&:hover": { backgroundColor: slate.slate7 },
-//         "&:focus": { boxShadow: `0 0 0 2px ${whiteA.whiteA1}` },
-//       },
-//     },
-//   },
-
-//   defaultVariants: {
-//     variant: "black",
-//   },
-// });
 
 export default NavigationMenuDemo;
