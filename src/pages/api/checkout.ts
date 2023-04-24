@@ -22,12 +22,12 @@ export default async function handler(
     }
 
     const enableStripe = await ldClient.variation("enableStripe", context, false);
-    
+
     if (enableStripe) {
       try {
         const cartDetails = await req.body;
         let line_items: any = [];
-      let i = 0;
+        let i = 0;
         Object.keys(cartDetails['cartDetails']).forEach((key) => {
           line_items[i] = {
             price: cartDetails['cartDetails'][key].price_id,

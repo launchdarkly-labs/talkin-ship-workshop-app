@@ -1,6 +1,6 @@
 import { NextPage } from 'next'
-import Cart from '../components/cart'
-import CartSummary from '../components/cart-summary'
+import Cart from '../components/ui/cart'
+import CartSummary from '../components/ui/cart-summary'
 
 const DonatePage: NextPage = () => {
   return (

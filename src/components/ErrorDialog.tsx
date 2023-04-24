@@ -3,10 +3,10 @@ import {
     AlertDialogOverlay,
     AlertDialogContent,
     AlertDialogTitle,
-    Flex,
-    Button,
+    Flex
   } from './component-library';
   import * as AlertDialog from "@radix-ui/react-alert-dialog";
+import { Button, buttonVariants } from './ui/button';
   
 
 
@@ -27,7 +27,7 @@ const ErrorDialog = ({ errorState, setErrorState }: any) => {
               <Flex css={{ justifyContent: "flex-end" }}>
                 <AlertDialog.Cancel asChild>
                   <Button
-                    variant="green"
+                    variant="destructive"
                     onClick={() => {
                       setErrorState(false);
                     }}

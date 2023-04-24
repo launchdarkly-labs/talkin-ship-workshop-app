@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormField, FormLabel, FormMessage, Input, Flex } from './component-library';
+import { FormField, FormLabel, FormMessage, Input, Flex } from '../component-library';
 
 interface NameFieldProps {
     value: string;
