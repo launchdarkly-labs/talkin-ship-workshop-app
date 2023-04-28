@@ -20,7 +20,7 @@ import {
     updateField,
     formData,
     onButtonClick,
-    experimentData,
+    
   }: any) => {
     const { name, email } = formData;
   
@@ -30,7 +30,7 @@ import {
           <button className='grid my-4 bottom-0 bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 border  rounded-xl'
             onClick={() => {
               setHandleModal(true);
-              experimentData();
+              
             }}
           >
             Reserve Yours!

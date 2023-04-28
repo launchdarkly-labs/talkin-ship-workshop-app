@@ -1,12 +1,13 @@
 // hooks/useFetch.ts
 import { useState, useEffect } from 'react';
 
-const useFetch = (url: string, options: RequestInit = {}) => {
+const useFetch = (url: string, flag: string, options: RequestInit = {}) => {
   const [data, setData] = useState<any>(null);
   const [error, setError] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
+    console.log("Starting the run")
     const fetchData = async () => {
       setIsLoading(true);
       try {
@@ -22,7 +23,7 @@ const useFetch = (url: string, options: RequestInit = {}) => {
     };
 
     fetchData();
-  }, [url]);
+  }, [url, flag]);
 
   return { data, error, isLoading };
 };
