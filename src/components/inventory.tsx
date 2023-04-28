@@ -4,10 +4,10 @@ import styles from "@/styles/Home.module.css";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/client";
 import ErrorDialog from "./ErrorDialog";
-import AddToCartButton from "./AddToCartButton";
-import { useFlags, useLDClient } from "launchdarkly-react-client-sdk";
-import APIMigrationState from "./status-toast";
-import ReserveButton from "./ReserveButton";
+import AddToCartButton from "./ui/AddToCartButton";
+import { useFlags } from "launchdarkly-react-client-sdk";
+import APIMigrationState from "./api-status";
+import ReserveButton from "./ui/ReserveButton";
 import useFetch from "@/hooks/useFetch";
 import useErrorHandling from "@/hooks/useErrorHandling";
 import ProductCard from "./ProductCard";
@@ -61,13 +61,6 @@ const Inventory = () => {
     }
   };
 
-  // define metric for experimentation
-  const client = useLDClient();
-  function experimentData() {
-    client?.track("storeClicks");
-    console.log("We're sending data to the experiment");
-  }
-
   const { errorState, setErrorState, errorTesting } = useErrorHandling();
 
   const [handleModal, setHandleModal] = useState(false);
@@ -76,7 +69,7 @@ const Inventory = () => {
     data: stripeProducts,
     error: stripeProductsError,
     isLoading: stripeProductsLoading,
-  } = useFetch("/api/products");
+  } = useFetch("/api/products", 'billing');
 
   useEffect(() => {
     setErrorState(false);
@@ -93,6 +86,7 @@ const Inventory = () => {
 
     let productListTemp: any = [];
     let i = 0;
+    if (billing === true) {
     Object.keys(stripeProducts).forEach((key) => {
       productListTemp[i] = {
         id: i,
@@ -101,9 +95,19 @@ const Inventory = () => {
       };
       i++;
     });
+  } else {
+    Object.keys(stripeProducts).forEach((key) => {
+      productListTemp[i] = {
+        id: i,
+        product_id: stripeProducts[key]["name"],
+        price_id: stripeProducts[key]["table_price"],
+      };
+      i++;
+    });
+  }
 
     return productListTemp;
-  }, [stripeProducts]);
+  }, [stripeProducts, billing]);
 
   const timerRef = useRef(0);
 
@@ -120,6 +124,8 @@ const Inventory = () => {
     return -1;
   });
 
+  
+
   return (
     <div>
       {devdebug && (
@@ -127,21 +133,20 @@ const Inventory = () => {
           <APIMigrationState />
         </div>
       )}
-      <div className={styles.grid}>
+      <div className="grid sm:grid-cols-2 grid-cols-1 lg:grid-cols-4">
         {items.map((id: any, node: any) => (
           <ProductCard
             key={node}
             item={id["node"]}
             isGoggle={id["node"].category === "goggle"}
           >
-            {billing ? (
+            {billing  ? (
               <AddToCartButton
                 product={productsList.find(
                   (product: any) =>
                     product.product_id === id["node"].toggle_name
                 )}
                 errorTesting={errorTesting}
-                experimentData={experimentData}
               />
             ) : (
               <ReserveButton
@@ -151,13 +156,14 @@ const Inventory = () => {
                 updateField={updateField}
                 formData={{ name, email }}
                 onButtonClick={onButtonClick}
-                experimentData={experimentData}
+                
               />
             )}
+            {billing && 
             <ErrorDialog
               errorState={errorState}
               setErrorState={setErrorState}
-            />
+            /> }
           </ProductCard>
         ))}
       </div>

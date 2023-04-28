@@ -1,27 +1,37 @@
-import Image from "next/image";
 import styles from "@/styles/Home.module.css";
-
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const ProductCard = ({ item, isGoggle, children }: any) => {
   return (
-    <div className={styles.card}>
-      {isGoggle && 
-          <div className={[styles.ribbon, styles['ribbon-top-right']].join(" ")}><span>NEW</span></div>
-      }
-      <Image
-        src={item.image}
-        alt={item.toggle_name}
-        loading="lazy"
-        width={200}
-        height={200}
-        quality={100}
-        style={{ padding: 10 }}
-      />
-      <h2 className="text-2xl">{item.toggle_name}</h2>
-      <p style={{ padding: 4 }}>{item.description}</p>
-      Price per unit: <span style={{ color: "green" }}>{item.price} </span>
-      <div style={{ alignItems: "center", marginTop: 10 }}>{children}</div>
-    </div>
+    <Card className="m-2 border-2 shadow-lg rounded-xl group relative flex flex-col justify-center items-center h-72">
+      {isGoggle && (
+        <div className={[styles.ribbon, styles["ribbon-top-right"]].join(" ")}>
+          <span>NEW</span>
+        </div>
+      )}
+      <div className="group-hover:blur-[25px] transition-all duration-300 flex flex-col items-center">
+        <CardHeader className="flex flex-col items-center">
+          <img
+            className="h-48 w-48"
+            src={item.image}
+            alt={item.toggle_name}
+            loading="lazy"
+            style={{ padding: 10 }}
+          />
+          <CardTitle>{item.toggle_name}</CardTitle>
+        </CardHeader>
+      </div>
+      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 flex flex-col justify-center items-center transition-opacity duration-300">
+        <CardContent className="flex flex-col justify-center items-center">
+          <p className="mb-2 text-center">{item.description}</p>
+          <div className="flex justify-center w-full">{children}</div>
+          <p className="text-center mt-5">
+            Price per unit:{" "}
+            <span style={{ color: "green" }}>{item.price} </span>
+          </p>
+        </CardContent>
+      </div>
+    </Card>
   );
 };
 

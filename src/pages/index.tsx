@@ -9,8 +9,8 @@ import {
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { useFlags, useLDClient } from "launchdarkly-react-client-sdk";
-import StoreContent from "@/components/storecontent";
-import InitialContent from "@/components/initialcontent";
+import StoreLaunch from "@/components/storelaunch";
+import StorePreview from "@/components/storepreview";
 
 const httpLink = createHttpLink({
   uri: process.env.NEXT_PUBLIC_DB_URL + "/graphql/v1",
@@ -42,7 +42,7 @@ export default function Home() {
         <header className={styles.header}>
           <NavigationMenuDemo />
         </header>
-        {storeEnabled ? <StoreContent /> : <InitialContent />}
+        {storeEnabled ? <StoreLaunch /> : <StorePreview />}
       </ApolloProvider>
     </>
   );

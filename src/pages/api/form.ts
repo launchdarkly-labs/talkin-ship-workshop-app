@@ -8,7 +8,6 @@ export default async function handler(
   if (req.method === 'POST') {
     try {
       const supabase = createClient(process.env.NEXT_PUBLIC_DB_URL || "", process.env.NEXT_PUBLIC_DB_ANON_KEY || "")
-
       const formData = JSON.parse(req.body)
 
       const { data, error } = await supabase
@@ -21,24 +20,16 @@ export default async function handler(
     }
 
   } if (req.method === 'GET') {
-
     const supabase = createClient(process.env.NEXT_PUBLIC_DB_URL || "", process.env.NEXT_PUBLIC_DB_ANON_KEY || "")
-
     const { data, error } = await supabase
         .from('formfills')
         .select()
-
     try {
-      console.log(error)
       const formFills = data
       res.json(formFills);
     } catch (error:any) {
       console.error(error.message);
     }
-
   }
-
-    console.log(req)
-    console.log("logout")
     res.status(200)
 }

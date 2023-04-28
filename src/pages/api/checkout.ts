@@ -5,7 +5,19 @@ import { v4 as uuidv4 } from 'uuid';
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 import { getCookies, getCookie, setCookie, deleteCookie, CookieValueTypes } from 'cookies-next';
 
+/************************************************************************************************
 
+  This file uses the `enableStripe` feature flag in LaunchDarkly enable the Stripe API communication
+  for the billing component. 
+
+  User context is rendered from the 'ldcontext' cookie which gets set during login. It is decoded
+  into a JSON object below
+
+  This file also contains the error return for when the `billing` flag is enabled but not the 
+  `enableStripe` flag
+
+*************************************************************************************************
+*/
 
 export default async function handler(
   req: NextApiRequest,
@@ -14,20 +26,15 @@ export default async function handler(
   if (req.method === 'POST') {
 
     const ldClient = await getServerClient(process.env.LD_SDK_KEY || "");
-    const user = getCookie('user', { req, res })
+    const ldcontext: any = getCookie('ldcontext', { req, res })
 
-    const context: LDContext = {
-      key: uuidv4(),
-      name: user?.toString()
-    }
+    const enableStripe = await ldClient.variation("enableStripe", ldcontext, false);
 
-    const enableStripe = await ldClient.variation("enableStripe", context, false);
-    
     if (enableStripe) {
       try {
         const cartDetails = await req.body;
         let line_items: any = [];
-      let i = 0;
+        let i = 0;
         Object.keys(cartDetails['cartDetails']).forEach((key) => {
           line_items[i] = {
             price: cartDetails['cartDetails'][key].price_id,
@@ -52,14 +59,12 @@ export default async function handler(
     }
   } if (req.method === 'GET') {
     const ldClient = await getServerClient(process.env.LD_SDK_KEY || "");
-    const user = getCookie('user', { req, res })
+    const ldcontext: any = getCookie('ldcontext', { req, res })
 
-    const context: LDContext = {
-      key: uuidv4(),
-      name: user?.toString()
-    }
+    const json = decodeURIComponent(ldcontext);
+    const jsonObject = JSON.parse(json);
 
-    const enableStripe = await ldClient.variation("enableStripe", context, false);
+    const enableStripe = await ldClient.variation("enableStripe", jsonObject, false);
     if (enableStripe) {
       try {
         res.send("You are good to go!");

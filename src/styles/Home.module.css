@@ -4,13 +4,11 @@
   align-items: center;
   font-family: 'Sohne';
   /* padding: 2rem; */
-  min-height: 93vh;
+  /* min-height: 93vh; */
   /* background: radial-gradient(circle, rgba(237, 244, 201, 1) 7%, rgba(158, 173, 241, 1) 75%); */
-  background-image: url('/ld-bg.png');
-  /* background-image: url('/ld-bg-yellow.png'); */
-  
+  /* background-image: url('/ld-bg.png');
   background-repeat: no-repeat;  
-  background-size: cover;
+  background-size: cover; */
 
 }
 
@@ -25,10 +23,11 @@
   flex-direction: row;
   font-family: 'Sohne';
   align-items: flex-end;
-  padding: 1rem;
+  /* padding: 1rem; */
   width: 100%;
   /* z-index: 5; */
-  background-color: black;
+  /* background-color: black; */
+  /* box-shadow: 0 -6px 10px 5px rgba(0,0,0,0.5); */
 }
 
 .apistatus {
@@ -210,12 +209,12 @@
     padding: 4rem;
   }
 
-  .grid {
+  /* .grid {
     grid-template-columns: 1fr;
     margin-bottom: 120px;
     max-width: 320px;
     text-align: center;
-  }
+  } */
 
   .card {
     padding: 1rem 2.5rem;
@@ -283,12 +282,6 @@
   }
 }
 
-/* Tablet and Smaller Desktop */
-@media (min-width: 701px) and (max-width: 1120px) {
-  .grid {
-    grid-template-columns: repeat(2, 50%);
-  }
-}
 
 @media (prefers-color-scheme: dark) {
   .vercelLogo {
