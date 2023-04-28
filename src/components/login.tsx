@@ -1,19 +1,9 @@
 // @ts-nocheck
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
-import * as Form from "@radix-ui/react-form";
-import { styled, keyframes } from "@stitches/react";
-import {
-  blackA,
-  blueDark,
-  slate,
-  mauve,
-  grass,
-  red,
-  whiteA,
-} from "@radix-ui/colors";
+import { styled } from "@stitches/react";
 import { useState, useContext, useRef } from "react";
 import { useLDClient } from "launchdarkly-react-client-sdk";
-import { setCookie } from "cookies-next";
+import { setCookie, setCookies } from "cookies-next";
 import { deleteCookie } from "cookies-next";
 import { Login_data } from "@/context/state";
 import { Button } from "@/components/ui/button"
@@ -29,12 +19,6 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
-
-
-
-
-
-
 export default function Login() {
   const inputRef = useRef();
   const { isLoggedIn, setIsLoggedIn } = useContext(Login_data);
@@ -49,6 +33,7 @@ export default function Login() {
     context.user.name = inputRef.current.value;
     ldclient?.identify(context);
     setCookie("user", inputRef.current.value);
+    setCookie("ldcontext", context);
     console.log(context);
     setHandleModal(false);
   }

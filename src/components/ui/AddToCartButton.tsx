@@ -13,11 +13,12 @@ import { Button } from "@/components/ui/button"
 import { ShoppingCartIcon } from 'lucide-react';
 
 
-
-const AddToCartButton = ({ product, errorTesting, experimentData }: any) => {
+const AddToCartButton = ({ product, errorTesting }: any) => {
   const { addItem } = useShoppingCart();
   const [open, setOpen] = useState(false);
   const timerRef = useRef(0);
+
+  console.log(product)
 
   async function clickRunner() {
     const val = await errorTesting();
@@ -25,7 +26,6 @@ const AddToCartButton = ({ product, errorTesting, experimentData }: any) => {
         throw { message: "API IS DOWN"}    
     } else {
     await addItem(product);
-    await experimentData();
     setOpen(false);
     window.clearTimeout(timerRef.current);
     timerRef.current = window.setTimeout(() => {
@@ -35,6 +35,8 @@ const AddToCartButton = ({ product, errorTesting, experimentData }: any) => {
   }
 
   return (
+    <>
+    {product && 
     <Toast.Provider key={product.id} swipeDirection="left">
       <Button variant="green" className="mt-2" key={product.id}
         onClick={() => {
@@ -51,6 +53,8 @@ const AddToCartButton = ({ product, errorTesting, experimentData }: any) => {
       </ToastRoot>
       <ToastViewport />
     </Toast.Provider>
+}
+    </>
   );
 };
 
