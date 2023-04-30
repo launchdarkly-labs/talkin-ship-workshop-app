@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const ProductCard = ({ item, isGoggle, children }: any) => {
   return (
-    <Card className="m-2 border-2 shadow-lg rounded-xl group relative flex flex-col justify-center items-center h-72">
+    <Card className="m-2 border-2 shadow-lg rounded-xl group relative flex flex-col justify-center items-center h-72 animate-fade-in">
       {isGoggle && (
         <div className={[styles.ribbon, styles["ribbon-top-right"]].join(" ")}>
           <span>NEW</span>
@@ -13,12 +13,12 @@ const ProductCard = ({ item, isGoggle, children }: any) => {
         <CardHeader className="flex flex-col items-center">
           <img
             className="h-48 w-48"
-            src={item.image}
-            alt={item.toggle_name}
+            src={"/images/"+item.image}
+            alt={item.name}
             loading="lazy"
             style={{ padding: 10 }}
           />
-          <CardTitle>{item.toggle_name}</CardTitle>
+          <CardTitle>{item.name||item.product_id}</CardTitle>
         </CardHeader>
       </div>
       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 flex flex-col justify-center items-center transition-opacity duration-300">
@@ -27,7 +27,7 @@ const ProductCard = ({ item, isGoggle, children }: any) => {
           <div className="flex justify-center w-full">{children}</div>
           <p className="text-center mt-5">
             Price per unit:{" "}
-            <span style={{ color: "green" }}>{item.price} </span>
+            <span style={{ color: "green" }}>${item.price} </span>
           </p>
         </CardContent>
       </div>

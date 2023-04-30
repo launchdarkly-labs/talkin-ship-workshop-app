@@ -23,12 +23,17 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+
+  const ldClient = await getServerClient(process.env.LD_SDK_KEY || "");
+  const clientContext: any = getCookie("ldcontext", { req, res });
+
+  const json = decodeURIComponent(clientContext);
+  const jsonObject = JSON.parse(json);
+
+
+
   if (req.method === 'POST') {
-
-    const ldClient = await getServerClient(process.env.LD_SDK_KEY || "");
-    const ldcontext: any = getCookie('ldcontext', { req, res })
-
-    const enableStripe = await ldClient.variation("enableStripe", ldcontext, false);
+  const enableStripe = await ldClient.variation("enableStripe", jsonObject, false);
 
     if (enableStripe) {
       try {
@@ -36,6 +41,7 @@ export default async function handler(
         let line_items: any = [];
         let i = 0;
         Object.keys(cartDetails['cartDetails']).forEach((key) => {
+          console.log(cartDetails['cartDetails'][key])
           line_items[i] = {
             price: cartDetails['cartDetails'][key].price_id,
             quantity: cartDetails['cartDetails'][key].quantity,
@@ -43,7 +49,7 @@ export default async function handler(
           i++;
         }
         );
-        console.log(line_items)
+        
 
         const session = await stripe.checkout.sessions.create({
           mode: "payment",
@@ -54,17 +60,13 @@ export default async function handler(
         console.log(session.url)
         return res.json({ url: session.url });
       } catch (error: any) {
-        // console.error(error.message);
+        console.error(error.message);
+        return res.json("api error");
       }
     }
   } if (req.method === 'GET') {
-    const ldClient = await getServerClient(process.env.LD_SDK_KEY || "");
-    const ldcontext: any = getCookie('ldcontext', { req, res })
-
-    const json = decodeURIComponent(ldcontext);
-    const jsonObject = JSON.parse(json);
-
     const enableStripe = await ldClient.variation("enableStripe", jsonObject, false);
+  
     if (enableStripe) {
       try {
         res.send("You are good to go!");

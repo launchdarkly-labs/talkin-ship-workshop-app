@@ -21,19 +21,14 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-
   
-
   const ldClient = await getServerClient(process.env.LD_SDK_KEY || "");
-  const user = getCookie('user', { req, res })
   const clientContext: any = getCookie('ldcontext', { req, res })
 
   const json = decodeURIComponent(clientContext);
   const jsonObject = JSON.parse(json);
 
   const dbTesting = await ldClient.variation("dbTesting", jsonObject, false);
-
-  console.log(dbTesting)
 
   if (dbTesting == 'postgres') {
     const supabase = createClient(process.env.NEXT_PUBLIC_DB_URL || "", process.env.NEXT_PUBLIC_DB_ANON_KEY || "")

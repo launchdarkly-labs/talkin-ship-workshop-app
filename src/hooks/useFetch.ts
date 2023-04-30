@@ -13,7 +13,6 @@ const useFetch = (url: string, flag: string, options: RequestInit = {}) => {
       try {
         const response = await fetch(url, options);
         const jsonData = await response.json();
-        console.log(jsonData)
         setData(jsonData);
       } catch (error) {
         setError(error);

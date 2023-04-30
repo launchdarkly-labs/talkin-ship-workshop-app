@@ -43,6 +43,11 @@ async function listAllProducts() {
   return products;
 }
 
+const getPriceFromApi = async (priceId: string) => {
+  const price = await stripe.prices.retrieve(priceId);
+  return price.unit_amount ?? 0;
+};
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
@@ -55,12 +60,29 @@ export default async function handler(
     const json = decodeURIComponent(clientContext);
     const jsonObject = JSON.parse(json);
 
-    const billing = await ldClient.variation("billing", jsonObject, false);
+    const enableStripe = await ldClient.variation("enableStripe", jsonObject, false);
 
-    if (billing) {
+    if (enableStripe) {
       const products = await listAllProducts();
-      console.log(products)
-      return res.json(products);
+
+      const productListTemp = await Promise.all(
+        products.map(async (product, i) => {
+          const priceId = product.default_price;
+          const price = typeof priceId === 'string' ? await getPriceFromApi(priceId) : 0;
+      
+          return {
+            id: i,
+            product_id: product.metadata.product_id,
+            description: product.description,
+            price_id: priceId,
+            category: product.metadata.category,
+            image: product.metadata.image,
+            price: price / 100, // Add the price field
+          };
+        })
+      );
+
+      return res.json(productListTemp);
     } else {
       return res.json(product)
     }

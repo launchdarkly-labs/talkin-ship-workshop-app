@@ -23,6 +23,7 @@ const useErrorHandling = () => {
       }
     } catch (e) {
       console.log("is it running?");
+      console.log(e)
     }
   };
 

@@ -45,7 +45,8 @@ if (typeof window !== "undefined") {
         country: "US"
       },
       "environment": {
-        key: "QA Testing"
+        key: uuid(),
+        name: "QA Testing"
       }
     },
   });
