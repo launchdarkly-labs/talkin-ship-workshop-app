@@ -27,8 +27,18 @@ export default async function handler(
   const ldClient = await getServerClient(process.env.LD_SDK_KEY || "");
   const clientContext: any = getCookie("ldcontext", { req, res });
 
-  const json = decodeURIComponent(clientContext);
-  const jsonObject = JSON.parse(json);
+  let enableStripe;
+  let jsonObject
+
+  if (clientContext == undefined) {
+    jsonObject = {
+      key: uuidv4(),
+      user: "Anonymous"
+    }
+  } else {
+    const json = decodeURIComponent(clientContext);
+    jsonObject = JSON.parse(json);
+  }
 
 
 

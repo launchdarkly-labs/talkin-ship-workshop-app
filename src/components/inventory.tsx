@@ -69,7 +69,7 @@ const Inventory = () => {
     data: stripeProducts,
     error: stripeProductsError,
     isLoading: stripeProductsLoading,
-  } = useFetch("/api/products", enableStripe);
+  } = useFetch("/api/products", enableStripe, newProductExperienceAccess );
 
   useEffect(() => {
     setErrorState(false);

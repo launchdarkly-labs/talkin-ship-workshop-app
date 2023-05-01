@@ -60,7 +60,8 @@ export default async function handler(
     const clientContext: any = getCookie('ldcontext', { req, res })
 
     let enableStripe;
-    let jsonObject
+    let jsonObject;
+    let newProductExperienceAccess;
 
     if (clientContext == undefined) {
       jsonObject = {
@@ -71,15 +72,20 @@ export default async function handler(
       const json = decodeURIComponent(clientContext);
       jsonObject = JSON.parse(json);
     }
-
+    
+    
 
     enableStripe = await ldClient.variation("enableStripe", jsonObject, false);
+    newProductExperienceAccess = await ldClient.variation("new-product-experience-access", jsonObject, 'toggle');
 
     if (enableStripe) {
       const products = await listAllProducts();
+      const allowedCategories = newProductExperienceAccess.split(',');
+
+      const filteredProducts = products.filter(product => allowedCategories.includes(product.metadata.category));
 
       const productListTemp = await Promise.all(
-        products.map(async (product, i) => {
+        filteredProducts.map(async (product, i) => {
           const priceId = product.default_price;
           const price = typeof priceId === 'string' ? await getPriceFromApi(priceId) : 0;
 
