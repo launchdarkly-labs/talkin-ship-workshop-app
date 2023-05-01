@@ -108,10 +108,20 @@ export default async function handler(
   const ldClient = await getServerClient(process.env.LD_SDK_KEY || "");
   const clientContext: any = getCookie('ldcontext', { req, res })
 
-  const json = decodeURIComponent(clientContext);
-  const jsonObject = JSON.parse(json);
+  let dbTesting;
+  let jsonObject
 
-  const dbTesting = await ldClient.variation("dbTesting", jsonObject, false);
+  if (clientContext == undefined) {
+    jsonObject = {
+      key: uuidv4(),
+      user: "Anonymous"
+    }
+  } else {
+    const json = decodeURIComponent(clientContext);
+    jsonObject = JSON.parse(json);
+  }
+
+  dbTesting = await ldClient.variation("dbTesting", jsonObject, false);
 
   if (dbTesting == 'postgres') {
     const supabase = createClient(process.env.NEXT_PUBLIC_DB_URL || "", process.env.NEXT_PUBLIC_DB_ANON_KEY || "")
