@@ -15,6 +15,7 @@ const InitialContent = () => (
         width={200}
         height={200}
         quality={100}
+        priority={true}
       />
     </div>
     <div className="flex place-content-center">

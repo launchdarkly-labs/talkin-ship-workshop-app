@@ -6,10 +6,10 @@ import { Button } from "./ui/button";
 const StoreContent = () => (
   <main className={styles.main}>
     
-    <div className="flex text-4xl border-b-4 border-orange-600 w-full md:text-6xl lg:text-8xl text-yellow-500 mx-auto place-items-center place-content-center">
+    <div className="flex text-4xl border-b-4 border-orange-600 w-full md:text-6xl lg:text-8xl text-yellow-500 mx-auto place-items-center place-content-center animate-fade-in">
       <div className="">
           <Image
-            src="/Toggle-5-Clipped.png"
+            src="/images/Toggle-5-Clipped.png"
             alt="Toggle"
             width={325}
             height={325}

@@ -1,6 +1,7 @@
 import product from '@/config/products';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import Stripe from 'stripe';
+import { v4 as uuidv4 } from 'uuid';
 import { getServerClient } from '../../utils/ld-server';
 import { getCookie } from 'cookies-next';
 
@@ -43,24 +44,58 @@ async function listAllProducts() {
   return products;
 }
 
+const getPriceFromApi = async (priceId: string) => {
+  const price = await stripe.prices.retrieve(priceId);
+  return price.unit_amount ?? 0;
+};
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
+
   if (req.method === 'GET') {
 
     const ldClient = await getServerClient(process.env.LD_SDK_KEY || "");
     const clientContext: any = getCookie('ldcontext', { req, res })
 
-    const json = decodeURIComponent(clientContext);
-    const jsonObject = JSON.parse(json);
+    let enableStripe;
+    let jsonObject
 
-    const billing = await ldClient.variation("billing", jsonObject, false);
+    if (clientContext == undefined) {
+      jsonObject = {
+        key: uuidv4(),
+        user: "Anonymous"
+      }
+    } else {
+      const json = decodeURIComponent(clientContext);
+      jsonObject = JSON.parse(json);
+    }
 
-    if (billing) {
+
+    enableStripe = await ldClient.variation("enableStripe", jsonObject, false);
+
+    if (enableStripe) {
       const products = await listAllProducts();
-      console.log(products)
-      return res.json(products);
+
+      const productListTemp = await Promise.all(
+        products.map(async (product, i) => {
+          const priceId = product.default_price;
+          const price = typeof priceId === 'string' ? await getPriceFromApi(priceId) : 0;
+
+          return {
+            id: i,
+            product_id: product.metadata.product_id,
+            description: product.description,
+            price_id: priceId,
+            category: product.metadata.category,
+            image: product.metadata.image,
+            price: price / 100, // Add the price field
+          };
+        })
+      );
+
+      return res.json(productListTemp);
     } else {
       return res.json(product)
     }

@@ -35,7 +35,7 @@ export default function Home() {
 
   return (
     <>
-      <ApolloProvider client={client}>
+      {/* <ApolloProvider client={client}> */}
         <Head>
           <title>Toggle Outfitters</title>
         </Head>
@@ -43,7 +43,7 @@ export default function Home() {
           <NavigationMenuDemo />
         </header>
         {storeEnabled ? <StoreLaunch /> : <StorePreview />}
-      </ApolloProvider>
+      {/* </ApolloProvider> */}
     </>
   );
 }

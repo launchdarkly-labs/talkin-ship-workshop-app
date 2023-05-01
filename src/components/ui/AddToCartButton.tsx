@@ -17,9 +17,7 @@ const AddToCartButton = ({ product, errorTesting }: any) => {
   const { addItem } = useShoppingCart();
   const [open, setOpen] = useState(false);
   const timerRef = useRef(0);
-
-  console.log(product)
-
+  
   async function clickRunner() {
     const val = await errorTesting();
     if (val == 502) {

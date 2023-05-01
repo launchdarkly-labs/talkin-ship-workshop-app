@@ -14,32 +14,32 @@ import ProductCard from "./ProductCard";
 
 const Inventory = () => {
   // import flags
-  const { devdebug, billing, newProductExperienceAccess } = useFlags();
+  const { devdebug, billing, enableStripe, newProductExperienceAccess } = useFlags();
 
   //function for adding form fill data to database
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
 
   //GraphQL query for the inventory
-  const TOGGLE_QUERY = gql`
-    query ToggleQuery {
-      toggletableCollection(
-        filter: { category: {in: [${newProductExperienceAccess}] }}
-        ) {
-        edges {
-          node {
-            description
-            id
-            image
-            nodeId
-            price
-            toggle_name
-            category
-          }
-        }
-      }
-    }
-    `;
+  // const TOGGLE_QUERY = gql`
+  //   query ToggleQuery {
+  //     toggletableCollection(
+  //       filter: { category: {in: [${newProductExperienceAccess}] }}
+  //       ) {
+  //       edges {
+  //         node {
+  //           description
+  //           id
+  //           image
+  //           nodeId
+  //           price
+  //           toggle_name
+  //           category
+  //         }
+  //       }
+  //     }
+  //   }
+  //   `;
 
   const updateField = (field: string, event: any) => {
     if (field === "name") setName(event.target.value);
@@ -47,7 +47,7 @@ const Inventory = () => {
   };
 
   const onButtonClick = async () => {
-    console.log("going");
+    
     try {
       const body = { name, email };
       const response = await fetch("/api/form", {
@@ -69,7 +69,7 @@ const Inventory = () => {
     data: stripeProducts,
     error: stripeProductsError,
     isLoading: stripeProductsLoading,
-  } = useFetch("/api/products", 'billing');
+  } = useFetch("/api/products", enableStripe);
 
   useEffect(() => {
     setErrorState(false);
@@ -81,48 +81,55 @@ const Inventory = () => {
     setHandleModal(!handleModal);
   };
 
-  const productsList = useMemo(() => {
-    if (!stripeProducts) return [];
+  // const productsList = useMemo(() => {
+  //   if (!stripeProducts) return [];
+    
 
-    let productListTemp: any = [];
-    let i = 0;
-    if (billing === true) {
-    Object.keys(stripeProducts).forEach((key) => {
-      productListTemp[i] = {
-        id: i,
-        product_id: stripeProducts[key]["metadata"]["product_id"],
-        price_id: stripeProducts[key]["default_price"],
-      };
-      i++;
-    });
-  } else {
-    Object.keys(stripeProducts).forEach((key) => {
-      productListTemp[i] = {
-        id: i,
-        product_id: stripeProducts[key]["name"],
-        price_id: stripeProducts[key]["table_price"],
-      };
-      i++;
-    });
-  }
+  //   let productListTemp: any = [];
+  //   let i = 0;
+  //   if (billing === true) {
+  //   Object.keys(stripeProducts).forEach((key) => {
+  //     console.log(stripeProducts[key])
+  //     productListTemp[i] = {
+  //       id: i,
+  //       product_id: stripeProducts[key]["product_id"],
+  //       price_id: stripeProducts[key]["default_price"],
+  //     };
+  //     i++;
+  //   });
+  // } else {
+  //   Object.keys(stripeProducts).forEach((key) => {
+  //     productListTemp[i] = {
+  //       id: i,
+  //       product_id: stripeProducts[key]["name"],
+  //       price_id: stripeProducts[key]["table_price"],
+  //     };
+  //     i++;
+  //   });
+  // }
 
-    return productListTemp;
-  }, [stripeProducts, billing]);
+  //   return productListTemp;
+  // }, [stripeProducts, billing]);
 
   const timerRef = useRef(0);
 
-  const { loading, error, data } = useQuery(TOGGLE_QUERY);
-  if (loading) return <p>loading</p>;
-  if (error) return <p> Error: {error.message}</p>;
+  // const { loading, error, data } = useQuery(TOGGLE_QUERY);
+  // if (loading) return <p>loading</p>;
+  // if (error) return <p> Error: {error.message}</p>;
 
-  if (stripeProductsLoading) return <p>Loading Stripe products...</p>;
-  if (stripeProductsError) return <p>Error: {stripeProductsError.message}</p>;
+  if (stripeProductsLoading) {
+    return (
+      <div className="flex justify-center items-center">
+        <div className="animate-spin w-16 h-16 border-t-4 border-orange-500 border-solid rounded-full"></div>
+      </div>
+    );
+  }  if (stripeProductsError) return <p>Error: {stripeProductsError.message}</p>;
 
-  let items = [...data.toggletableCollection.edges];
-  items = items.sort((a: any, b: any) => {
-    if (a.id > b.id) return 1;
-    return -1;
-  });
+  // let items = [...data.toggletableCollection.edges];
+  // items = items.sort((a: any, b: any) => {
+  //   if (a.id > b.id) return 1;
+  //   return -1;
+  // });
 
   
 
@@ -134,18 +141,15 @@ const Inventory = () => {
         </div>
       )}
       <div className="grid sm:grid-cols-2 grid-cols-1 lg:grid-cols-4">
-        {items.map((id: any, node: any) => (
+        {stripeProducts.map((id: any, node: any) => (
           <ProductCard
             key={node}
-            item={id["node"]}
-            isGoggle={id["node"].category === "goggle"}
+            item={id}
+            isGoggle={id.category === "goggle"}
           >
             {billing  ? (
               <AddToCartButton
-                product={productsList.find(
-                  (product: any) =>
-                    product.product_id === id["node"].toggle_name
-                )}
+                product={id}
                 errorTesting={errorTesting}
               />
             ) : (
