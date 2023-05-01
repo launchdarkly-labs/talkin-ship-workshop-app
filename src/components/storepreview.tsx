@@ -25,7 +25,7 @@ const InitialContent = () => (
       <div className="flex flex-row place-content-center">
         <div className="bg-white shadow-2xl p-4 m-4 rounded-2xl">
         <Image
-          src="/toggle-1.jpg"
+          src="/images/toggle-1.jpg"
           alt="Toggle"
           width={200}
           height={200}
@@ -35,7 +35,7 @@ const InitialContent = () => (
         </div>
         <div className="bg-white shadow-2xl p-4 m-4 rounded-2xl">
         <Image
-          src="/toggle-2.webp"
+          src="/images/toggle-2.webp"
           alt="Toggle"
           width={200}
           height={200}
@@ -45,7 +45,7 @@ const InitialContent = () => (
         </div>
         <div className="bg-white shadow-2xl p-4 m-4 rounded-2xl">
         <Image
-          src="/toggle-3.webp"
+          src="/images/toggle-3.webp"
           alt="Toggle"
           width={200}
           height={200}
@@ -55,7 +55,7 @@ const InitialContent = () => (
         </div>
         <div className="bg-white shadow-2xl p-4 m-4 rounded-2xl">
         <Image
-          src="/toggle-4.webp"
+          src="/images/toggle-4.webp"
           alt="Toggle"
           width={200}
           height={200}
