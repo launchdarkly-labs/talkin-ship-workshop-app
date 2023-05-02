@@ -81,6 +81,7 @@ export default async function handler(
     if (enableStripe) {
       const products = await listAllProducts();
       const allowedCategories = newProductExperienceAccess.split(',');
+      console.log(allowedCategories)
 
       const filteredProducts = products.filter(product => allowedCategories.includes(product.metadata.category));
 
