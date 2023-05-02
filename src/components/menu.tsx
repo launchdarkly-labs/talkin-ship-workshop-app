@@ -15,7 +15,7 @@ import AdminPanel from './adminPanel';
 import { Button } from './ui/button';
 import { ShoppingCartIcon } from 'lucide-react';
 import logo from '/public/images/ld-white-wide.png'
-
+import { setCookie } from "cookies-next";
 
 const NavigationMenuDemo = () => {
 const [uiCountry, setUICountry] = React.useState('US');
@@ -34,6 +34,7 @@ const changeCountry = (country: any) => {
     const context: any = ldclient?.getContext();
     context.location.country = country;
     ldclient?.identify(context);
+    setCookie("ldcontext", context);
   }
 }
 
