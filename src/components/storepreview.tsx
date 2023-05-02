@@ -2,7 +2,7 @@ import Image from "next/image";
 import styles from "@/styles/Home.module.css";
 
 const InitialContent = () => (
-  <main className={styles.main}>
+  <main className={`${styles.main} flex flex-col items-center justify-center min-h-screen`}>
     <div>
       <div>
     <div className=" flex place-content-center">
@@ -19,7 +19,7 @@ const InitialContent = () => (
       />
     </div>
     <div className="flex place-content-center">
-      <h2 className="font-bold text-2xl lg:text-6xl">Coming Soon</h2>
+      <h2 className="font-bold text-2xl lg:text-6xl">Launching Soon</h2>
     </div>
     </div>
       <div className="flex flex-row place-content-center">
@@ -65,12 +65,6 @@ const InitialContent = () => (
         </div>
       </div>
       <div className="flex text-2xl mt-4 place-content-center">
-      {/* <h3 className="">
-        For information about ordering our toggles, please contact{" "}
-        <a href="mailto:thetogglestore@toggles.com" style={{ color: "blue" }}>
-          thetogglestore@toggles.com
-        </a>
-      </h3> */}
       </div>
     </div>
   </main>
