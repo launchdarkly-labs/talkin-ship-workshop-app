@@ -1,8 +1,6 @@
 "use client";
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef } from "react";
 import styles from "@/styles/Home.module.css";
-import gql from "graphql-tag";
-import { useQuery } from "@apollo/client";
 import ErrorDialog from "./ErrorDialog";
 import AddToCartButton from "./ui/AddToCartButton";
 import { useFlags } from "launchdarkly-react-client-sdk";
@@ -19,27 +17,6 @@ const Inventory = () => {
   //function for adding form fill data to database
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-
-  //GraphQL query for the inventory
-  // const TOGGLE_QUERY = gql`
-  //   query ToggleQuery {
-  //     toggletableCollection(
-  //       filter: { category: {in: [${newProductExperienceAccess}] }}
-  //       ) {
-  //       edges {
-  //         node {
-  //           description
-  //           id
-  //           image
-  //           nodeId
-  //           price
-  //           toggle_name
-  //           category
-  //         }
-  //       }
-  //     }
-  //   }
-  //   `;
 
   const updateField = (field: string, event: any) => {
     if (field === "name") setName(event.target.value);
@@ -81,41 +58,7 @@ const Inventory = () => {
     setHandleModal(!handleModal);
   };
 
-  // const productsList = useMemo(() => {
-  //   if (!stripeProducts) return [];
-    
-
-  //   let productListTemp: any = [];
-  //   let i = 0;
-  //   if (billing === true) {
-  //   Object.keys(stripeProducts).forEach((key) => {
-  //     console.log(stripeProducts[key])
-  //     productListTemp[i] = {
-  //       id: i,
-  //       product_id: stripeProducts[key]["product_id"],
-  //       price_id: stripeProducts[key]["default_price"],
-  //     };
-  //     i++;
-  //   });
-  // } else {
-  //   Object.keys(stripeProducts).forEach((key) => {
-  //     productListTemp[i] = {
-  //       id: i,
-  //       product_id: stripeProducts[key]["name"],
-  //       price_id: stripeProducts[key]["table_price"],
-  //     };
-  //     i++;
-  //   });
-  // }
-
-  //   return productListTemp;
-  // }, [stripeProducts, billing]);
-
   const timerRef = useRef(0);
-
-  // const { loading, error, data } = useQuery(TOGGLE_QUERY);
-  // if (loading) return <p>loading</p>;
-  // if (error) return <p> Error: {error.message}</p>;
 
   if (stripeProductsLoading) {
     return (
@@ -123,15 +66,7 @@ const Inventory = () => {
         <div className="animate-spin w-16 h-16 border-t-4 border-orange-500 border-solid rounded-full"></div>
       </div>
     );
-  }  if (stripeProductsError) return <p>Error: {stripeProductsError.message}</p>;
-
-  // let items = [...data.toggletableCollection.edges];
-  // items = items.sort((a: any, b: any) => {
-  //   if (a.id > b.id) return 1;
-  //   return -1;
-  // });
-
-  
+  }  if (stripeProductsError) return <p>Error: {stripeProductsError.message}</p>; 
 
   return (
     <div>

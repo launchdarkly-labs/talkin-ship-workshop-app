@@ -1,9 +1,9 @@
-import product from '@/config/products';
-import type { NextApiRequest, NextApiResponse } from 'next';
-import Stripe from 'stripe';
-import { v4 as uuidv4 } from 'uuid';
-import { getServerClient } from '../../utils/ld-server';
-import { getCookie } from 'cookies-next';
+import product from "@/config/products";
+import type { NextApiRequest, NextApiResponse } from "next";
+import Stripe from "stripe";
+import { v4 as uuidv4 } from "uuid";
+import { getServerClient } from "../../utils/ld-server";
+import { getCookie } from "cookies-next";
 
 /************************************************************************************************
 
@@ -16,9 +16,8 @@ import { getCookie } from 'cookies-next';
   *************************************************************************************************
   */
 
-
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
-  apiVersion: '2022-11-15', // or whichever version you're using
+  apiVersion: "2022-11-15", // or whichever version you're using
 });
 
 async function listAllProducts() {
@@ -51,13 +50,11 @@ const getPriceFromApi = async (priceId: string) => {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse,
+  res: NextApiResponse
 ) {
-
-  if (req.method === 'GET') {
-
+  if (req.method === "GET") {
     const ldClient = await getServerClient(process.env.LD_SDK_KEY || "");
-    const clientContext: any = getCookie('ldcontext', { req, res })
+    const clientContext: any = getCookie("ldcontext", { req, res });
 
     let enableStripe;
     let jsonObject;
@@ -66,29 +63,33 @@ export default async function handler(
     if (clientContext == undefined) {
       jsonObject = {
         key: uuidv4(),
-        user: "Anonymous"
-      }
+        user: "Anonymous",
+      };
     } else {
       const json = decodeURIComponent(clientContext);
       jsonObject = JSON.parse(json);
     }
-    
-    
 
     enableStripe = await ldClient.variation("enableStripe", jsonObject, false);
-    newProductExperienceAccess = await ldClient.variation("new-product-experience-access", jsonObject, 'toggle');
+    newProductExperienceAccess = await ldClient.variation(
+      "new-product-experience-access",
+      jsonObject,
+      "toggle"
+    );
 
     if (enableStripe) {
       const products = await listAllProducts();
-      const allowedCategories = newProductExperienceAccess.split(',');
-      console.log(allowedCategories)
+      const allowedCategories = newProductExperienceAccess.split(",");
 
-      const filteredProducts = products.filter(product => allowedCategories.includes(product.metadata.category));
+      const filteredProducts = products.filter((product) =>
+        allowedCategories.includes(product.metadata.category)
+      );
 
       const productListTemp = await Promise.all(
         filteredProducts.map(async (product, i) => {
           const priceId = product.default_price;
-          const price = typeof priceId === 'string' ? await getPriceFromApi(priceId) : 0;
+          const price =
+            typeof priceId === "string" ? await getPriceFromApi(priceId) : 0;
 
           return {
             id: i,
@@ -104,7 +105,7 @@ export default async function handler(
 
       return res.json(productListTemp);
     } else {
-      return res.json(product)
+      return res.json(product);
     }
   }
 }

@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { getCookie } from "cookies-next";
 
 export default function Login() {
   const inputRef = useRef();
@@ -32,7 +33,6 @@ export default function Login() {
     console.log(context);
     context.user.name = inputRef.current.value;
     ldclient?.identify(context);
-    setCookie("user", inputRef.current.value);
     setCookie("ldcontext", context);
     console.log(context);
     setHandleModal(false);
@@ -41,10 +41,15 @@ export default function Login() {
   function handleLogout() {
     console.log("logout-happened");
     setIsLoggedIn(false);
-    const user: any = ldclient?.getContext();
-    user.user.name = "Anonymous";
-    ldclient?.identify(user);
-    deleteCookie("user");
+    const context: any = ldclient?.getContext();
+    context.user.name = "Anonymous";
+    ldclient?.identify(context);
+    setCookie("ldcontext", context);
+  }
+
+  if (getCookie("ldcontext") === undefined) {
+    const context: any = ldclient?.getContext();
+    setCookie("ldcontext", context);
   }
 
   if (!isLoggedIn) {
