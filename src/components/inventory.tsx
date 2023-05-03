@@ -24,7 +24,6 @@ const Inventory = () => {
   };
 
   const onButtonClick = async () => {
-    
     try {
       const body = { name, email };
       const response = await fetch("/api/form", {
@@ -35,6 +34,7 @@ const Inventory = () => {
       return response.status;
     } catch (error) {
       console.log("there was a problem");
+      return 502
     }
   };
 
@@ -56,6 +56,7 @@ const Inventory = () => {
   const handleClickTest = (e: any) => {
     e.preventDefault();
     setHandleModal(!handleModal);
+    return handleModal
   };
 
   const timerRef = useRef(0);

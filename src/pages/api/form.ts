@@ -14,9 +14,10 @@ export default async function handler(
           .from('formfills')
           .insert({name: formData['name'], email: formData['email']}).select()
 
-      res.status(200);
+      return res.status(200).json(data)
     } catch (error:any) {
       console.error(error.message);
+      return res.status(502).send('An error occurred while processing the request');
     }
 
   } if (req.method === 'GET') {
@@ -26,10 +27,11 @@ export default async function handler(
         .select()
     try {
       const formFills = data
-      res.json(formFills);
+      return res.status(200).json(formFills);
     } catch (error:any) {
       console.error(error.message);
+      return res.status(502).send('An error occurred while processing the request');
     }
   }
-    res.status(200)
+  return res.status(405).send('Method not allowed');
 }
