@@ -2,10 +2,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: 'Sohne';
+  /* font-family: 'Sohne'; */
   /* padding: 2rem; */
   /* min-height: 93vh; */
-  /* background: radial-gradient(circle, rgba(237, 244, 201, 1) 7%, rgba(158, 173, 241, 1) 75%); */
+  /* background: linear-gradient(to bottom right, rgb(255, 255, 255) 7%, rgba(208, 232, 138, 0.447)); */
   /* background-image: url('/ld-bg.png');
   background-repeat: no-repeat;  
   background-size: cover; */
@@ -21,13 +21,11 @@
 .header {
   display: flex;
   flex-direction: row;
-  font-family: 'Sohne';
+  /* font-family: 'Sohne'; */
   align-items: flex-end;
-  /* padding: 1rem; */
+
   width: 100%;
-  /* z-index: 5; */
-  /* background-color: black; */
-  /* box-shadow: 0 -6px 10px 5px rgba(0,0,0,0.5); */
+
 }
 
 .apistatus {

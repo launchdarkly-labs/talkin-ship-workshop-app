@@ -10,6 +10,7 @@ const useFetch = (url: string, flag: string, flag2: string, options: RequestInit
     console.log("Starting the run")
     const fetchData = async () => {
       setIsLoading(true);
+      const startTime = performance.now();
       try {
         const response = await fetch(url, options);
         const jsonData = await response.json();
@@ -18,6 +19,8 @@ const useFetch = (url: string, flag: string, flag2: string, options: RequestInit
         setError(error);
       } finally {
         setIsLoading(false);
+        const endTime = performance.now();
+        console.log(`Time taken: ${endTime - startTime} milliseconds`);
       }
     };
 

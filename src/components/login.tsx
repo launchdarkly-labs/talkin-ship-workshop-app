@@ -19,6 +19,8 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { getCookie } from "cookies-next";
+import { fontSans } from "@/lib/fonts";
+import { cn } from "@/lib/utils";
 
 export default function Login() {
   const inputRef = useRef();
@@ -58,7 +60,7 @@ export default function Login() {
       <DialogTrigger asChild>
         <Button className="text-xl bg-black hover:bg-blue-400/90 text-white" variant="outline">Login</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className={cn("sm:max-w-[425px] font-sans", fontSans.variable)}>
         <DialogHeader>
           <DialogTitle>Login to Toggle Outfitters</DialogTitle>
           <DialogDescription>

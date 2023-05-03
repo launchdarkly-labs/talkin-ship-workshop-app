@@ -15,6 +15,7 @@ import AdminPanel from './adminPanel';
 import { Button } from './ui/button';
 import { ShoppingCartIcon } from 'lucide-react';
 import logo from '/public/images/ld-white-wide.png'
+import ts from '/public/images/talkin-ship.png'
 import { setCookie } from "cookies-next";
 
 const NavigationMenuDemo = () => {
@@ -43,7 +44,7 @@ console.log(context)
   return (
     <NavigationMenuRoot className='bg-black p-2 shadow-2xl'>
         <Link href="/">
-          <Image src={logo} alt="logo" height={38} />
+          <Image src={ts} className='ml-4 p-2' alt="logo" height={55} />
         </Link>
       <NavigationMenuList>  
         {devdebug ? (

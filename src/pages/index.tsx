@@ -1,41 +1,17 @@
 import Head from "next/head";
 import styles from "@/styles/Home.module.css";
 import NavigationMenuDemo from "@/components/menu";
-import {
-  ApolloProvider,
-  ApolloClient,
-  InMemoryCache,
-  createHttpLink,
-} from "@apollo/client";
-import { setContext } from "@apollo/client/link/context";
 import { useFlags, useLDClient } from "launchdarkly-react-client-sdk";
 import StoreLaunch from "@/components/storelaunch";
 import StorePreview from "@/components/storepreview";
-
-const httpLink = createHttpLink({
-  uri: process.env.NEXT_PUBLIC_DB_URL + "/graphql/v1",
-});
-
-const authLink = setContext((_, { headers }) => {
-  return {
-    headers: {
-      ...headers,
-      apiKey: process.env.NEXT_PUBLIC_DB_ANON_KEY,
-    },
-  };
-});
-
-const client = new ApolloClient({
-  link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
-});
+import { fontSans } from "@/lib/fonts"
+import { cn } from "@/lib/utils"
 
 export default function Home() {
   const { storeEnabled } = useFlags();
 
   return (
-    <>
-      {/* <ApolloProvider client={client}> */}
+    <div className={cn("font-sans", fontSans.variable)}>
         <Head>
           <title>Toggle Outfitters</title>
         </Head>
@@ -43,7 +19,6 @@ export default function Home() {
           <NavigationMenuDemo />
         </header>
         {storeEnabled ? <StoreLaunch /> : <StorePreview />}
-      {/* </ApolloProvider> */}
-    </>
+    </div>
   );
 }

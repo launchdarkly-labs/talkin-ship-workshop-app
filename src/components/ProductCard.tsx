@@ -1,12 +1,12 @@
 import styles from "@/styles/Home.module.css";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-const ProductCard = ({ item, isGoggle, children }: any) => {
+const ProductCard = ({ item, isGoggle, children, featuredProductLabel }: any) => {
   return (
-    <Card className="m-2 border-2 shadow-lg rounded-xl group relative flex flex-col justify-center items-center h-72 animate-fade-in">
+    <Card className="m-2 border-2 shadow-md rounded-xl group relative flex flex-col justify-center items-center h-72 animate-fade-in">
       {isGoggle && (
         <div className={[styles.ribbon, styles["ribbon-top-right"]].join(" ")}>
-          <span>NEW</span>
+          <span>{featuredProductLabel}</span>
         </div>
       )}
       <div className="group-hover:blur-[25px] transition-all duration-300 flex flex-col items-center">

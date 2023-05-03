@@ -12,7 +12,7 @@ import ProductCard from "./ProductCard";
 
 const Inventory = () => {
   // import flags
-  const { devdebug, billing, enableStripe, newProductExperienceAccess } = useFlags();
+  const { devdebug, billing, enableStripe, newProductExperienceAccess, featuredProductLabel } = useFlags();
 
   //function for adding form fill data to database
   const [name, setName] = useState("");
@@ -80,6 +80,7 @@ const Inventory = () => {
           <ProductCard
             key={node}
             item={id}
+            featuredProductLabel={featuredProductLabel}
             isGoggle={id.category === "goggle"}
           >
             {billing  ? (

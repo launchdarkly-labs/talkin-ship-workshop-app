@@ -1,6 +1,7 @@
 import Image from "next/image";
 import styles from "@/styles/Home.module.css";
 
+
 const InitialContent = () => (
   <main className={`${styles.main} flex flex-col items-center justify-center min-h-screen`}>
     <div>
