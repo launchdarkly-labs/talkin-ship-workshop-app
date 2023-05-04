@@ -45,3 +45,8 @@ next-env.d.ts
 .terraform
 terraform.tfstate.backup
 .terraform.lock.hcl
+
+# playwright (ui automation)
+/test-results/
+/playwright-report/
+/playwright/.cache/

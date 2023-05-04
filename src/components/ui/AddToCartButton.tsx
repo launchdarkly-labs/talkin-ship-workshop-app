@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button"
 import { ShoppingCartIcon } from 'lucide-react';
 
 
-const AddToCartButton = ({ product, errorTesting }: any) => {
+const AddToCartButton = ({ product, errorTesting, experimentData }: any) => {
   const { addItem } = useShoppingCart();
   const [open, setOpen] = useState(false);
   const timerRef = useRef(0);
@@ -23,7 +23,9 @@ const AddToCartButton = ({ product, errorTesting }: any) => {
     if (val == 502) {
         throw { message: "API IS DOWN"}    
     } else {
+    // TODO: await doesn't do anything here, we should remove it
     await addItem(product);
+    await experimentData();
     setOpen(false);
     window.clearTimeout(timerRef.current);
     timerRef.current = window.setTimeout(() => {

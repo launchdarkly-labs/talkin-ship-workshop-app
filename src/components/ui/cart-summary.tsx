@@ -6,6 +6,7 @@ import { styled } from '@stitches/react';
 import { blueDark, grass, slate } from '@radix-ui/colors';
 import { AiOutlineShopping } from 'react-icons/ai';
 import { loadStripe } from '@stripe/stripe-js';
+import { useLDClient } from "launchdarkly-react-client-sdk";
 
 // const inter = Inter({ subsets: ['latin'] });
 
@@ -19,6 +20,8 @@ const CartSummary = () => {
     clearCart,
     cartDetails,
   } = useShoppingCart()
+
+  const launchDarklyClient = useLDClient();
 
   useEffect(() => setCartEmpty(!cartCount), [cartCount])
 
@@ -69,6 +72,21 @@ const CartSummary = () => {
         className="cart-style-background"
         type="submit"
         css={{marginRight: 25}}
+        onClick={() => {
+          if (launchDarklyClient) {
+            launchDarklyClient.track(
+              "Checkout Click",
+              launchDarklyClient.getContext,
+              1
+            );
+            console.log("sending data to experiment for checkout click");
+            launchDarklyClient.flush();
+          } else {
+            console.log(
+              "sorry, we did not send metrics for the checkout click"
+            );
+          }
+        }}
       >
         Checkout
       </Button>
