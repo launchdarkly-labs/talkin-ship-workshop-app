@@ -1,13 +1,12 @@
 import styles from "@/styles/Home.module.css";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import CornerAccent from "./ui/corner-accent";
 
-const ProductCard = ({ item, isGoggle, children, featuredProductLabel }: any) => {
+const ProductCard = ({ item, isGoggle, isFeatured, children, featuredProductLabel }: any) => {
   return (
     <Card className="m-2 border-2 shadow-md rounded-xl group relative flex flex-col justify-center items-center h-72 animate-fade-in">
-      {isGoggle && (
-        <div className={[styles.ribbon, styles["ribbon-top-right"]].join(" ")}>
-          <span>{featuredProductLabel}</span>
-        </div>
+      {(isGoggle || isFeatured) && (
+        <CornerAccent label={isFeatured ? featuredProductLabel : "NEW"} />
       )}
       <div className="group-hover:blur-[25px] transition-all duration-300 flex flex-col items-center">
         <CardHeader className="flex flex-col items-center">

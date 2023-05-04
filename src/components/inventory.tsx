@@ -3,12 +3,23 @@ import { useState, useEffect, useRef } from "react";
 import styles from "@/styles/Home.module.css";
 import ErrorDialog from "./ErrorDialog";
 import AddToCartButton from "./ui/AddToCartButton";
-import { useFlags } from "launchdarkly-react-client-sdk";
+import { useFlags, useLDClient } from "launchdarkly-react-client-sdk";
 import APIMigrationState from "./api-status";
 import ReserveButton from "./ui/ReserveButton";
 import useFetch from "@/hooks/useFetch";
 import useErrorHandling from "@/hooks/useErrorHandling";
 import ProductCard from "./ProductCard";
+
+type Product = {
+  description: string;
+  id: string;
+  image: string;
+  nodeId: string;
+  price: string;
+  toggle_name: string;
+  category: string;
+  isFeatured: boolean;
+};
 
 const Inventory = () => {
   // import flags
@@ -41,6 +52,19 @@ const Inventory = () => {
   const { errorState, setErrorState, errorTesting } = useErrorHandling();
 
   const [handleModal, setHandleModal] = useState(false);
+
+  // define metric for experimentation
+  const client = useLDClient();
+  async function experimentData() {
+    if (client) {
+      client.track("Add to Cart Click", client.getContext(), 1);
+      console.log("We're sending data to the experiment");
+      client.track("storeClicks");
+      client.flush();
+    } else {
+      console.log("boo hiss, we are not sending data to the experiment");
+    }
+  }
 
   const {
     data: stripeProducts,
@@ -76,18 +100,29 @@ const Inventory = () => {
           <APIMigrationState />
         </div>
       )}
+      <div style={{
+        visibility: 'hidden'
+      }}>
+        <span data-id="label-container">
+          {featuredProductLabel
+            ? featuredProductLabel
+            : "none"}
+        </span>
+      </div>
       <div className="grid sm:grid-cols-2 grid-cols-1 lg:grid-cols-4">
-        {stripeProducts.map((id: any, node: any) => (
+        {stripeProducts.map((product: Product, index: number) => (
           <ProductCard
-            key={node}
-            item={id}
+            key={index}
+            item={product}
             featuredProductLabel={featuredProductLabel}
-            isGoggle={id.category === "goggle"}
+            isGoggle={product.category === "goggle"}
+            isFeatured={index < 4}
           >
             {billing  ? (
               <AddToCartButton
-                product={id}
+                product={product}
                 errorTesting={errorTesting}
+                experimentData={experimentData}
               />
             ) : (
               <ReserveButton
