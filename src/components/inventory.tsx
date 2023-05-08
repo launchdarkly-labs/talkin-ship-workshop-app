@@ -23,7 +23,13 @@ type Product = {
 
 const Inventory = () => {
   // import flags
-  const { devdebug, billing, enableStripe, newProductExperienceAccess, featuredProductLabel } = useFlags();
+  const {
+    devdebug,
+    //billing,
+    enableStripe,
+    newProductExperienceAccess,
+    featuredProductLabel,
+  } = useFlags();
 
   //function for adding form fill data to database
   const [name, setName] = useState("");
@@ -45,7 +51,7 @@ const Inventory = () => {
       return response.status;
     } catch (error) {
       console.log("there was a problem");
-      return 502
+      return 502;
     }
   };
 
@@ -55,22 +61,16 @@ const Inventory = () => {
 
   // define metric for experimentation
   const client = useLDClient();
-  async function experimentData() {
-    if (client) {
-      client.track("Add to Cart Click", client.getContext(), 1);
-      console.log("We're sending data to the experiment");
-      client.track("storeClicks");
-      client.flush();
-    } else {
-      console.log("boo hiss, we are not sending data to the experiment");
-    }
-  }
+
+  /******************************************
+   * We're missing experimentation code here
+   ******************************************/
 
   const {
     data: stripeProducts,
     error: stripeProductsError,
     isLoading: stripeProductsLoading,
-  } = useFetch("/api/products", enableStripe, newProductExperienceAccess );
+  } = useFetch("/api/products", enableStripe, newProductExperienceAccess);
 
   useEffect(() => {
     setErrorState(false);
@@ -80,7 +80,7 @@ const Inventory = () => {
   const handleClickTest = (e: any) => {
     e.preventDefault();
     setHandleModal(!handleModal);
-    return handleModal
+    return handleModal;
   };
 
   const timerRef = useRef(0);
@@ -91,7 +91,8 @@ const Inventory = () => {
         <div className="animate-spin w-16 h-16 border-t-4 border-orange-500 border-solid rounded-full"></div>
       </div>
     );
-  }  if (stripeProductsError) return <p>Error: {stripeProductsError.message}</p>; 
+  }
+  if (stripeProductsError) return <p>Error: {stripeProductsError.message}</p>;
 
   return (
     <div>
@@ -100,13 +101,13 @@ const Inventory = () => {
           <APIMigrationState />
         </div>
       )}
-      <div style={{
-        visibility: 'hidden'
-      }}>
+      <div
+        style={{
+          visibility: "hidden",
+        }}
+      >
         <span data-id="label-container">
-          {featuredProductLabel
-            ? featuredProductLabel
-            : "none"}
+          {featuredProductLabel ? featuredProductLabel : "none"}
         </span>
       </div>
       <div className="grid sm:grid-cols-2 grid-cols-1 lg:grid-cols-4">
@@ -118,28 +119,14 @@ const Inventory = () => {
             isGoggle={product.category === "goggle"}
             isFeatured={index < 4}
           >
-            {billing  ? (
-              <AddToCartButton
-                product={product}
-                errorTesting={errorTesting}
-                experimentData={experimentData}
-              />
-            ) : (
-              <ReserveButton
-                setHandleModal={setHandleModal}
-                handleModal={handleModal}
-                handleClickTest={handleClickTest}
-                updateField={updateField}
-                formData={{ name, email }}
-                onButtonClick={onButtonClick}
-                
-              />
-            )}
-            {billing && 
-            <ErrorDialog
-              errorState={errorState}
-              setErrorState={setErrorState}
-            /> }
+            <ReserveButton
+              setHandleModal={setHandleModal}
+              handleModal={handleModal}
+              handleClickTest={handleClickTest}
+              updateField={updateField}
+              formData={{ name, email }}
+              onButtonClick={onButtonClick}
+            />
           </ProductCard>
         ))}
       </div>

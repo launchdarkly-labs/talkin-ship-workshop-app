@@ -121,17 +121,7 @@ export default async function handler(
     jsonObject = JSON.parse(json);
   }
 
-  dbTesting = await ldClient.variation("dbTesting", jsonObject, false);
-
-  if (dbTesting == 'postgres') {
-    const supabase = createClient(process.env.NEXT_PUBLIC_DB_URL || "", process.env.NEXT_PUBLIC_DB_ANON_KEY || "")
-
-    const { data, error } = await supabase
-      .from('toggletable')
-      .select()
-
-    res.status(200).json(data)
-  } else {
-    res.status(200).json(product)
-  }
+  // You need the whole code block from the guide in order for this to work
+  // Replace the following line of code with the proper code block
+  res.status(200).json(product)
 }
