@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 
 export default function Home() {
   // We'll need to import the flag, make sure you uncomment the next line!
-  // const { storeEnabled } = useFlags();
+  const { storeEnabled } = useFlags();
 
   return (
     <div className={cn("font-sans", fontSans.variable)}>
@@ -19,8 +19,9 @@ export default function Home() {
       <header className={styles.header}>
         <NavigationMenuDemo />
       </header>
-      <StorePreview />{" "}
-      {/* This is where we are missing code for our new store feature */}
+      {
+  storeEnabled ? <StoreLaunch /> : <StorePreview />
+}
     </div>
   );
 }

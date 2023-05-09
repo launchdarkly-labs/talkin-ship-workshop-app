@@ -6,22 +6,30 @@ Below are the missing code snippets for each step of use case 1, risk-free relea
    Needed code:
    **File - index.tsx**
 
+
+
 ```jsx
+//---- I think the semi colon at the end of this code messes things up ----
 {
   storeEnabled ? <StoreLaunch /> : <StorePreview />;
 }
 ```
 
-2. Billing UI
+1. Billing UI
    Needed code:
    **File - inventory.tsx**
 
 ```jsx
+// same thing with the semi colons here as well, compiler doesn't like them
 {
   billing ? (
     <AddToCartButton
       product={product}
       errorTesting={errorTesting}
+      // I think we need to remove this and make the param optional
+      // getting a runtime error rn because it's undefined
+      // turns out, when I got to the next step, I had to 
+      // declare a func for experimentData or I got a runtime error
       experimentData={experimentData}
     />
   ) : (
@@ -48,7 +56,13 @@ Below are the missing code snippets for each step of use case 1, risk-free relea
 
 ```jsx
  if (req.method === 'POST') {
+    // need to change this line from:
     const enableStripe = await ldClient.variation("enableStripe", jsonObject, false);
+   
+    // to:
+    enableStripe = await ldClient.variation("enableStripe", jsonObject, false);
+   
+   // because the const makes it a new var in the scope of that if block instead of changing the value of the `let` that you declared above
  if (enableStripe) {
       try {
         const cartDetails = await req.body;
@@ -78,6 +92,8 @@ Below are the missing code snippets for each step of use case 1, risk-free relea
     }
   }
   if (req.method === 'GET') {
+    // same thing here, just need to remove the const so it's setting the 
+    // var declared outside this block
     const enableStripe = await ldClient.variation("enableStripe", jsonObject, false);
     if (enableStripe) {
       try {

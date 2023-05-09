@@ -25,7 +25,7 @@ const Inventory = () => {
   // import flags
   const {
     devdebug,
-    //billing,
+    billing,
     enableStripe,
     newProductExperienceAccess,
     featuredProductLabel,
@@ -65,6 +65,8 @@ const Inventory = () => {
   /******************************************
    * We're missing experimentation code here
    ******************************************/
+  const experimentData = () => {}
+
 
   const {
     data: stripeProducts,
@@ -119,18 +121,38 @@ const Inventory = () => {
             isGoggle={product.category === "goggle"}
             isFeatured={index < 4}
           >
-            {/********************************************************************
-             * We're missing some code here to enable our new cart functionality!
-             ********************************************************************/}
-
-            <ReserveButton
-              setHandleModal={setHandleModal}
-              handleModal={handleModal}
-              handleClickTest={handleClickTest}
-              updateField={updateField}
-              formData={{ name, email }}
-              onButtonClick={onButtonClick}
-            />
+{
+  billing ? (
+    <AddToCartButton
+      product={product}
+      errorTesting={errorTesting}
+      // **************
+      // **************
+      // **************
+      // **************
+      // TODO: we might want to make this an optional param?
+      // **************
+      // **************
+      // **************
+      // **************
+      experimentData={experimentData}
+    />
+  ) : (
+    <ReserveButton
+      setHandleModal={setHandleModal}
+      handleModal={handleModal}
+      handleClickTest={handleClickTest}
+      updateField={updateField}
+    formData={{ name, email }}
+      onButtonClick={onButtonClick}
+    />
+  )
+}
+{
+  billing && (
+    <ErrorDialog errorState={errorState} setErrorState={setErrorState} />
+  )
+}
           </ProductCard>
         ))}
       </div>

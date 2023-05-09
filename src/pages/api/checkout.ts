@@ -40,12 +40,47 @@ export default async function handler(
     jsonObject = JSON.parse(json);
   }
 
-// There is a lot of missing API code here, make sure you fully copy and paste the code to get the right results.
-
   if (req.method === 'POST') {
+    enableStripe = await ldClient.variation("enableStripe", jsonObject, false);
+    
+    if (enableStripe) {
+      try {
+        const cartDetails = await req.body;
+        let line_items: any = [];
+        let i = 0;
+        Object.keys(cartDetails['cartDetails']).forEach((key) => {
+          console.log(cartDetails['cartDetails'][key])
+          line_items[i] = {
+            price: cartDetails['cartDetails'][key].price_id,
+            quantity: cartDetails['cartDetails'][key].quantity,
+          };
+          i++;
+        }
+        );
+        const session = await stripe.checkout.sessions.create({
+          mode: "payment",
+          line_items,
+          success_url: req.headers.origin,
+          cancel_url: req.headers.origin,
+        });
+        console.log(session.url)
+        return res.json({ url: session.url });
+      } catch (error: any) {
+        console.error(error.message);
         return res.json("api error");
       }
+    }
+  }
   if (req.method === 'GET') {
+    const enableStripe = await ldClient.variation("enableStripe", jsonObject, false);
+    if (enableStripe) {
+      try {
+        res.send("You are good to go!");
+      } catch (error: any) {
+        console.error(error.message);
+      }
+    } else {
       return res.json("the API is unreachable");
     }
+  }
 }
