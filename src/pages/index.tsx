@@ -19,7 +19,8 @@ export default function Home() {
       <header className={styles.header}>
         <NavigationMenuDemo />
       </header>
-      <StorePreview />
+      <StorePreview />{" "}
+      {/* This is where we are missing code for our new store feature */}
     </div>
   );
 }
