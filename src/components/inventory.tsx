@@ -25,7 +25,7 @@ const Inventory = () => {
   // import flags
   const {
     devdebug,
-    //billing,
+    //billing, You'll want to uncomment this flag in order for things to work!
     enableStripe,
     newProductExperienceAccess,
     featuredProductLabel,
@@ -122,7 +122,6 @@ const Inventory = () => {
             {/********************************************************************
              * We're missing some code here to enable our new cart functionality!
              ********************************************************************/}
-
             <ReserveButton
               setHandleModal={setHandleModal}
               handleModal={handleModal}
@@ -131,6 +130,9 @@ const Inventory = () => {
               formData={{ name, email }}
               onButtonClick={onButtonClick}
             />
+            {/*****************************************************************
+             * Make sure you replace the code above with your new cart code!
+             ******************************************************************/}
           </ProductCard>
         ))}
       </div>
