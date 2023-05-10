@@ -1,4 +1,11 @@
 // hooks/useErrorHandling.ts
+
+/******************************************************************************
+ * If you're going to try the flag trigger code, you need to replace everything
+ * below with what is in the guide.
+ *******************************************************************************/
+
+
 import { useState } from 'react';
 import { useShoppingCart } from 'use-shopping-cart';
 
