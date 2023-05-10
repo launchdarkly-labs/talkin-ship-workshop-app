@@ -65,7 +65,16 @@ const Inventory = () => {
   /******************************************
    * We're missing experimentation code here
    ******************************************/
-  const experimentData = () => {}
+  const experimentData = () => {
+    if (client) {
+      client.track("Add to Cart Click", client.getContext(), 1);
+      console.log("We're sending data to the experiment");
+      client.track("storeClicks");
+      client.flush();
+    } else {
+      console.log("boo hiss, we are not sending data to the experiment");
+    }
+  }
 
 
   const {

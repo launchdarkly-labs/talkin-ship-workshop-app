@@ -32,11 +32,11 @@ const NavigationMenuDemo = () => {
     billing,
     storeEnabled,
 
-    /**********Uncomment these flags and add above as needed******** 
-    // adminMode, 
-    // newProductExperienceAccess,
-    // devdebug,
-    ****************************************************************/
+    //**********Uncomment these flags and add above as needed******** 
+    adminMode, 
+    newProductExperienceAccess,
+    devdebug,
+    //****************************************************************/
   } = useFlags();
   const { cartCount } = useShoppingCart();
 
@@ -67,10 +67,86 @@ const NavigationMenuDemo = () => {
         USE CASE 3: We are missing code for the country selection and debug menu
         *************************************************************************/}
 
+{
+  devdebug ? (
+    <NavigationMenu.Item>
+      <NavigationMenuTrigger>
+        <Button className="bg-orange-500 text-white">
+          Debug: App Data
+          <CaretDownDebug aria-hidden />
+        </Button>
+      </NavigationMenuTrigger>
+      <NavigationMenuContent>
+        <List>
+          <ListItem title="Selected Country">{uiCountry}</ListItem>
+          <ListItem title="Product Categories">
+            {newProductExperienceAccess
+              .replaceAll('"', "")
+              .replaceAll(",", "s, ")}
+            s
+          </ListItem>
+          <ListItem title="Admin Access">
+            {adminMode ? "Enabled" : "Disabled"}
+          </ListItem>
+          <ListItem title="Billing API">
+            {billing ? "Enabled" : "Disabled"}
+          </ListItem>
+        </List>
+      </NavigationMenuContent>
+    </NavigationMenu.Item>
+  ) : null
+}
+{
+  devdebug ? (
+    <NavigationMenu.Item>
+      <NavigationMenuTrigger>
+        <Button className="bg-orange-500 text-white">
+          Debug: Country Override
+          <CaretDownDebug aria-hidden />
+        </Button>
+      </NavigationMenuTrigger>
+      <NavigationMenuContent>
+        <List>
+          <ListItem onClick={changeCountry.bind(null, "US")} title="USA">
+            🇺🇸
+          </ListItem>
+          <ListItem onClick={changeCountry.bind(null, "MX")} title="Mexico">
+            🇲🇽
+          </ListItem>
+          <ListItem onClick={changeCountry.bind(null, "CA")} title="Canada">
+            🇨🇦
+          </ListItem>
+          <ListItem
+            onClick={changeCountry.bind(null, "UK")}
+            title="United Kingdom"
+          >
+            🇬🇧
+          </ListItem>
+          <ListItem onClick={changeCountry.bind(null, "FR")} title="France">
+            🇫🇷
+          </ListItem>
+          <ListItem onClick={changeCountry.bind(null, "PT")} title="Portugal">
+            🇵🇹
+          </ListItem>
+        </List>
+      </NavigationMenuContent>
+    </NavigationMenu.Item>
+  ) : null
+}
+
         {/**********************************************************************   
         USE CASE 2: We are missing code here for the admin menu functionality
         **********************************************************************/}
-
+        <ListItem title="Admin Access">{adminMode ? "Enabled" : "Disabled"}</ListItem>
+        {
+  adminMode ? (
+    <NavigationMenu.Item>
+      <NavigationMenuTrigger>
+        <AdminPanel />
+      </NavigationMenuTrigger>
+    </NavigationMenu.Item>
+  ) : null
+}
         {billing && storeEnabled ? (
           <NavigationMenu.Item>
             <NavigationMenuTrigger>

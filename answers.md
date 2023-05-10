@@ -238,6 +238,8 @@ This builds off the previous two use cases, make sure they have created flags fo
 2. Add the new product catalog
    Needed code:
    **File - /api/product.ts**
+   
+   ^^ actually /api/product**s**.ts
 
 ```jsx
 enableStripe = await ldClient.variation("enableStripe", jsonObject, false);
