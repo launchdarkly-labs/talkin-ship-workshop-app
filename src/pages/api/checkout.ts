@@ -40,12 +40,17 @@ export default async function handler(
     jsonObject = JSON.parse(json);
   }
 
-// There is a lot of missing API code here, make sure you fully copy and paste the code to get the right results.
-
+/*************************************************************************************
+* There is a lot of missing API code here, make sure you fully copy and paste the code 
+* to get the right results.
+*************************************************************************************/
   if (req.method === 'POST') {
         return res.json("api error");
       }
   if (req.method === 'GET') {
       return res.json("the API is unreachable");
     }
+/*************************************************************************************
+ * Put the replacement code up above
+ *************************************************************************************/
 }

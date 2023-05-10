@@ -70,7 +70,14 @@ export default async function handler(
       jsonObject = JSON.parse(json);
     }
 
-    // we're missing the code to retrieve the new products, get this from the guide 
+    /*****************************************************************************
+     * we're missing the code to retrieve the new products, get this from the guide 
+     ******************************************************************************/
+
     return res.json(product)
+    
+    /**************************************************************************
+     * Replacement code goes above this block
+     **************************************************************************/
   }
 }
