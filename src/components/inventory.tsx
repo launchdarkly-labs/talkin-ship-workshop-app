@@ -102,9 +102,6 @@ const Inventory = () => {
         </div>
       )}
       <div
-        style={{
-          visibility: "hidden",
-        }}
       >
         <span data-id="label-container">
           {featuredProductLabel ? featuredProductLabel : "none"}
