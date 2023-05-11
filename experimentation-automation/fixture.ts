@@ -4,27 +4,27 @@ export const shouldClickAddToCart = ({ label }: { label: string }): boolean => {
     case "special":
       // ~40% likely to click
       // better than baseline
-      return rando > 6;
+      return rando > 5;
     case "sale":
       // ~80% likely to click
       // better than baseline
-      return rando > 3;
+      return rando > 1;
     case "new":
       // ~60% likely to click
       // better than baseline
-      return rando > 4;
+      return rando > 5;
     default:
       // ~30% likely to click
       // baseline
-      return rando > 7;
+      return rando > 9;
   }
 };
 
 export const shouldClickCheckout = ({ label }: { label: string }): boolean => {
   const rando = Math.floor(Math.random() * 10);
 
-  if (["special", "new", "sale"].includes(label)) return rando > 6;
+  if (["special", "new", "sale"].includes(label)) return rando > 3;
 
   // ~50% chance to click checkout
-  return rando > 4;
+  return rando > 6;
 };
