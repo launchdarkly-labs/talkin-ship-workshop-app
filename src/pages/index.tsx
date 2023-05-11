@@ -19,8 +19,13 @@ export default function Home() {
       <header className={styles.header}>
         <NavigationMenuDemo />
       </header>
-      {/* This is where we are missing code for our new store feature */}
-      <StorePreview /> {/* Replace the above component with your new code */}
+      {/******************************************************
+      * Right now the code below is only pulling one component 
+      ********************************************************/}
+      <StorePreview /> 
+      {/**********************************************************
+       * Replace the above component with the code from the guide 
+       **********************************************************/}
     </div>
   );
 }
