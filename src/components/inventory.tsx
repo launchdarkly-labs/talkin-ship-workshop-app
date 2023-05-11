@@ -128,7 +128,7 @@ const Inventory = () => {
             item={product}
             featuredProductLabel={featuredProductLabel}
             isGoggle={product.category === "goggle"}
-            isFeatured={index < 4}
+            isFeatured={featuredProductLabel && index < 4}
           >
 {
   billing ? (

@@ -80,10 +80,6 @@ const NavigationMenuDemo = () => {
         <List>
           <ListItem title="Selected Country">{uiCountry}</ListItem>
           <ListItem title="Product Categories">
-            {newProductExperienceAccess
-              .replaceAll('"', "")
-              .replaceAll(",", "s, ")}
-            s
           </ListItem>
           <ListItem title="Admin Access">
             {adminMode ? "Enabled" : "Disabled"}
