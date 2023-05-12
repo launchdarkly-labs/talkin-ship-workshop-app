@@ -62,9 +62,13 @@ const Inventory = () => {
   // define metric for experimentation
   const client = useLDClient();
 
-  /******************************************
-   * We're missing experimentation code here
-   ******************************************/
+  const addToCartClickHandler = () => {
+    /**
+     * 
+     * Add metric tracking code here for `Add to Cart Click`
+     * 
+     */
+  }
 
   const {
     data: stripeProducts,
