@@ -75,7 +75,7 @@ const CartSummary = () => {
         onClick={() => {
           /**
            * 
-           * This code needs updating so we can track "Checkout click"
+           * This code needs updating so we can track "Checkout Click"
            * 
            */
         }}
