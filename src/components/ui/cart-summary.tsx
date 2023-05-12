@@ -73,19 +73,11 @@ const CartSummary = () => {
         type="submit"
         css={{marginRight: 25}}
         onClick={() => {
-          if (launchDarklyClient) {
-            launchDarklyClient.track(
-              "Checkout Click",
-              launchDarklyClient.getContext,
-              1
-            );
-            console.log("sending data to experiment for checkout click");
-            launchDarklyClient.flush();
-          } else {
-            console.log(
-              "sorry, we did not send metrics for the checkout click"
-            );
-          }
+          /**
+           * 
+           * This code needs updating so we can track "Checkout click"
+           * 
+           */
         }}
       >
         Checkout
