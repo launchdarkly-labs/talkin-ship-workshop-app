@@ -121,7 +121,11 @@ export default async function handler(
     jsonObject = JSON.parse(json);
   }
 
-  // You need the whole code block from the guide in order for this to work
-  // Replace the following line of code with the proper code block
+  {/*******************************************************************************************************
+  * Replace the code below with the code from the guide located in "Taking On Database Migrations", Step 3 
+  *********************************************************************************************************/}  
   res.status(200).json(product)
+  {/*******************************************************************************************************
+  * Paste code block above this comment block
+   ********************************************************************************************************/}
 }

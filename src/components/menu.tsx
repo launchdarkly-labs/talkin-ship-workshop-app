@@ -31,12 +31,9 @@ const NavigationMenuDemo = () => {
   const {
     billing,
     storeEnabled,
-
-    /**********Uncomment these flags and add above as needed******** 
-    // adminMode, 
-    // newProductExperienceAccess,
-    // devdebug,
-    ****************************************************************/
+    adminMode, 
+    newProductExperienceAccess,
+    devdebug,
   } = useFlags();
   const { cartCount } = useShoppingCart();
 
@@ -63,13 +60,13 @@ const NavigationMenuDemo = () => {
         <Image src={ts} className="ml-4 p-2" alt="logo" height={55} />
       </Link>
       <NavigationMenuList>
-        {/***********************************************************************
-        USE CASE 3: We are missing code for the country selection and debug menu
-        *************************************************************************/}
+        {/***********************************************************************************
+        "Goggles Go Global", Step 5, replace this comment block with the code from the guide
+        *************************************************************************************/}
 
-        {/**********************************************************************   
-        USE CASE 2: We are missing code here for the admin menu functionality
-        **********************************************************************/}
+        {/**********************************************************************************************   
+        "Taking on Database Migrations", Step 1, replace this comment block with the code from the guide
+        ************************************************************************************************/}
 
         {billing && storeEnabled ? (
           <NavigationMenu.Item>

@@ -25,7 +25,7 @@ const Inventory = () => {
   // import flags
   const {
     devdebug,
-    //billing, You'll want to uncomment this flag in order for things to work!
+    billing,
     enableStripe,
     newProductExperienceAccess,
     featuredProductLabel,
@@ -65,7 +65,7 @@ const Inventory = () => {
   const addToCartClickHandler = () => {
     /**
      * 
-     * Add metric tracking code here for `Add to Cart Click`
+     * Add code from "Using the Metric System", Step 8a here. 
      * 
      */
   }
@@ -120,12 +120,12 @@ const Inventory = () => {
             key={index}
             item={product}
             featuredProductLabel={featuredProductLabel}
-            isGoggle={product.category === "goggle"}
+            isGoggle={product.category === "goggle"} //Change this line to match "Using the Metric System", step 8c
             isFeatured={featuredProductLabel && index < 4}
           >
-            {/********************************************************************
-             * We're missing some code here to enable our new cart functionality!
-             ********************************************************************/}
+            {/***************************************************************************************************************************
+             * We're missing some code here to enable our new cart functionality! Retrieve this code from "Failure Is An Option!", Step 3
+             ****************************************************************************************************************************/}
             <ReserveButton
               setHandleModal={setHandleModal}
               handleModal={handleModal}

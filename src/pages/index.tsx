@@ -19,9 +19,9 @@ export default function Home() {
       <header className={styles.header}>
         <NavigationMenuDemo />
       </header>
-      {/******************************************************
-      * Right now the code below is only pulling one component 
-      ********************************************************/}
+      {/***************************************************************************
+      * Retrieve Code from "Shipping Your First Feature with LaunchDarkly", Step 3
+      *****************************************************************************/}
       <StorePreview /> 
       {/**********************************************************
        * Replace the above component with the code from the guide 

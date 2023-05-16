@@ -2,7 +2,7 @@
 
 /******************************************************************************
  * If you're going to try the flag trigger code, you need to replace everything
- * below with what is in the guide.
+ * below with the code from "Handling API Migrations Like a Pro", Step 2.
  *******************************************************************************/
 
 

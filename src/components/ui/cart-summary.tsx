@@ -75,7 +75,7 @@ const CartSummary = () => {
         onClick={() => {
           /**
            * 
-           * This code needs updating so we can track "Checkout Click"
+           * Add code from "Using the Metric System", Step 8b
            * 
            */
         }}
