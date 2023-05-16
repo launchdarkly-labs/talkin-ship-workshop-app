@@ -1,9 +1,10 @@
 // hooks/useErrorHandling.ts
 
-/******************************************************************************
+/*****************************************************************************************
  * If you're going to try the flag trigger code, you need to replace everything
- * below with the code from "Handling API Migrations Like a Pro", Step 2.
- *******************************************************************************/
+ * below with the code from 
+ * "Handling API Migrations Like a Pro - Immediate Resolution With Flag Triggers", Step 3.
+ *****************************************************************************************/
 
 
 import { useState } from 'react';

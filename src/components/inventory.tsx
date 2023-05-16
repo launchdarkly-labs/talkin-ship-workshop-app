@@ -123,9 +123,10 @@ const Inventory = () => {
             isGoggle={product.category === "goggle"} //Change this line to match "Using the Metric System", step 8c
             isFeatured={featuredProductLabel && index < 4}
           >
-            {/***************************************************************************************************************************
-             * We're missing some code here to enable our new cart functionality! Retrieve this code from "Failure Is An Option!", Step 3
-             ****************************************************************************************************************************/}
+            {/*************************************************************************
+             * We're missing some code here to enable our new cart functionality! 
+             * Retrieve this code from "Failure Is An Option! - Add the Code", Step 1
+             *************************************************************************/}
             <ReserveButton
               setHandleModal={setHandleModal}
               handleModal={handleModal}

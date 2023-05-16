@@ -40,9 +40,10 @@ export default async function handler(
     jsonObject = JSON.parse(json);
   }
 
-/********************************************************************************************************************
-* There is a lot of missing API code here, retrieve the code from "Migrating Technologies with LaunchDarkly", Step 1
-*********************************************************************************************************************/
+/************************************************************************************************
+* There is a lot of missing API code here, 
+* retrieve the code from "Migrating Technologies with LaunchDarkly - Fixing Our API Code", Step 2
+*************************************************************************************************/
   if (req.method === 'POST') {
         return res.json("api error");
       }
