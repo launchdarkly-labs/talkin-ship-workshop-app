@@ -2,6 +2,7 @@
 import * as React from 'react';
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import * as AvatarPrimitive from "@radix-ui/react-avatar";
+import * as Separator from "@radix-ui/react-separator";
 import { styled, keyframes } from "@stitches/react";
 import {User, CheckCircle2} from 'lucide-react'
 import {
@@ -10,14 +11,15 @@ import {
   blueDark,
   grayDark,
   violet,
-  slate,
+  cyan,
+  green,
   whiteA,
+  slate,
 } from "@radix-ui/colors";
 import { CaretDownIcon } from "@radix-ui/react-icons";
 import { useState, useContext, useRef } from "react";
 import { useLDClient } from "launchdarkly-react-client-sdk";
-import { setCookie, setCookies } from "cookies-next";
-import { deleteCookie } from "cookies-next";
+import { setCookie, getCookie } from "cookies-next";
 import { Login_data } from "@/context/state";
 import { Button } from "@/components/ui/button"
 import {
@@ -31,7 +33,6 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { getCookie } from "cookies-next";
 import { fontSans } from "@/lib/fonts";
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
 import { cn } from "@/lib/utils";
@@ -43,36 +44,60 @@ export default function Login() {
   const ldclient = useLDClient();
   const [isInBeta, setIsInBeta] = useState(false);
   const [userName, setUserName] = useState("")
+  const [betaUsers, setBetaUsers] = useState([])
 
   function handleLogin(e: Event) {
     e.preventDefault();
     setIsLoggedIn(true);
     const context: any = ldclient?.getContext();
     console.log(context);
+    const optedIn = betaUsers.find(element => element === inputRef.current.value);
+    console.log(optedIn);
+    if (optedIn === inputRef.current.value) {
+      context.user.inBeta = true
+      setIsInBeta(true)
+    }
+    else {
+      context.user.inBeta = false
+      setIsInBeta(false)
+    }
     context.user.name = inputRef.current.value;
     ldclient?.identify(context);
     setCookie("ldcontext", context);
     console.log(context);
     setHandleModal(false);
-    setUserName(inputRef.current.value)
+    setUserName(inputRef.current.value);
   }
 
   function handleLogout() {
     console.log("logout-happened");
     setIsLoggedIn(false);
+    setIsInBeta(false);
     const context: any = ldclient?.getContext();
     context.user.name = "Anonymous";
+    context.user.inBeta = false;
     ldclient?.identify(context);
     setCookie("ldcontext", context);
-    setIsInBeta(false);
   }
 
   function enterBeta() {
-    console.log("enter the beta")
     setIsInBeta(true);
     const context: any = ldclient?.getContext();
     context.user.inBeta = true;
     ldclient?.identify(context);
+    setCookie("ldcontext", context);
+    setBetaUsers(betaUsers => [...betaUsers, userName]);
+    console.log(betaUsers);
+  }
+
+  function leaveBeta() {
+    setIsInBeta(false);
+    const context: any = ldclient?.getContext();
+    context.user.inBeta = false;
+    ldclient?.identify(context);
+    setCookie("ldcontext", context);
+    setBetaUsers(betaUsers => {return betaUsers.filter(betaUsers => {betaUsers !== userName})})
+    console.log(betaUsers)
   }
 
   if (getCookie("ldcontext") === undefined) {
@@ -129,31 +154,42 @@ export default function Login() {
                     <AvatarImage src="/images/thumbs-up.png"></AvatarImage>
                     <AvatarFallback>TG</AvatarFallback>
                   </AvatarRoot>
-                  <ListItemHeading>Welcome {userName}!</ListItemHeading>
+                  <ListItemHeading style={{ paddingTop: "10px" }}>
+                    Welcome {userName}!
+                  </ListItemHeading>
                   <ListItemText>Member since 2023</ListItemText>
                 </ListItem>
+                <div style={{ paddingBottom: "20px", paddingTop: "10px" }}>
+                  <Button className="bg-red-400" onClick={handleLogout}>
+                    Logout
+                  </Button>
+                </div>
+                <SeparatorRoot css={{ margin: "15px 0" }} />
                 {isInBeta ? (
-                  <ListItem>
-                    <ListItemText>
+                  <ListItemLink variant="success">
+                    <ListItemText style={{ color: "whiteSmoke" }}>
                       <CheckCircle2
                         className="mr-2"
                         color="green"
-                        size={24}
+                        size={35}
                         style={{ display: "inline" }}
                       />
                       You Are Enrolled!
                     </ListItemText>
-                  </ListItem>
+                    <div>
+                      <Button variant="link2" size="sm" onClick={leaveBeta}>Opt Out</Button>
+                    </div>
+                  </ListItemLink>
                 ) : (
-                  <ListItem>
-                    <Button onClick={enterBeta}>Beta Access</Button>
-                  </ListItem>
+                  <ListItemLink variant="beta">
+                    <ListItemText style={{ color: "whiteSmoke" }}>
+                      Join our Early Access Program!
+                    </ListItemText>
+                    <div style={{ paddingTop: "10px" }}>
+                      <Button onClick={enterBeta}>Enroll</Button>
+                    </div>
+                  </ListItemLink>
                 )}
-                <ListItem>
-                  <Button className="bg-red-400" onClick={handleLogout}>
-                    Logout
-                  </Button>
-                </ListItem>
               </List>
             </NavigationMenuContent>
           </NavigationMenuTrigger>
@@ -162,6 +198,12 @@ export default function Login() {
     );
   }
 }
+
+const SeparatorRoot = styled(Separator.Root, {
+  backgroundColor: slate.slate7,
+  "&[data-orientation=horizontal]": { height: 1, width: "100%" },
+  "&[data-orientation=vertical]": { height: "100%", width: 1 },
+});
 
 const AlertDialogTrigger = styled(AlertDialog.Trigger, {
   all: "unset",
@@ -185,16 +227,6 @@ const exitToRight = keyframes({
 const exitToLeft = keyframes({
   from: { transform: "translateX(0)", opacity: 1 },
   to: { transform: "translateX(-200px)", opacity: 0 },
-});
-
-const scaleIn = keyframes({
-  from: { transform: "rotateX(-30deg) scale(0.9)", opacity: 0 },
-  to: { transform: "rotateX(0deg) scale(1)", opacity: 1 },
-});
-
-const scaleOut = keyframes({
-  from: { transform: "rotateX(0deg) scale(1)", opacity: 1 },
-  to: { transform: "rotateX(-10deg) scale(0.95)", opacity: 0 },
 });
 
 const itemStyles = {
@@ -236,8 +268,8 @@ const NavigationMenuTrigger = styled(NavigationMenu.Trigger, {
 
 const List = styled("ul", {
   display: "grid",
-  padding: 22,
-  margin: 10,
+  paddingBottom: 5,
+  margin: 5,
   alignItems: 'center',
   textAlign: 'center',
   zIndex: 999,
@@ -247,7 +279,7 @@ const List = styled("ul", {
     layout: {
       one: {
         "@media only screen and (min-width: 300px)": {
-          width: 300,
+          width: 400,
           gridTemplateColumns: "1fr",
         },
       },
@@ -278,11 +310,27 @@ const ListItemLink = styled("div", {
   textDecoration: "none",
   userSelect: "none",
   padding: 12,
-  alignItems: 'stretch',
+  alignItems: "stretch",
   borderRadius: 6,
   fontSize: 15,
   lineHeight: 1,
   "&:focus": { boxShadow: `0 0 0 2px ${grayDark.gray7}` },
+  variants: {
+    variant: {
+      beta: {
+        backgroundColor: cyan.cyan8,
+        paddingBottom: 10,
+        paddingTop: 10,
+        fontSize: 20,
+      },
+      success: {
+        backgroundColor: green.green7,
+        alignItems: "baseline",
+        verticalAlign: "middle",
+        fontSize: 20,
+      },
+    },
+  },
 });
 
 const ListItemHeading = styled("div", {
@@ -290,7 +338,6 @@ const ListItemHeading = styled("div", {
   fontSize: 20,
   lineHeight: 1.2,
   marginBottom: 5,
-  paddingTop: 10,
 });
 
 const ListItemText = styled("p", {
@@ -298,6 +345,7 @@ const ListItemText = styled("p", {
   color: mauve.mauve11,
   lineHeight: 1.4,
   fontWeight: "initial",
+  paddingBottom: 10,
 });
 
 const CaretDown = styled(CaretDownIcon, {
