@@ -70,42 +70,14 @@ export default async function handler(
       jsonObject = JSON.parse(json);
     }
 
-    enableStripe = await ldClient.variation("enableStripe", jsonObject, false);
-    newProductExperienceAccess = await ldClient.variation(
-      "new-product-experience-access",
-      jsonObject,
-      "toggle"
-    );
+    /************************************************************************************************************
+     * we're missing the code to retrieve the new products. You'll find this code in "Goggles Worldwide", Step 2 
+     ************************************************************************************************************/
 
-    if (enableStripe) {
-      const products = await listAllProducts();
-       const allowedCategories = newProductExperienceAccess.replace(/\s/, '').split(",");
-
-      const filteredProducts = products.filter((product) =>
-        allowedCategories.includes(product.metadata.category)
-      );
-
-      const productListTemp = await Promise.all(
-        filteredProducts.map(async (product, i) => {
-          const priceId = product.default_price;
-          const price =
-            typeof priceId === "string" ? await getPriceFromApi(priceId) : 0;
-
-          return {
-            id: i,
-            product_id: product.metadata.product_id,
-            description: product.description,
-            price_id: priceId,
-            category: product.metadata.category,
-            image: product.metadata.image,
-            price: price / 100, // Add the price field
-          };
-        })
-      );
-
-      return res.json(productListTemp);
-    } else {
-      return res.json(product);
-    }
+    return res.json(product)
+    
+    /**************************************************************************
+     * Put replacement code between these two comments blocks 
+     **************************************************************************/
   }
 }

@@ -54,53 +54,48 @@ const CartSummary = () => {
     }
     }
   return (
-    <Box css={{width: '100%', maxWidth: 600, margin: '0 15px'}}>
-    <form onSubmit={handleCheckout}>
-      <h1 style={{display: 'flex', verticalAlign: 'middle'}}><AiOutlineShopping style={{ height: '30px', width:'30px'}}/>Cart</h1>
-      <SeparatorRoot css={{margin: '15px 0'}} />
-      {errorMessage ? (
-        <p style={{ color: 'red' }}>Error: {errorMessage}</p>
-      ) : null}
-      {/* This is where we'll render our cart */}
-      <h3 suppressHydrationWarning>
-        <strong>Number of Items:</strong> {cartCount}
-      </h3>
+    <Box css={{ width: "100%", maxWidth: 600, margin: "0 15px" }}>
+      <form onSubmit={handleCheckout}>
+        <h1 style={{ display: "flex", verticalAlign: "middle" }}>
+          <AiOutlineShopping style={{ height: "30px", width: "30px" }} />
+          Cart
+        </h1>
+        <SeparatorRoot css={{ margin: "15px 0" }} />
+        {errorMessage ? (
+          <p style={{ color: "red" }}>Error: {errorMessage}</p>
+        ) : null}
+        {/* This is where we'll render our cart */}
+        <h3 suppressHydrationWarning>
+          <strong>Number of Items:</strong> {cartCount}
+        </h3>
 
-      {/* Redirects the user to Stripe */}
-      <Button
-        variant='green'
-        className="cart-style-background"
-        type="submit"
-        css={{marginRight: 25}}
-        onClick={() => {
-          if (launchDarklyClient) {
-            launchDarklyClient.track(
-              "Checkout Click",
-              launchDarklyClient.getContext,
-              1
-            );
-            console.log("sending data to experiment for checkout click");
-            launchDarklyClient.flush();
-          } else {
-            console.log(
-              "sorry, we did not send metrics for the checkout click"
-            );
-          }
-        }}
-      >
-        Checkout
-      </Button>
-      <Button
-        variant='blue'
-        className="cart-style-background"
-        type="button"
-        onClick={clearCart}
-      >
-        Clear Cart
-      </Button>
-    </form>
+        {/* Redirects the user to Stripe */}
+        <Button
+          variant="green"
+          className="cart-style-background"
+          type="submit"
+          css={{ marginRight: 25 }}
+          onClick={() => {
+            /**
+             *
+             * Add code from "Using the Metric System", Step 8b
+             *
+             */
+          }}
+        >
+          Checkout
+        </Button>
+        <Button
+          variant="blue"
+          className="cart-style-background"
+          type="button"
+          onClick={clearCart}
+        >
+          Clear Cart
+        </Button>
+      </form>
     </Box>
-  )
+  );
 }
 
 //styling for the cart 

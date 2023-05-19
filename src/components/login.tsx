@@ -1,10 +1,10 @@
 // @ts-nocheck
-import * as React from 'react';
+import * as React from "react";
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import * as AvatarPrimitive from "@radix-ui/react-avatar";
 import * as Separator from "@radix-ui/react-separator";
 import { styled, keyframes } from "@stitches/react";
-import {User, CheckCircle2} from 'lucide-react'
+import { User, CheckCircle2 } from "lucide-react";
 import {
   mauve,
   blackA,
@@ -21,7 +21,7 @@ import { useState, useContext, useRef } from "react";
 import { useLDClient } from "launchdarkly-react-client-sdk";
 import { setCookie, getCookie } from "cookies-next";
 import { Login_data } from "@/context/state";
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -30,9 +30,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { fontSans } from "@/lib/fonts";
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
 import { cn } from "@/lib/utils";
@@ -43,27 +43,26 @@ export default function Login() {
   const [handleModal, setHandleModal] = useState(false);
   const ldclient = useLDClient();
   const [isInBeta, setIsInBeta] = useState(false);
-  const [userName, setUserName] = useState("")
-  const [betaUsers, setBetaUsers] = useState([])
+  const [userName, setUserName] = useState("");
+  const [betaUsers, setBetaUsers] = useState([]);
 
   function handleLogin(e: Event) {
     // Setting the user's name in the context object
-    let user = 'Toggle';
+    let user = "Toggle";
     e.preventDefault();
     setIsLoggedIn(true);
     const context: any = ldclient?.getContext();
     console.log(context);
-    const optedIn = betaUsers.find(element => element === user);
+    const optedIn = betaUsers.find((element) => element === user);
     console.log(optedIn);
     if (optedIn === user) {
-      context.user.inBeta = true
-      setIsInBeta(true)
+      context.user.inBeta = true;
+      setIsInBeta(true);
+    } else {
+      context.user.inBeta = false;
+      setIsInBeta(false);
     }
-    else {
-      context.user.inBeta = false
-      setIsInBeta(false)
-    }
-    context.user.name = user
+    context.user.name = user;
     ldclient?.identify(context);
     setCookie("ldcontext", context);
     console.log(context);
@@ -88,7 +87,7 @@ export default function Login() {
     context.user.inBeta = true;
     ldclient?.identify(context);
     setCookie("ldcontext", context);
-    setBetaUsers(betaUsers => [...betaUsers, userName]);
+    setBetaUsers((betaUsers) => [...betaUsers, userName]);
     console.log(betaUsers);
   }
 
@@ -98,8 +97,12 @@ export default function Login() {
     context.user.inBeta = false;
     ldclient?.identify(context);
     setCookie("ldcontext", context);
-    setBetaUsers(betaUsers => {return betaUsers.filter(betaUsers => {betaUsers !== userName})})
-    console.log(betaUsers)
+    setBetaUsers((betaUsers) => {
+      return betaUsers.filter((betaUsers) => {
+        betaUsers !== userName;
+      });
+    });
+    console.log(betaUsers);
   }
 
   if (getCookie("ldcontext") === undefined) {
@@ -109,46 +112,53 @@ export default function Login() {
 
   if (!isLoggedIn) {
     return (
-      <Button onClick={(e) => handleLogin(e)} className="text-xl bg-black hover:bg-white hover:text-black text-white" variant="outline">Login</Button>
-    //   <Dialog>
-    //   <DialogTrigger asChild>
-    //     <Button className="text-xl bg-black hover:bg-white hover:text-black text-white" variant="outline">Login</Button>
-    //   </DialogTrigger>
-    //   <DialogContent className={cn("sm:max-w-[425px] font-sans", fontSans.variable)}>
-    //     <DialogHeader>
-    //       <DialogTitle>Login to Toggle Outfitters</DialogTitle>
-    //       <DialogDescription>
-    //         Because we need to know you, to send you things.
-    //       </DialogDescription>
-    //     </DialogHeader>
-    //     <div className="grid gap-4 py-4">
-    //       <div className="grid grid-cols-4 items-center gap-4">
-    //         <Label htmlFor="name" className="text-right">
-    //           Username
-    //         </Label>
-    //         <Input id="name" className="col-span-3" required ref={inputRef} />
-    //       </div>
-    //       <div className="grid grid-cols-4 items-center gap-4">
-    //         <Label htmlFor="username" className="text-right">
-    //           Password
-    //         </Label>
-    //         <Input id="username" type='password' className="col-span-3" />
-    //       </div>
-    //     </div>
-    //     <DialogFooter>
-    //       <Button className="bg-green-500" type="submit" onClick={(e) => handleLogin(e)}>Submit</Button>
-    //     </DialogFooter>
-    //   </DialogContent>
-    // </Dialog>
-)} else {
+      <Button
+        onClick={(e) => handleLogin(e)}
+        className="text-xl bg-black hover:bg-white hover:text-black text-white"
+        variant="outline"
+      >
+        Login
+      </Button>
+      //   <Dialog>
+      //   <DialogTrigger asChild>
+      //     <Button className="text-xl bg-black hover:bg-white hover:text-black text-white" variant="outline">Login</Button>
+      //   </DialogTrigger>
+      //   <DialogContent className={cn("sm:max-w-[425px] font-sans", fontSans.variable)}>
+      //     <DialogHeader>
+      //       <DialogTitle>Login to Toggle Outfitters</DialogTitle>
+      //       <DialogDescription>
+      //         Because we need to know you, to send you things.
+      //       </DialogDescription>
+      //     </DialogHeader>
+      //     <div className="grid gap-4 py-4">
+      //       <div className="grid grid-cols-4 items-center gap-4">
+      //         <Label htmlFor="name" className="text-right">
+      //           Username
+      //         </Label>
+      //         <Input id="name" className="col-span-3" required ref={inputRef} />
+      //       </div>
+      //       <div className="grid grid-cols-4 items-center gap-4">
+      //         <Label htmlFor="username" className="text-right">
+      //           Password
+      //         </Label>
+      //         <Input id="username" type='password' className="col-span-3" />
+      //       </div>
+      //     </div>
+      //     <DialogFooter>
+      //       <Button className="bg-green-500" type="submit" onClick={(e) => handleLogin(e)}>Submit</Button>
+      //     </DialogFooter>
+      //   </DialogContent>
+      // </Dialog>
+    );
+  } else {
     return (
       <AlertDialog.Root>
         <AlertDialogTrigger>
           <NavigationMenuTrigger>
-            <Button variant='outline' className="hover:bg-white ">
+            <Button variant="outline" className="hover:bg-white ">
               <User className="mr-2" color="white" size={24} />
-              <div className='text-md xl:text-lg text-white hover:text-black'>
-              {userName}{" "}
+              <div className="text-md xl:text-lg text-white hover:text-black">
+                {userName}{" "}
               </div>
               <CaretDown color="white" className="ml-2" aria-hidden />
             </Button>
@@ -182,7 +192,9 @@ export default function Login() {
                       You Are Enrolled!
                     </ListItemText>
                     <div>
-                      <Button variant="link2" size="sm" onClick={leaveBeta}>Opt Out</Button>
+                      <Button variant="link2" size="sm" onClick={leaveBeta}>
+                        Opt Out
+                      </Button>
                     </div>
                   </ListItemLink>
                 ) : (
@@ -275,8 +287,8 @@ const List = styled("ul", {
   display: "grid",
   paddingBottom: 5,
   margin: 5,
-  alignItems: 'center',
-  textAlign: 'center',
+  alignItems: "center",
+  textAlign: "center",
   zIndex: 999,
   columnGap: 10,
   listStyle: "none",

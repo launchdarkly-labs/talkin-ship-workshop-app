@@ -42,70 +42,35 @@ const changeCountry = (country: any) => {
 const context: any = ldclient?.getContext();
 console.log(context)
   return (
-    <NavigationMenuRoot className='bg-black p-2 shadow-2xl'>
-        <Link href="/">
-          <Image src={ts} className='ml-4 p-2' alt="logo" height={55} />
-        </Link>
-      <NavigationMenuList>  
-        {devdebug ? (
-        <NavigationMenu.Item>
-          <NavigationMenuTrigger>
-            <Button className="bg-orange-500 text-white">Debug: App Data<CaretDownDebug aria-hidden /></Button>
-          </NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <List>
-            <ListItem title="Selected Country">
-              {uiCountry}
-            </ListItem>
-            <ListItem title="Product Categories">
-              {newProductExperienceAccess.replaceAll('"','').replaceAll(',','s, ')}s
-            </ListItem>
-            <ListItem title="Admin Access">
-              {adminMode ? 'Enabled' : 'Disabled'}
-            </ListItem>
-            <ListItem title="Billing API">
-              {billing ? 'Enabled' : 'Disabled'}
-            </ListItem>
-          </List>
-          </NavigationMenuContent>
-        </NavigationMenu.Item>
-        ):null}
-        {devdebug ? (<NavigationMenu.Item>
-          <NavigationMenuTrigger>
-            <Button className="bg-orange-500 text-white">Debug: Country Override<CaretDownDebug aria-hidden /></Button>
-          </NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <List>
-              <ListItem onClick={changeCountry.bind(null,'US')} title="USA">🇺🇸</ListItem>
-              <ListItem onClick={changeCountry.bind(null,'MX')} title="Mexico">🇲🇽</ListItem>
-              <ListItem onClick={changeCountry.bind(null,'CA')} title="Canada">🇨🇦</ListItem>
-              <ListItem onClick={changeCountry.bind(null,'UK')}title="United Kingdom">🇬🇧</ListItem>
-              <ListItem onClick={changeCountry.bind(null,'FR')} title="France">🇫🇷</ListItem>
-              <ListItem onClick={changeCountry.bind(null,'PT')} title="Portugal">🇵🇹</ListItem>
-            </List>
-          </NavigationMenuContent>
-        </NavigationMenu.Item>
-        ):null}
-        {adminMode ? (
-        <NavigationMenu.Item>
-          <NavigationMenuTrigger>
-            <AdminPanel />
-          </NavigationMenuTrigger>
-        </NavigationMenu.Item>):null}
-        {(billing && storeEnabled) ?
-        <NavigationMenu.Item>
-          <NavigationMenuTrigger>
-            <Button className="bg-blue-500">
-            <ShoppingCartIcon className="mr-2" color="white" size={24} />({cartCount}) <CaretDown color='white' className='ml-2' aria-hidden />
-            </Button>
-          </NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <div style={{minWidth: '275px', margin: 30}}>
-            <CartSummary />
-            </div>
-          </NavigationMenuContent>
-        </NavigationMenu.Item>
-        : null } 
+    <NavigationMenuRoot className="bg-black p-2 shadow-2xl">
+      <Link href="/">
+        <Image src={ts} className="ml-4 p-2" alt="logo" height={55} />
+      </Link>
+      <NavigationMenuList>
+        {/***********************************************************************************
+        "Goggles Go Global", Step 5, replace this comment block with the code from the guide
+        *************************************************************************************/}
+
+        {/**********************************************************************   
+        "Taking on Database Migrations - Getting Our Application Ready", Step 2, 
+        replace this comment block with the code from the guide
+        ************************************************************************/}
+        {billing && storeEnabled ? (
+          <NavigationMenu.Item>
+            <NavigationMenuTrigger>
+              <Button className="bg-blue-500">
+                <ShoppingCartIcon className="mr-2" color="white" size={24} />(
+                {cartCount}){" "}
+                <CaretDown color="white" className="ml-2" aria-hidden />
+              </Button>
+            </NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <div style={{ minWidth: "275px", margin: 30 }}>
+                <CartSummary />
+              </div>
+            </NavigationMenuContent>
+          </NavigationMenu.Item>
+        ) : null}
         <NavigationMenu.Item>
           <NavigationMenuTrigger>
             <Login />

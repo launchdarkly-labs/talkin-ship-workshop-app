@@ -8,17 +8,24 @@ import { fontSans } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
 
 export default function Home() {
-  const { storeEnabled } = useFlags();
+  // We'll need to import the flag, make sure you uncomment the next line!
+  // const { storeEnabled } = useFlags();
 
   return (
     <div className={cn("font-sans", fontSans.variable)}>
-        <Head>
-          <title>Toggle Outfitters</title>
-        </Head>
-        <header className={styles.header}>
-          <NavigationMenuDemo />
-        </header>
-        {storeEnabled ? <StoreLaunch /> : <StorePreview />}
+      <Head>
+        <title>Toggle Outfitters</title>
+      </Head>
+      <header className={styles.header}>
+        <NavigationMenuDemo />
+      </header>
+      {/********************************************************************************************************
+       * Retrieve Code from "Shipping Your First Feature with LaunchDarkly - Dark Launching our Feature", Step 2
+       **********************************************************************************************************/}
+      <StorePreview />
+      {/**********************************************************
+       * Replace the above component with the code from the guide
+       **********************************************************/}
     </div>
   );
 }

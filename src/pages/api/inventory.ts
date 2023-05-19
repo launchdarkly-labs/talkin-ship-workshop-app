@@ -120,18 +120,12 @@ export default async function handler(
     const json = decodeURIComponent(clientContext);
     jsonObject = JSON.parse(json);
   }
-
-  dbTesting = await ldClient.variation("dbTesting", jsonObject, false);
-
-  if (dbTesting == 'postgres') {
-    const supabase = createClient(process.env.NEXT_PUBLIC_DB_URL || "", process.env.NEXT_PUBLIC_DB_ANON_KEY || "")
-
-    const { data, error } = await supabase
-      .from('toggletable')
-      .select()
-
-    res.status(200).json(data)
-  } else {
-    res.status(200).json(product)
-  }
+  {/************************************************************************
+  * Replace the code below with the code from the guide located 
+  in "Taking On Database Migrations - Prepping the Database Backend", Step 2
+  **************************************************************************/}  
+  res.status(200).json(product)
+  {/************************************************************************
+  * Paste code block above this comment block
+   *************************************************************************/}
 }

@@ -55,16 +55,14 @@ const Inventory = () => {
 
   // define metric for experimentation
   const client = useLDClient();
-  async function experimentData() {
-    if (client) {
-      client.track("Add to Cart Click", client.getContext(), 1);
-      console.log("We're sending data to the experiment");
-      client.track("storeClicks");
-      client.flush();
-    } else {
-      console.log("boo hiss, we are not sending data to the experiment");
-    }
-  }
+
+  const addToCartClickHandler = () => {
+    /**
+     *
+     * Add code from "Using the Metric System", Step 8a here.
+     *
+     */
+  };
 
   const {
     data: stripeProducts,
@@ -100,46 +98,40 @@ const Inventory = () => {
           <APIMigrationState />
         </div>
       )}
-      <div style={{
-        visibility: 'hidden'
-      }}>
+      <div
+        style={{
+          visibility: "hidden",
+        }}
+      >
         <span data-id="label-container">
-          {featuredProductLabel
-            ? featuredProductLabel
-            : "none"}
+          {featuredProductLabel ? featuredProductLabel : "none"}
         </span>
       </div>
       <div className="grid sm:grid-cols-2 grid-cols-1 lg:grid-cols-4">
         {stripeProducts.map((product: Product, index: number) => (
+          // Step 8c
           <ProductCard
             key={index}
             item={product}
             featuredProductLabel={featuredProductLabel}
-            isGoggle={product.category === "goggle"}
+            isGoggle={product.category === "goggle"} // we're just changing this to false so we won't label all goggles as "NEW"
             isFeatured={index < 4}
           >
-            {billing  ? (
-              <AddToCartButton
-                product={product}
-                errorTesting={errorTesting}
-                experimentData={experimentData}
-              />
-            ) : (
-              <ReserveButton
-                setHandleModal={setHandleModal}
-                handleModal={handleModal}
-                handleClickTest={handleClickTest}
-                updateField={updateField}
-                formData={{ name, email }}
-                onButtonClick={onButtonClick}
-                
-              />
-            )}
-            {billing && 
-            <ErrorDialog
-              errorState={errorState}
-              setErrorState={setErrorState}
-            /> }
+            {/*************************************************************************
+             * We're missing some code here to enable our new cart functionality!
+             * Retrieve this code from "Failure Is An Option! - Add the Code", Step 1
+             *************************************************************************/}
+            <ReserveButton
+              setHandleModal={setHandleModal}
+              handleModal={handleModal}
+              handleClickTest={handleClickTest}
+              updateField={updateField}
+              formData={{ name, email }}
+              onButtonClick={onButtonClick}
+            />
+            {/*****************************************************************
+             * Make sure you replace the code above with your new cart code!
+             ******************************************************************/}
           </ProductCard>
         ))}
       </div>
