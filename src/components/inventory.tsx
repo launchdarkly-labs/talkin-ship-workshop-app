@@ -23,7 +23,13 @@ type Product = {
 
 const Inventory = () => {
   // import flags
-  const { devdebug, billing, enableStripe, newProductExperienceAccess, featuredProductLabel } = useFlags();
+  const {
+    devdebug,
+    billing,
+    enableStripe,
+    newProductExperienceAccess,
+    featuredProductLabel,
+  } = useFlags();
 
   //function for adding form fill data to database
   const [name, setName] = useState("");
@@ -45,7 +51,7 @@ const Inventory = () => {
       return response.status;
     } catch (error) {
       console.log("there was a problem");
-      return 502
+      return 502;
     }
   };
 
@@ -58,17 +64,17 @@ const Inventory = () => {
 
   const addToCartClickHandler = () => {
     /**
-     *
-     * Add code from "Using the Metric System", Step 8a here.
-     *
+     * 
+     * Add code from "Using the Metric System", Step 8a here. 
+     * 
      */
-  };
+  }
 
   const {
     data: stripeProducts,
     error: stripeProductsError,
     isLoading: stripeProductsLoading,
-  } = useFetch("/api/products", enableStripe, newProductExperienceAccess );
+  } = useFetch("/api/products", enableStripe, newProductExperienceAccess);
 
   useEffect(() => {
     setErrorState(false);
@@ -78,7 +84,7 @@ const Inventory = () => {
   const handleClickTest = (e: any) => {
     e.preventDefault();
     setHandleModal(!handleModal);
-    return handleModal
+    return handleModal;
   };
 
   const timerRef = useRef(0);
@@ -89,7 +95,8 @@ const Inventory = () => {
         <div className="animate-spin w-16 h-16 border-t-4 border-orange-500 border-solid rounded-full"></div>
       </div>
     );
-  }  if (stripeProductsError) return <p>Error: {stripeProductsError.message}</p>; 
+  }
+  if (stripeProductsError) return <p>Error: {stripeProductsError.message}</p>;
 
   return (
     <div>
@@ -114,11 +121,11 @@ const Inventory = () => {
             key={index}
             item={product}
             featuredProductLabel={featuredProductLabel}
-            isGoggle={product.category === "goggle"} // we're just changing this to false so we won't label all goggles as "NEW"
-            isFeatured={index < 4}
+            isGoggle={product.category === "goggle"} //Change this line to match "Using the Metric System", step 8c
+            isFeatured={featuredProductLabel && index < 4}
           >
             {/*************************************************************************
-             * We're missing some code here to enable our new cart functionality!
+             * We're missing some code here to enable our new cart functionality! 
              * Retrieve this code from "Failure Is An Option! - Add the Code", Step 1
              *************************************************************************/}
             <ReserveButton

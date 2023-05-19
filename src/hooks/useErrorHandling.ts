@@ -5,7 +5,6 @@
  * below with the code from 
  * "Handling API Migrations Like a Pro - Immediate Resolution With Flag Triggers", Step 3.
  *****************************************************************************************/
-
 import { useState } from 'react';
 import { useShoppingCart } from 'use-shopping-cart';
 

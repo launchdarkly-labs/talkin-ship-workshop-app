@@ -120,6 +120,7 @@ export default async function handler(
     const json = decodeURIComponent(clientContext);
     jsonObject = JSON.parse(json);
   }
+
   {/************************************************************************
   * Replace the code below with the code from the guide located 
   in "Taking On Database Migrations - Prepping the Database Backend", Step 2

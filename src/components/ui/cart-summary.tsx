@@ -68,32 +68,31 @@ const CartSummary = () => {
         <h3 suppressHydrationWarning>
           <strong>Number of Items:</strong> {cartCount}
         </h3>
-
-        {/* Redirects the user to Stripe */}
-        <Button
-          variant="green"
-          className="cart-style-background"
-          type="submit"
-          css={{ marginRight: 25 }}
-          onClick={() => {
-            /**
-             *
-             * Add code from "Using the Metric System", Step 8b
-             *
-             */
-          }}
-        >
-          Checkout
-        </Button>
-        <Button
-          variant="blue"
-          className="cart-style-background"
-          type="button"
-          onClick={clearCart}
-        >
-          Clear Cart
-        </Button>
-      </form>
+      {/* Redirects the user to Stripe */}
+      <Button
+        variant='green'
+        className="cart-style-background"
+        type="submit"
+        css={{marginRight: 25}}
+        onClick={() => {
+          /**
+           * 
+           * Add code from "Using the Metric System", Step 8b
+           * 
+           */
+        }}
+      >
+        Checkout
+      </Button>
+      <Button
+        variant='blue'
+        className="cart-style-background"
+        type="button"
+        onClick={clearCart}
+      >
+        Clear Cart
+      </Button>
+    </form>
     </Box>
   );
 }

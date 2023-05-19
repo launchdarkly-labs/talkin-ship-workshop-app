@@ -39,6 +39,7 @@ export default async function handler(
     const json = decodeURIComponent(clientContext);
     jsonObject = JSON.parse(json);
   }
+
 /************************************************************************************************
 * There is a lot of missing API code here, 
 * retrieve the code from "Migrating Technologies with LaunchDarkly - Fixing Our API Code", Step 2
