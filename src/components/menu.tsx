@@ -31,7 +31,7 @@ const NavigationMenuDemo = () => {
   const {
     billing,
     storeEnabled,
-    adminMode, 
+    adminMode,
     newProductExperienceAccess,
     devdebug,
   } = useFlags();
@@ -85,10 +85,13 @@ const NavigationMenuDemo = () => {
           </NavigationMenu.Item>
         ) : null}
         <NavigationMenu.Item>
-          <NavigationMenuTrigger>
+          <NavigationMenuLink>
             <Login />
-          </NavigationMenuTrigger>
+          </NavigationMenuLink>
         </NavigationMenu.Item>
+        <NavigationMenuIndicator>
+          <Arrow />
+        </NavigationMenuIndicator>
       </NavigationMenuList>
       <ViewportPosition>
         <NavigationMenuViewport />
@@ -125,6 +128,16 @@ const scaleIn = keyframes({
 const scaleOut = keyframes({
   from: { transform: "rotateX(0deg) scale(1)", opacity: 1 },
   to: { transform: "rotateX(-10deg) scale(0.95)", opacity: 0 },
+});
+
+const fadeIn = keyframes({
+  from: { opacity: 0 },
+  to: { opacity: 1 },
+});
+
+const fadeOut = keyframes({
+  from: { opacity: 1 },
+  to: { opacity: 0 },
 });
 
 const NavigationMenuRoot = styled(NavigationMenu.Root, {
@@ -169,6 +182,16 @@ const NavigationMenuTrigger = styled(NavigationMenu.Trigger, {
   gap: 2,
 });
 
+const NavigationMenuLink = styled(NavigationMenu.Link, {
+  ...itemStyles,
+  display: "flex",
+  textDecoration: "none",
+  alignItems: "center",
+  justifyContent: "space-between",
+  zIndex: 999,
+  gap: 2,
+});
+
 const NavigationMenuContent = styled(NavigationMenu.Content, {
   position: "absolute",
   zIndex: 999,
@@ -184,13 +207,25 @@ const NavigationMenuContent = styled(NavigationMenu.Content, {
   '&[data-motion="to-end"]': { animationName: exitToRight },
 });
 
+const NavigationMenuIndicator = styled(NavigationMenu.Indicator, {
+  display: "flex",
+  alignItems: "flex-end",
+  justifyContent: "center",
+  height: 10,
+  top: "100%",
+  overflow: "visible",
+  zIndex: 1,
+  transition: "width, transform 200ms ease",
+  '&[data-state="visible"]': { animation: `${fadeIn} 200ms ease` },
+  '&[data-state="hidden"]': { animation: `${fadeOut} 50ms ease` },
+});
+
 const NavigationMenuViewport = styled(NavigationMenu.Viewport, {
   position: "relative",
   transformOrigin: "top center",
-  marginTop: 10,
   zIndex: 999,
   width: "100%",
-  backgroundColor: "white",
+  backgroundColor: slate.slate4,
   borderRadius: 6,
   overflow: "hidden",
   boxShadow:
@@ -297,6 +332,16 @@ const CaretDownDebug = styled(CaretDownIcon, {
   top: 1,
   transition: "transform 250ms ease",
   "[data-state=open] &": { transform: "rotate(-180deg)" },
+});
+
+const Arrow = styled("div", {
+  position: "relative",
+  top: "100%",
+  backgroundColor: slate.slate4,
+  width: 15,
+  height: 15,
+  transform: "rotate(45deg)",
+  borderTopLeftRadius: 2,
 });
 
 export default NavigationMenuDemo;
