@@ -72,7 +72,7 @@ export default function AdminPanel() {
     <Dialog>
         {adminMode && 
       <DialogTrigger asChild>
-        <Button onClick={(e) => initialize()} className="text-xl bg-red-400 hover:bg-red-400/90 text-white" variant="outline">Store Admin</Button>
+        <Button onClick={(e) => initialize()} className="text-md xl:text-lg text-white" variant="outline">Store Admin</Button>
       </DialogTrigger>
       }
       <DialogContent className={cn("min-w-[80%] h-4/5 font-sans", fontSans.variable)}>

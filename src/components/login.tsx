@@ -47,13 +47,15 @@ export default function Login() {
   const [betaUsers, setBetaUsers] = useState([])
 
   function handleLogin(e: Event) {
+    // Setting the user's name in the context object
+    let user = 'Toggle';
     e.preventDefault();
     setIsLoggedIn(true);
     const context: any = ldclient?.getContext();
     console.log(context);
-    const optedIn = betaUsers.find(element => element === inputRef.current.value);
+    const optedIn = betaUsers.find(element => element === user);
     console.log(optedIn);
-    if (optedIn === inputRef.current.value) {
+    if (optedIn === user) {
       context.user.inBeta = true
       setIsInBeta(true)
     }
@@ -61,12 +63,12 @@ export default function Login() {
       context.user.inBeta = false
       setIsInBeta(false)
     }
-    context.user.name = inputRef.current.value;
+    context.user.name = user
     ldclient?.identify(context);
     setCookie("ldcontext", context);
     console.log(context);
     setHandleModal(false);
-    setUserName(inputRef.current.value);
+    setUserName(user);
   }
 
   function handleLogout() {
@@ -107,44 +109,47 @@ export default function Login() {
 
   if (!isLoggedIn) {
     return (
-      <Dialog>
-      <DialogTrigger asChild>
-        <Button className="text-xl bg-black hover:bg-blue-400/90 text-white" variant="outline">Login</Button>
-      </DialogTrigger>
-      <DialogContent className={cn("sm:max-w-[425px] font-sans", fontSans.variable)}>
-        <DialogHeader>
-          <DialogTitle>Login to Toggle Outfitters</DialogTitle>
-          <DialogDescription>
-            Because we need to know you, to send you things.
-          </DialogDescription>
-        </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-              Username
-            </Label>
-            <Input id="name" className="col-span-3" required ref={inputRef} />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="username" className="text-right">
-              Password
-            </Label>
-            <Input id="username" type='password' className="col-span-3" />
-          </div>
-        </div>
-        <DialogFooter>
-          <Button className="bg-green-500" type="submit" onClick={(e) => handleLogin(e)}>Submit</Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+      <Button onClick={(e) => handleLogin(e)} className="text-xl bg-black hover:bg-white hover:text-black text-white" variant="outline">Login</Button>
+    //   <Dialog>
+    //   <DialogTrigger asChild>
+    //     <Button className="text-xl bg-black hover:bg-white hover:text-black text-white" variant="outline">Login</Button>
+    //   </DialogTrigger>
+    //   <DialogContent className={cn("sm:max-w-[425px] font-sans", fontSans.variable)}>
+    //     <DialogHeader>
+    //       <DialogTitle>Login to Toggle Outfitters</DialogTitle>
+    //       <DialogDescription>
+    //         Because we need to know you, to send you things.
+    //       </DialogDescription>
+    //     </DialogHeader>
+    //     <div className="grid gap-4 py-4">
+    //       <div className="grid grid-cols-4 items-center gap-4">
+    //         <Label htmlFor="name" className="text-right">
+    //           Username
+    //         </Label>
+    //         <Input id="name" className="col-span-3" required ref={inputRef} />
+    //       </div>
+    //       <div className="grid grid-cols-4 items-center gap-4">
+    //         <Label htmlFor="username" className="text-right">
+    //           Password
+    //         </Label>
+    //         <Input id="username" type='password' className="col-span-3" />
+    //       </div>
+    //     </div>
+    //     <DialogFooter>
+    //       <Button className="bg-green-500" type="submit" onClick={(e) => handleLogin(e)}>Submit</Button>
+    //     </DialogFooter>
+    //   </DialogContent>
+    // </Dialog>
 )} else {
     return (
       <AlertDialog.Root>
         <AlertDialogTrigger>
           <NavigationMenuTrigger>
-            <Button>
+            <Button variant='outline' className="hover:bg-white ">
               <User className="mr-2" color="white" size={24} />
+              <div className='text-md xl:text-lg text-white hover:text-black'>
               {userName}{" "}
+              </div>
               <CaretDown color="white" className="ml-2" aria-hidden />
             </Button>
             <NavigationMenuContent>

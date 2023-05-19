@@ -75,7 +75,7 @@ const Inventory = () => {
   useEffect(() => {
     setErrorState(false);
     return () => clearTimeout(timerRef.current);
-  }, []);
+  }, [billing]);
 
   const handleClickTest = (e: any) => {
     e.preventDefault();
