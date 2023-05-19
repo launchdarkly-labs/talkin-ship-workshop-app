@@ -54,18 +54,20 @@ const CartSummary = () => {
     }
     }
   return (
-    <Box css={{width: '100%', maxWidth: 600, margin: '0 15px'}}>
-    <form onSubmit={handleCheckout}>
-      <h1 style={{display: 'flex', verticalAlign: 'middle'}}><AiOutlineShopping style={{ height: '30px', width:'30px'}}/>Cart</h1>
-      <SeparatorRoot css={{margin: '15px 0'}} />
-      {errorMessage ? (
-        <p style={{ color: 'red' }}>Error: {errorMessage}</p>
-      ) : null}
-      {/* This is where we'll render our cart */}
-      <h3 suppressHydrationWarning>
-        <strong>Number of Items:</strong> {cartCount}
-      </h3>
-
+    <Box css={{ width: "100%", maxWidth: 600, margin: "0 15px" }}>
+      <form onSubmit={handleCheckout}>
+        <h1 style={{ display: "flex", verticalAlign: "middle" }}>
+          <AiOutlineShopping style={{ height: "30px", width: "30px" }} />
+          Cart
+        </h1>
+        <SeparatorRoot css={{ margin: "15px 0" }} />
+        {errorMessage ? (
+          <p style={{ color: "red" }}>Error: {errorMessage}</p>
+        ) : null}
+        {/* This is where we'll render our cart */}
+        <h3 suppressHydrationWarning>
+          <strong>Number of Items:</strong> {cartCount}
+        </h3>
       {/* Redirects the user to Stripe */}
       <Button
         variant='green'
@@ -92,7 +94,7 @@ const CartSummary = () => {
       </Button>
     </form>
     </Box>
-  )
+  );
 }
 
 //styling for the cart 

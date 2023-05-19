@@ -81,6 +81,11 @@
   }
 }
 
+@font-face {
+  font-family: 'Sohne';
+  src: url('/fonts/sohne.otf');
+  }
+
 
 :root {
   --max-width: 1100px;
@@ -134,6 +139,10 @@ body {
   /* background-image: url('/ld-bg.png');
   background-repeat: no-repeat;  
   background-size: cover; */
+}
+
+h1 {
+  font-family: 'Sohne';
 }
 
 body {

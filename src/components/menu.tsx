@@ -68,7 +68,6 @@ const NavigationMenuDemo = () => {
         "Taking on Database Migrations - Getting Our Application Ready", Step 2, 
         replace this comment block with the code from the guide
         ************************************************************************/}
-
         {billing && storeEnabled ? (
           <NavigationMenu.Item>
             <NavigationMenuTrigger>

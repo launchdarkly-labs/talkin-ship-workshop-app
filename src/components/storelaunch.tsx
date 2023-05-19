@@ -8,10 +8,16 @@ import { cn } from "@/lib/utils"
 const StoreContent = () => (
   <main className={styles.main}>
     
-    <div className={cn("flex text-4xl border-b-4 border-orange-600 w-full md:text-6xl lg:text-8xl font-sans text-yellow-500 mx-auto place-items-center place-content-center animate-fade-in",
+    <div className={cn("flex text-3xl  w-full md:text-6xl lg:text-8xl font-sans text-yellow-500 mx-auto place-items-center place-content-center animate-fade-in",
             fontSans.variable
           )}>
-      <div className="">
+        <div>
+        <p className={styles.subhead}>The New </p>
+        <p className={styles.outfitters}>Toggle </p>
+        <p className={styles.outfitters}>Outfitters! </p>
+        {/* Future adspace area for experiment */}
+        </div>
+        <div className="">
           <Image
             src="/images/Toggle-5-Clipped.png"
             alt="Toggle"
@@ -19,11 +25,6 @@ const StoreContent = () => (
             height={325}
             quality={100}
           />
-        </div>
-        <div>
-        <p className=" text-xl md:text-3xl font-sans font-semibold lg:text-5xl text-black">The New </p>
-        <p className=" text-transparent bg-clip-text font-sans font-extrabold bg-gradient-to-b from-orange-300 to-orange-600 pb-4">Toggle Outfitters! </p>
-        {/* Future adspace area for experiment */}
         </div>
     </div>
 

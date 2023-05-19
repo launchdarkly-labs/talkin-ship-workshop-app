@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  background:  #000000 /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
   /* font-family: 'Sohne'; */
   /* padding: 2rem; */
   /* min-height: 93vh; */
@@ -10,6 +11,31 @@
   background-repeat: no-repeat;  
   background-size: cover; */
 
+}
+
+.subhead {
+  color: #939598;
+  font-family: 'Sohne';
+  font-size: 38.2818px;
+  line-height: 150%;
+  letter-spacing: 0.155em;
+  text-transform: uppercase;
+}
+
+.outfitters {
+  font-size: 83.4429px;
+  font-family: 'Sohne';
+line-height: 125%;
+/* or 104px */
+
+letter-spacing: 0.075em;
+
+/* Icon/yellow green */
+
+background: linear-gradient(126.73deg, #EAFF38 -2.64%, #38C7E4 72.44%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
 }
 
 .img-center > div {
@@ -40,35 +66,6 @@
   font-family: 'Sohne';
   padding: 1rem;
   position: relative;
-}
-
-.description {
-  display: inherit;
-  justify-content: inherit;
-  align-items: inherit;
-  font-family: 'Sohne';
-  font-size: 0.85rem;
-  max-width: var(--max-width);
-  width: 100%;
-  /* z-index: 2; */
-}
-
-.description a {
-  display: flex;
-  justify-content: center;
-  font-family: 'Sohne';
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.description p {
-  position: relative;
-  margin: 0;
-  padding: 1rem;
-  font-family: 'Sohne';
-  background-color: rgba(var(--callout-rgb), 0.5);
-  border: 1px solid rgba(var(--callout-border-rgb), 0.3);
-  border-radius: var(--border-radius);
 }
 
 .code {
@@ -316,6 +313,11 @@
   border-radius: var(--border-radius);
   border: 1px solid rgba(var(--card-border-rgb), 0);
   transition: background 200ms, border 200ms;
+}
+
+.cardlower {
+  background: #252525;
+  
 }
 
 /* common */

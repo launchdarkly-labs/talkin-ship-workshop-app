@@ -79,7 +79,7 @@ const Inventory = () => {
   useEffect(() => {
     setErrorState(false);
     return () => clearTimeout(timerRef.current);
-  }, []);
+  }, [billing]);
 
   const handleClickTest = (e: any) => {
     e.preventDefault();
@@ -116,6 +116,7 @@ const Inventory = () => {
       </div>
       <div className="grid sm:grid-cols-2 grid-cols-1 lg:grid-cols-4">
         {stripeProducts.map((product: Product, index: number) => (
+          // Step 8c
           <ProductCard
             key={index}
             item={product}
