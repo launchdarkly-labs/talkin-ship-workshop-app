@@ -70,9 +70,10 @@ export default async function handler(
       jsonObject = JSON.parse(json);
     }
 
-    /************************************************************************************************************
-     * we're missing the code to retrieve the new products. You'll find this code in "Goggles Worldwide", Step 2 
-     ************************************************************************************************************/
+    /****************************************************************************************
+     * we're missing the code to retrieve the new products. 
+     * You'll find this code in "Preparing for Launch - Updating our Product Catalog" Step 3
+     ****************************************************************************************/
 
     return res.json(product)
     

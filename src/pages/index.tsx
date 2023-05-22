@@ -20,7 +20,7 @@ export default function Home() {
         <NavigationMenuDemo />
       </header>
       {/********************************************************************************************************
-      * Retrieve Code from "Shipping Your First Feature with LaunchDarkly - Dark Launching our Feature", Step 2
+      * Retrieve Code from "Shipping Your First Feature with LaunchDarkly - Dark Launching our Feature", Step 3
       **********************************************************************************************************/}
       <StorePreview /> 
       {/**********************************************************

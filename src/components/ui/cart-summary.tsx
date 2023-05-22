@@ -77,7 +77,7 @@ const CartSummary = () => {
         onClick={() => {
           /**
            * 
-           * Add code from "Using the Metric System", Step 8b
+           * Add code from "Using the Metric System", Step 4b
            * 
            */
         }}

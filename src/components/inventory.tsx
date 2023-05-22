@@ -65,7 +65,7 @@ const Inventory = () => {
   const addToCartClickHandler = () => {
     /**
      * 
-     * Add code from "Using the Metric System", Step 8a here. 
+     * Add code from "Using the Metric System", Step 4a here. 
      * 
      */
   }
@@ -74,7 +74,7 @@ const Inventory = () => {
     data: stripeProducts,
     error: stripeProductsError,
     isLoading: stripeProductsLoading,
-  } = useFetch("/api/products", enableStripe, newProductExperienceAccess);
+  } = useFetch("/api/products", enableStripe, newProductExperienceAccess); //confirm in "Preparing for Launch - Updating our Product Catalog" Step 2
 
   useEffect(() => {
     setErrorState(false);
@@ -116,7 +116,7 @@ const Inventory = () => {
       </div>
       <div className="grid sm:grid-cols-2 grid-cols-1 lg:grid-cols-4">
         {stripeProducts.map((product: Product, index: number) => (
-          // Step 8c
+          // Step 4c
           <ProductCard
             key={index}
             item={product}

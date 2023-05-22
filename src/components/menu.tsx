@@ -61,7 +61,7 @@ const NavigationMenuDemo = () => {
       </Link>
       <NavigationMenuList>
         {/***********************************************************************************
-        "Goggles Go Global", Step 5, replace this comment block with the code from the guide
+        "Goggles Go Global", Step 4, replace this comment block with the code from the guide
         *************************************************************************************/}
 
         {/**********************************************************************   
