@@ -21,7 +21,7 @@ const CartSummary = () => {
     cartDetails,
   } = useShoppingCart()
 
-  const launchDarklyClient = useLDClient();
+  const client = useLDClient();
 
   useEffect(() => setCartEmpty(!cartCount), [cartCount])
 
