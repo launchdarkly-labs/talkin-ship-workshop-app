@@ -12,13 +12,14 @@ export default function Home() {
   // const { storeEnabled } = useFlags();
 
   return (
-    <div className={cn("font-sans", fontSans.variable)}>
-      <Head>
-        <title>Toggle Outfitters</title>
-      </Head>
-      <header className={styles.header}>
-        <NavigationMenuDemo />
-      </header>
+    <div className={cn("font-sohne")}>
+        <Head>
+          <title>Toggle Outfitters</title>
+        </Head>
+        <div className="min-h-screen bg-black">
+        <header className={`fixed z-50 ${styles.header}`}>
+          <NavigationMenuDemo />
+        </header>
       {/********************************************************************************************************
       * Retrieve Code from "Shipping Your First Feature with LaunchDarkly - Dark Launching our Feature", Step 3
       **********************************************************************************************************/}
@@ -26,6 +27,7 @@ export default function Home() {
       {/**********************************************************
        * Replace the above component with the code from the guide 
        **********************************************************/}
+    </div>
     </div>
   );
 }

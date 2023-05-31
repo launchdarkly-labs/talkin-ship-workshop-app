@@ -5,15 +5,10 @@ export default function CornerAccent({
 }: {
   label: string;
 }) {
-  const style = {
-    left: -25,
-    top: 30,
-    transform: "rotate(45deg)",
-  };
 
   return label ? (
-    <div className={[styles.ribbon, styles["ribbon-top-right"]].join(" ")}>
-      <span style={style}>{label}</span>
+    <div className={styles.ribbon}>
+      <span>{label}</span>
     </div>
   ) : null;
 }

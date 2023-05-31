@@ -1,14 +1,13 @@
 /** @type {import('tailwindcss').Config} */
 
- 
-const { fontFamily } = require("tailwindcss/defaultTheme")
+const { fontFamily } = require("tailwindcss/defaultTheme");
 
 module.exports = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx}",
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
- 
+
     // Or if using `src` directory:
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
@@ -55,20 +54,23 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        aws: '#FF9900',
-        ldblue: '#3DD6F5',
-        lddblue: '#405BFF',
-        ldred: '#FF386B',
-        ldpurple: '#A34FDE',
-        ldyellow: '#EBFF38',
-        ldgray: '#282828',
-        ldgraytext: '#BCBEC0',
-        ldhl: '#EBFF38',
-        ldgdcol1: '#DEE8C8',
-        ldgdcol2: '#A7B6EA',
-        ldinput: '#212121',
-        ldinputback: '#282828',
-        ldtsgray: '#D1D3D4'
+        aws: "#FF9900",
+        ldblue: "#3DD6F5",
+        lddblue: "#405BFF",
+        ldred: "#FF386B",
+        ldpurple: "#A34FDE",
+        ldyellow: "#EBFF38",
+        ldgray: "#282828",
+        ldgraytext: "#BCBEC0",
+        ldhl: "#EBFF38",
+        ldgdcol1: "#DEE8C8",
+        ldgdcol2: "#A7B6EA",
+        ldinput: "#212121",
+        ldinputback: "#282828",
+        ldtsgray: "#D1D3D4",
+        ldbackground: "#191919",
+        ldsiteblue: "#405BFF",
+        ldsitehover: "#7084FF",
       },
       borderRadius: {
         lg: `var(--radius)`,
@@ -85,20 +87,21 @@ module.exports = {
           to: { height: 0 },
         },
         fadeIn: {
-          '0%': { opacity: 0 },
-          '100%': { opacity: 1 },
+          "0%": { opacity: 0 },
+          "100%": { opacity: 1 },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        'fade-in': 'fadeIn 1s ease-out',
+        "fade-in": "fadeIn 1s ease-out",
       },
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
         sohne: ["Sohne"],
+        sohnemono: ["Sohne Mono"],
       },
     },
   },
   plugins: [require("tailwindcss-animate")],
-}
+};

@@ -10,7 +10,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Table } from "@nextui-org/react";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+// import { Table } from "@nextui-org/react";
 import product from "@/config/products";
 import { cn } from "@/lib/utils";
 import { fontSans } from "@/lib/fonts";
@@ -75,66 +84,62 @@ export default function AdminPanel() {
         <Button onClick={(e) => initialize()} className="text-md xl:text-lg text-white" variant="outline">Store Admin</Button>
       </DialogTrigger>
       }
-      <DialogContent className={cn("min-w-[80%] h-4/5 font-sans", fontSans.variable)}>
+      <DialogContent className={cn("min-w-[80%] h-4/5 font-sohne bg-ldgray text-white", fontSans.variable)}>
         <DialogHeader>
-          <DialogTitle>Administrative Inventory</DialogTitle>
+          <DialogTitle className="text-2xl">Store Inventory</DialogTitle>
           <DialogDescription>
-            Running count of current inventory and requests.
+            {dbTesting == "postgres" ? (
+            <div className="mx-auto bg-ldred text-white w-1/3 p-3 shadow-xl font-sohnemono text-center text-xl">
+            <p>Database Source Migrated</p>
+            </div>
+            ) : (
+              <div className="mx-auto bg-black text-white w-1/3 p-3  font-sohnemono text-center text-xl">
+            <p>Database Source Local</p>
+            </div>
+            )}
           </DialogDescription>
         </DialogHeader>
         <div className="overflow-auto">
         {dbTesting == "postgres" ? (
-        <Table
-          css={{
-            backgroundColor: "white",
-            alignContent: "right",
-          }}
-          selectionMode="single"
-        >
-          <Table.Header>
-            <Table.Column>TOGGLE NAME</Table.Column>
-            <Table.Column>PRICE</Table.Column>
-            <Table.Column>DESCRIPTION</Table.Column>
-            <Table.Column>CURRENT INVENTORY</Table.Column>
-            <Table.Column>OUTSTANDING ORDERS</Table.Column>
-          </Table.Header>
-          <Table.Body>
+        <Table className="bg-ldgray">
+          <TableHeader >
+            <TableHead className="text-white">TOGGLE NAME</TableHead>
+            <TableHead className="text-white">PRICE</TableHead>
+            <TableHead className="text-white">DESCRIPTION</TableHead>
+            <TableHead className="text-white">CURRENT INVENTORY</TableHead>
+            <TableHead className="text-white">OUTSTANDING ORDERS</TableHead>
+          </TableHeader>
+          <TableBody>
             {inventory.map((inventory: inventory) => (
-              <Table.Row key="1">
-                <Table.Cell>{inventory.toggle_name}</Table.Cell>
-                <Table.Cell>{inventory.price}</Table.Cell>
-                <Table.Cell>{inventory.description}</Table.Cell>
-                <Table.Cell>{Math.floor(Math.random() * 100)}</Table.Cell>
-                <Table.Cell>{Math.floor(Math.random() * 10)}</Table.Cell>
-              </Table.Row>
+              <TableRow key="1">
+                <TableCell>{inventory.toggle_name}</TableCell>
+                <TableCell>{inventory.price}</TableCell>
+                <TableCell>{inventory.description}</TableCell>
+                <TableCell>{Math.floor(Math.random() * 100)}</TableCell>
+                <TableCell>{Math.floor(Math.random() * 10)}</TableCell>
+              </TableRow>
             ))}
-          </Table.Body>
+          </TableBody>
         </Table>):(
-          <Table
-            css={{
-              backgroundColor: "white",
-              alignContent: "center",
-            }}
-            selectionMode="single"
-          >
-            <Table.Header>
-              <Table.Column>TOGGLE NAME</Table.Column>
-              <Table.Column>PRICE</Table.Column>
-              <Table.Column>CURRENT INVENTORY</Table.Column>
-            </Table.Header>
-            <Table.Body>
+          <Table className="bg-ldgray">
+            <TableHeader>
+              <TableHead className="text-white">TOGGLE NAME</TableHead>
+              <TableHead className="text-white">PRICE</TableHead>
+              <TableHead className="text-white">CURRENT INVENTORY</TableHead>
+            </TableHeader>
+            <TableBody>
               {product.map((product: product) => (
-                <Table.Row key="1">
-                  <Table.Cell>{product.name}</Table.Cell>
-                  <Table.Cell>{product.table_price}</Table.Cell>
-                  <Table.Cell>{product.inventory}</Table.Cell>
-                </Table.Row>
+                <TableRow key="1">
+                  <TableCell>{product.name}</TableCell>
+                  <TableCell>{product.table_price}</TableCell>
+                  <TableCell>{product.inventory}</TableCell>
+                </TableRow>
               ))}
-            </Table.Body>
+            </TableBody>
           </Table>
         )}
         </div>
-        <DialogHeader>
+        {/* <DialogHeader>
           <DialogTitle>Order Submissions</DialogTitle>
           <DialogDescription>
             Requested contacts from submissions.
@@ -159,7 +164,7 @@ export default function AdminPanel() {
               </Table.Row>
             ))}
           </Table.Body>
-        </Table>
+        </Table> */}
       </DialogContent>
     </Dialog>
   );

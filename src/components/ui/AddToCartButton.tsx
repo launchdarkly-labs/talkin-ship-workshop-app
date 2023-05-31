@@ -38,7 +38,7 @@ const AddToCartButton = ({ product, errorTesting, clickHandler }: any) => {
     <>
     {product && 
     <Toast.Provider key={product.id} swipeDirection="left">
-      <Button variant="green" className="mt-2" key={product.id}
+      <Button variant="addcart" className="mt-2" key={product.id}
         onClick={() => {
           clickRunner();
         }}><ShoppingCartIcon className="mr-2" color="white" size={24} />
