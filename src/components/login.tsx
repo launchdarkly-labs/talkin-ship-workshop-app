@@ -50,8 +50,8 @@ export default function Login() {
     e.preventDefault();
     setIsLoggedIn(true);
     const context: any = ldclient?.getContext();
-    const optedIn = betaUsers.find((element) => element === user);
-    if (optedIn === user) {
+    const optedIn = betaUsers.find((element) => element === inputRef.current.value);
+    if (optedIn === inputRef.current.value) {
       context.user.inBeta = true;
       setIsInBeta(true);
     } else {
@@ -62,7 +62,7 @@ export default function Login() {
     ldclient?.identify(context);
     setCookie("ldcontext", context);
     setHandleModal(false);
-    setUserName(user);
+    setUserName(inputRef.current.value);
   }
 
   function handleLogout() {
