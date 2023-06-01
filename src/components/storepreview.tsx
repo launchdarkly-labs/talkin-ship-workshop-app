@@ -9,7 +9,7 @@ const InitialContent = () => (
     <div>
       <div className="flex place-content-center">
         <h1 className={`text-2xl lg:text-6xl text-white font-sohnemono`}>
-          <span className={`${styles.outfitters}`}>Toggle Outfitters</span>
+          <span className={styles.outfitters}>Toggle Outfitters</span>
         </h1>
       </div>
       <div className="flex place-content-center">
