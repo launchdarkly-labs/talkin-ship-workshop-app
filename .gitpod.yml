@@ -1,5 +1,6 @@
 tasks:
-  - init: | 
+  - name: Start Workshop
+    init: | 
       curl -o .env https://talkin-ship-workshop.s3.us-east-2.amazonaws.com/example.env
       npm install
       npx playwright install --with-deps
