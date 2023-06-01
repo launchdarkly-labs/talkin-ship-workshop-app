@@ -1,0 +1,14 @@
+tasks:
+  - name: Start Workshop
+    init: | 
+      curl -o .env https://talkin-ship-workshop.s3.us-east-2.amazonaws.com/example.env
+      npm install
+      npx playwright install --with-deps
+    command: npm run dev 
+
+
+ports:
+  - port: 3000
+    onOpen: open-preview
+    name: ToggleOutfitters
+    description: ToggleOutfitters Preview
