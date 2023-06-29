@@ -1,9 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getServerClient } from '../../utils/ld-server';
 import { LDContext } from 'launchdarkly-node-server-sdk';
+import { createCheckoutForStripe } from '@/utils/checkout-helpers';
 import { v4 as uuidv4 } from 'uuid';
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-import { getCookies, getCookie, setCookie, deleteCookie, CookieValueTypes } from 'cookies-next';
+import { getCookie} from 'cookies-next';
 
 /************************************************************************************************
 
