@@ -2,6 +2,10 @@ import retrieveProducts from "@/utils/products-helpers";
 import type { NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
 import product from "@/config/products";
+import { getServerClient } from "@/utils/ld-server";
+import { getCookie } from "cookies-next";
+import { v4 as uuidv4 } from "uuid";
+
 
 /************************************************************************************************
 
@@ -17,6 +21,7 @@ import product from "@/config/products";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
   apiVersion: "2022-11-15", // or whichever version you're using
 });
+
 
 export async function listAllProducts() {
 const products: Stripe.Product[] = [];
@@ -50,6 +55,22 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+
+const ldClient = await getServerClient(process.env.LD_SDK_KEY || "");
+const clientContext: any = getCookie("ldcontext", { req, res });
+let enableStripe;
+let jsonObject;
+
+  if (clientContext == undefined) {
+    jsonObject = {
+      key: uuidv4(),
+      user: "Anonymous"
+    }
+  } else {
+    const json = decodeURIComponent(clientContext);
+    jsonObject = JSON.parse(json);
+  }
+  enableStripe = await ldClient.variation("enableStripe", jsonObject, false);
     /****************************************************************************************
      * we're missing the code to retrieve the new products. 
      * You'll find this code in "Preparing for Launch - Updating our Product Catalog" Step 3
