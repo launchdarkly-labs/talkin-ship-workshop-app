@@ -138,7 +138,7 @@ const NavigationMenuDemo = () => {
         {billing && storeEnabled ? (
           <NavigationMenu.Item>
             <NavigationMenuTrigger>
-              <div className="bg-blue-500 p-2 text-white" style={{ width: "84.1667px", height: "40px", alignItems: 'center', display: 'flex' }}>
+              <div className="bg-blue-500 p-2 text-white" style={{ width: "85px", height: "40px", alignItems: 'center', display: 'flex' }}>
                 <ShoppingCartIcon className="mr-2" color="white" size={24} />({cartCount})<CaretDown color="white" className="ml-2" aria-hidden />
               </div>
             </NavigationMenuTrigger>
