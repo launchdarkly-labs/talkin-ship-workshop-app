@@ -70,10 +70,10 @@ const NavigationMenuDemo = () => {
         {devdebug ? (
           <NavigationMenu.Item>
             <NavigationMenuTrigger>
-              <Button className="bg-orange-500 text-white">
+              <div className="bg-orange-500 p-2 text-white" style={{ width: "160px", height: "40px", alignItems: 'center', display: 'flex' }}>
                 Debug: App Data
                 <CaretDownDebug aria-hidden />
-              </Button>
+              </div>
             </NavigationMenuTrigger>
             <NavigationMenuContent>
               <List>
@@ -92,10 +92,9 @@ const NavigationMenuDemo = () => {
         {devdebug ? (
           <NavigationMenu.Item>
             <NavigationMenuTrigger>
-              <Button className="bg-orange-500 text-white">
-                Debug: Country Override
+            <div className="bg-orange-500 p-2 text-white" style={{ width: "200px", height: "40px", alignItems: 'center', display: 'flex' }}>                Debug: Country Override
                 <CaretDownDebug aria-hidden />
-              </Button>
+              </div>
             </NavigationMenuTrigger>
             <NavigationMenuContent>
               <List>
@@ -139,11 +138,9 @@ const NavigationMenuDemo = () => {
         {billing && storeEnabled ? (
           <NavigationMenu.Item>
             <NavigationMenuTrigger>
-              <Button className="bg-blue-500">
-                <ShoppingCartIcon className="mr-2" color="white" size={24} />(
-                {cartCount}){" "}
-                <CaretDown color="white" className="ml-2" aria-hidden />
-              </Button>
+              <div className="bg-blue-500 p-2 text-white" style={{ width: "84.1667px", height: "40px", alignItems: 'center', display: 'flex' }}>
+                <ShoppingCartIcon className="mr-2" color="white" size={24} />({cartCount})<CaretDown color="white" className="ml-2" aria-hidden />
+              </div>
             </NavigationMenuTrigger>
             <NavigationMenuContent>
               <div style={{ minWidth: "275px", margin: 30 }}>
