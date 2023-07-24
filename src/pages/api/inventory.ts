@@ -37,13 +37,13 @@ export default async function handler(
     const json = decodeURIComponent(clientContext);
     jsonObject = JSON.parse(json);
   }
+//we are again evaluating the value of the flag before running a function. 
+// In this case if the dbTesting flag returns 'postgres' we are running a function to connect to our new database.
+dbTesting = await ldClient.variation("dbTesting", jsonObject, false);
 
-  {/************************************************************************
-  * Replace the code below with the code from the guide located 
-  in "Taking On Database Migrations - Prepping the Database Backend", Step 2
-  **************************************************************************/}  
-  res.status(200).json(product)
-  {/************************************************************************
-  * Paste code block above this comment block
-   *************************************************************************/}
+  if (dbTesting == 'postgres') {
+    databaseConnection(req, res)
+  } else {
+    res.status(200).json(product)
+  }
 }

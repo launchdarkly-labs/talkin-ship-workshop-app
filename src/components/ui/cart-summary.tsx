@@ -75,11 +75,12 @@ const CartSummary = () => {
         type="submit"
         css={{marginRight: 25}}
         onClick={() => {
-          /**
-           * 
-           * Add code from "Using the Metric System", Step 4b
-           * 
-           */
+          //Step 4b
+          if (client) {
+            client.track("Checkout Click", client.getContext, 1);
+            // flush sends any pending events to LaunchDarkly, which is important *before* we redirect the user
+            client.flush();
+          }
         }}
       >
         Checkout

@@ -40,17 +40,27 @@ export default async function handler(
     jsonObject = JSON.parse(json);
   }
 
-/************************************************************************************************
-* There is a lot of missing API code here, 
-* retrieve the code from "Migrating Technologies with LaunchDarkly - Fixing Our API Code", Step 2
-*************************************************************************************************/
+//in this code, we are first retrieving the value for the enableStripe flag, 
+// then, if it returns true, running a function that creates a checkout session in stripe. 
+//If you want to see how that works, take a look at the `/src/utils/checkout-helpers.ts` file.
+
   if (req.method === 'POST') {
-        return res.json("api error");
+  const enableStripe = await ldClient.variation("enableStripe", jsonObject, false);
+
+    if (enableStripe) {
+      createCheckoutForStripe(req, res)
+    }
+  } if (req.method === 'GET') {
+    const enableStripe = await ldClient.variation("enableStripe", jsonObject, false);
+  
+    if (enableStripe) {
+      try {
+        res.send("You are good to go!");
+      } catch (error: any) {
+        console.error(error.message);
       }
-  if (req.method === 'GET') {
+    } else {
       return res.json("the API is unreachable");
     }
-/*************************************************************************************
- * Put the replacement code up above
- *************************************************************************************/
+  }
 }

@@ -63,11 +63,11 @@ const Inventory = () => {
   const client = useLDClient();
 
   const addToCartClickHandler = () => {
-    /**
-     * 
-     * Add code from "Using the Metric System", Step 4a here. 
-     * 
-     */
+    //Step 4a
+    if (client) {
+      client.track("Add to Cart Click", client.getContext(), 1);
+      client.flush();
+    }
   }
 
   const {
@@ -121,24 +121,31 @@ const Inventory = () => {
             key={index}
             item={product}
             featuredProductLabel={featuredProductLabel}
-            isGoggle={product.category === "goggle"} //Change this line to match "Using the Metric System", step 8c
+            isGoggle={false} //Change this line to match "Using the Metric System", step 8c
             isFeatured={featuredProductLabel && index < 4}
           >
-            {/*************************************************************************
-             * We're missing some code here to enable our new cart functionality! 
-             * Retrieve this code from "Failure Is An Option! - Add the Code", Step 1
-             *************************************************************************/}
-            <ReserveButton
-              setHandleModal={setHandleModal}
-              handleModal={handleModal}
-              handleClickTest={handleClickTest}
-              updateField={updateField}
-              formData={{ name, email }}
-              onButtonClick={onButtonClick}
-            />
-            {/*****************************************************************
-             * Make sure you replace the code above with your new cart code!
-             ******************************************************************/}
+            {billing ? (
+              <AddToCartButton
+                product={product}
+                errorTesting={errorTesting}
+                clickHandler={addToCartClickHandler}
+              />
+            ) : (
+              <ReserveButton
+                setHandleModal={setHandleModal}
+                handleModal={handleModal}
+                handleClickTest={handleClickTest}
+                updateField={updateField}
+                formData={{ name, email }}
+                onButtonClick={onButtonClick}
+              />
+            )}
+            {billing && (
+              <ErrorDialog
+                errorState={errorState}
+                setErrorState={setErrorState}
+              />
+            )}
           </ProductCard>
         ))}
       </div>

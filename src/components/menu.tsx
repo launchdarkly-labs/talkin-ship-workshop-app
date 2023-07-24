@@ -60,14 +60,82 @@ const NavigationMenuDemo = () => {
         <Image src={ts} className="ml-4 p-2" alt="logo" height={55} />
       </Link>
       <NavigationMenuList>
-        {/***********************************************************************************
-        "Goggles Go Global", Step 4, replace this comment block with the code from the guide
-        *************************************************************************************/}
-
-        {/**********************************************************************   
-        "Taking on Database Migrations - Getting Our Application Ready", Step 2, 
-        replace this comment block with the code from the guide
-        ************************************************************************/}
+        {adminMode ? (
+          <NavigationMenu.Item>
+            <NavigationMenuLink>
+              <AdminPanel />
+            </NavigationMenuLink>
+          </NavigationMenu.Item>
+        ) : null}
+        {devdebug ? (
+          <NavigationMenu.Item>
+            <NavigationMenuTrigger>
+              <Button className="bg-orange-500 text-white">
+                Debug: App Data
+                <CaretDownDebug aria-hidden />
+              </Button>
+            </NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <List>
+                <ListItem title="Selected Country">{uiCountry}</ListItem>
+                <ListItem title="Product Categories"></ListItem>
+                <ListItem title="Admin Access">
+                  {adminMode ? "Enabled" : "Disabled"}
+                </ListItem>
+                <ListItem title="Billing API">
+                  {billing ? "Enabled" : "Disabled"}
+                </ListItem>
+              </List>
+            </NavigationMenuContent>
+          </NavigationMenu.Item>
+        ) : null}
+        {devdebug ? (
+          <NavigationMenu.Item>
+            <NavigationMenuTrigger>
+              <Button className="bg-orange-500 text-white">
+                Debug: Country Override
+                <CaretDownDebug aria-hidden />
+              </Button>
+            </NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <List>
+                <ListItem onClick={changeCountry.bind(null, "US")} title="USA">
+                  🇺🇸
+                </ListItem>
+                <ListItem
+                  onClick={changeCountry.bind(null, "MX")}
+                  title="Mexico"
+                >
+                  🇲🇽
+                </ListItem>
+                <ListItem
+                  onClick={changeCountry.bind(null, "CA")}
+                  title="Canada"
+                >
+                  🇨🇦
+                </ListItem>
+                <ListItem
+                  onClick={changeCountry.bind(null, "UK")}
+                  title="United Kingdom"
+                >
+                  🇬🇧
+                </ListItem>
+                <ListItem
+                  onClick={changeCountry.bind(null, "FR")}
+                  title="France"
+                >
+                  🇫🇷
+                </ListItem>
+                <ListItem
+                  onClick={changeCountry.bind(null, "PT")}
+                  title="Portugal"
+                >
+                  🇵🇹
+                </ListItem>
+              </List>
+            </NavigationMenuContent>
+          </NavigationMenu.Item>
+        ) : null}
         {billing && storeEnabled ? (
           <NavigationMenu.Item>
             <NavigationMenuTrigger>
@@ -89,9 +157,6 @@ const NavigationMenuDemo = () => {
             <Login />
           </NavigationMenuLink>
         </NavigationMenu.Item>
-        <NavigationMenuIndicator>
-          <Arrow />
-        </NavigationMenuIndicator>
       </NavigationMenuList>
       <ViewportPosition>
         <NavigationMenuViewport />
@@ -208,16 +273,16 @@ const NavigationMenuContent = styled(NavigationMenu.Content, {
 });
 
 const NavigationMenuIndicator = styled(NavigationMenu.Indicator, {
-  display: "flex",
-  alignItems: "flex-end",
-  justifyContent: "center",
-  height: 10,
-  top: "100%",
-  overflow: "visible",
-  zIndex: 1,
-  transition: "width, transform 200ms ease",
-  '&[data-state="visible"]': { animation: `${fadeIn} 200ms ease` },
-  '&[data-state="hidden"]': { animation: `${fadeOut} 50ms ease` },
+        display: "flex",
+        alignItems: "flex-end",
+        justifyContent: "center",
+        height: 10,
+        top: "100%",
+        overflow: "visible",
+        zIndex: 1,
+        transition: "width, transform 200ms ease",
+        '&[data-state="visible"]': { animation: `${fadeIn} 200ms ease` },
+        '&[data-state="hidden"]': { animation: `${fadeOut} 50ms ease` },
 });
 
 const NavigationMenuViewport = styled(NavigationMenu.Viewport, {
@@ -332,16 +397,6 @@ const CaretDownDebug = styled(CaretDownIcon, {
   top: 1,
   transition: "transform 250ms ease",
   "[data-state=open] &": { transform: "rotate(-180deg)" },
-});
-
-const Arrow = styled("div", {
-  position: "relative",
-  top: "100%",
-  backgroundColor: slate.slate4,
-  width: 15,
-  height: 15,
-  transform: "rotate(45deg)",
-  borderTopLeftRadius: 2,
 });
 
 export default NavigationMenuDemo;
