@@ -15,7 +15,7 @@ jobs:
   issue_commented:
     # This job only runs for issue comments
     name: Issue comment
-    if: ${{ !github.event.issue.pull_request && startsWith(github.event.issue_comment.comment, '/promote') }}
+    if: ${{ !github.event.issue.pull_request && startsWith(github.event.comment.body, '/promote') }}
     runs-on: ubuntu-latest
     steps:
       - run: |
