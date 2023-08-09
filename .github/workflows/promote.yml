@@ -1,0 +1,17 @@
+name: Promote issue
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  issue_commented:
+    # This job only runs for issue comments
+    name: Issue comment
+    if: ${{ !github.event.issue.pull_request && startsWith(github.event.issue_comment.comment, '/promote' }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo Issue $NUMBER was promoted!
+        env:
+          NUMBER: ${{ github.event.issue.number }}
