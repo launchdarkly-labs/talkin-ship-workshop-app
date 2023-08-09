@@ -1,4 +1,4 @@
-name: Promote issue
+name: issue-ops command handlers
 
 on:
   issue_comment:
