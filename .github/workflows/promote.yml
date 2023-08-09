@@ -5,6 +5,13 @@ on:
     types: [created]
 
 jobs:
+  print_context:
+    runs-on: ubuntu-latest
+    steps:
+    - run: echo $CONTEXT
+      env:
+        CONTEXT: ${{ toJson( github.event ) }}
+        
   issue_commented:
     # This job only runs for issue comments
     name: Issue comment
