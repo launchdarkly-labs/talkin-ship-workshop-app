@@ -12,13 +12,26 @@ jobs:
       env:
         CONTEXT: ${{ toJson( github.event ) }}
         
-  issue_commented:
+  issue_promoted:
     # This job only runs for issue comments
     name: Issue comment
     if: ${{ !github.event.issue.pull_request && startsWith(github.event.comment.body, '/promote') }}
     runs-on: ubuntu-latest
     steps:
-      - run: |
+      - name: "Promote!"
+        run: |
           echo Issue $NUMBER was promoted!
+        env:
+          NUMBER: ${{ github.event.issue.number }}
+
+  issue_rollback:
+    # This job only runs for rollbacks
+    name: Issue comment
+    if: ${{ !github.event.issue.pull_request && startsWith(github.event.comment.body, '/rollback') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Rollback!"
+        run: |
+          echo Issue $NUMBER was rolled back successfullt
         env:
           NUMBER: ${{ github.event.issue.number }}
