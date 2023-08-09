@@ -1,0 +1,14 @@
+name: Deploy App
+
+on:
+    workflow_run:
+        workflows: ["Build App"]
+        types:
+            - completed
+
+jobs:
+    Deploy:
+        name: Deploy Application
+        runs-on: ubuntu-latest
+        steps:
+            - run: echo Deploying application

@@ -1,4 +1,4 @@
-name: Typescript install, build, and test
+name: Build App
 
 on:
   push:
