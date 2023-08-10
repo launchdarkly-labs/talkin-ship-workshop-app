@@ -1,17 +1,20 @@
 ---
 name: Feature
-about: Add a new feature to the product
+about: Make a change to the product
 title: "[CHANGE]"
-labels: ''
+labels: 'flags-pending,metrics-pending'
 assignees: ''
 
 ---
 
-**Is your feature request related to a problem? Please describe.**
+**What problem is motivating this change? Please describe.**
 A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+**What metrics do we expect will be affected by this change? Of those, which metric best reflects the problem described above?
+Ex. Performance, cost, usage, failure rate, success rate.
+
+**Describe the solution we intend to implement**
+A clear and concise description of how new behavior will differ from old behavior.
 
 **Describe alternatives you've considered**
 A clear and concise description of any alternative solutions or features you've considered.
@@ -23,4 +26,7 @@ Add any other context or screenshots about the feature request here.
 ### Subtasks
 - [ ] a task
 - [ ] another task
+- [ ] created any new feature flags needed
+- [ ] reviewed any existing feature flags to see if they are safe to remove
+- [ ] implemented any new metrics needed
 ```
