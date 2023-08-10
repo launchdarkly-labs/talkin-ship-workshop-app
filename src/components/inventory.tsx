@@ -121,8 +121,7 @@ const Inventory = () => {
             key={index}
             item={product}
             featuredProductLabel={featuredProductLabel}
-            isGoggle={product.category === "goggle"} //Change this line to match "Using the Metric System", step 8c
-            isFeatured={featuredProductLabel && index < 4}
+            isFeatured={featuredProductLabel && index < 6}
           >
             {/*************************************************************************
              * We're missing some code here to enable our new cart functionality! 
