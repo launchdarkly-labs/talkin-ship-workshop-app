@@ -17,12 +17,25 @@ jobs:
     name: Issue comment
     if: ${{ !github.event.issue.pull_request && startsWith(github.event.comment.body, '/promote') }}
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
     steps:
       - name: "Promote!"
         run: |
           echo Issue $NUMBER was promoted!
         env:
           NUMBER: ${{ github.event.issue.number }}
+      - name: "Add a 'ready for test' label"
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ["ready for test"]
+            })
+          
 
   issue_rollback:
     # This job only runs for rollbacks
@@ -32,6 +45,6 @@ jobs:
     steps:
       - name: "Rollback!"
         run: |
-          echo Issue $NUMBER was rolled back successfullt
+          echo Issue $NUMBER was rolled back successfully
         env:
           NUMBER: ${{ github.event.issue.number }}
