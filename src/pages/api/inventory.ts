@@ -44,15 +44,7 @@ export default async function handler(
   * Replace the code below with the code from the guide located 
   in "Taking On Database Migrations - Prepping the Database Backend", Step 2
   **************************************************************************/}
-  dbTesting = await ldClient.variation("dbTesting", jsonObject, false);
-
-  if (dbTesting == "postgres") {
-    const data = await prisma.toggletable.findMany();
-    console.log(data)
-    res.status(200).json(data);
-  } else {
-    res.status(200).json(product);
-  }
+  res.status(200).json(product)
   {/************************************************************************
   * Paste code block above this comment block
    *************************************************************************/}

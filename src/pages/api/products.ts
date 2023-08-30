@@ -4,6 +4,7 @@ import Stripe from "stripe";
 import { v4 as uuidv4 } from "uuid";
 import { getServerClient } from "../../utils/ld-server";
 import { getCookie } from "cookies-next";
+import retrieveProducts from "@/utils/products-helpers";
 
 /************************************************************************************************
 
@@ -20,7 +21,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
   apiVersion: "2022-11-15", // or whichever version you're using
 });
 
-async function listAllProducts() {
+export async function listAllProducts() {
   const products: Stripe.Product[] = [];
 
   let hasMore = true;
@@ -43,7 +44,7 @@ async function listAllProducts() {
   return products;
 }
 
-const getPriceFromApi = async (priceId: string) => {
+export const getPriceFromApi = async (priceId: string) => {
   const price = await stripe.prices.retrieve(priceId);
   return price.unit_amount ?? 0;
 };
@@ -75,7 +76,17 @@ export default async function handler(
      * You'll find this code in "Preparing for Launch - Updating our Product Catalog" Step 3
      ****************************************************************************************/
 
-    return res.json(product)
+   // this function retrieves our product catalog from the Stripe API based on our flag values. 
+// If you want to see the flag evaluations, check out the `/src/utils/product-helpers.ts` 
+
+if (req.method === "GET") {
+  if (enableStripe) {
+  retrieveProducts(req, res)
+}
+else {
+    return res.json(product);
+  }
+}
     
     /**************************************************************************
      * Put replacement code between these two comments blocks 
