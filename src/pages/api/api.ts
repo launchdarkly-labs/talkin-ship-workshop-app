@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { createClient } from '@supabase/supabase-js';
+import { PrismaClient } from '@prisma/client'
 
 export const config = {
     api: {
@@ -13,11 +13,9 @@ export default async function handler(
   res: NextApiResponse
 ) {
 
-    const supabase = createClient(process.env.NEXT_PUBLIC_DB_URL || "", process.env.NEXT_PUBLIC_DB_URL || "")
+    const prisma = new PrismaClient()
 
-    const { data, error } = await supabase
-        .from('toggletable')
-        .select()
+    const data = await prisma.toggletable.findMany()
 
     res.status(200).json(data)
 }

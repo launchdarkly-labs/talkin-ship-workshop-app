@@ -35,8 +35,9 @@ This file is `.gitignored` so it will be ignored from commits and pushes so we d
 
 ### Postgres Database
 
-This application uses Supabase for the postgres DB attached to the application. We typically simply refer to this as a SaaS hosted database. When not connected to this database, it uses a local datafile. 
-
+This application is configured to use Prisma as an ORM allowing you to switch between any supported PostgreSQL database. By default it is leveraging Supabase, but suitabe tested alternatives are.. 
+ - AWS RDS 
+ - Railway.app 
 
 ### Experimentation Automation
 
