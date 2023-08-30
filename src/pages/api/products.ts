@@ -21,6 +21,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
   apiVersion: "2022-11-15", // or whichever version you're using
 });
 
+
 export async function listAllProducts() {
   const products: Stripe.Product[] = [];
 
@@ -53,43 +54,31 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method === "GET") {
-    const ldClient = await getServerClient(process.env.LD_SDK_KEY || "");
-    const clientContext: any = getCookie("ldcontext", { req, res });
 
-    let enableStripe;
-    let jsonObject;
-    let newProductExperienceAccess;
+  const ldClient = await getServerClient(process.env.LD_SDK_KEY || "");
+  const clientContext: any = getCookie("ldcontext", { req, res });
+  let enableStripe;
+  let jsonObject;
 
-    if (clientContext == undefined) {
-      jsonObject = {
-        key: uuidv4(),
-        user: "Anonymous",
-      };
-    } else {
-      const json = decodeURIComponent(clientContext);
-      jsonObject = JSON.parse(json);
+  if (clientContext == undefined) {
+    jsonObject = {
+      key: uuidv4(),
+      user: "Anonymous"
     }
-
-    /****************************************************************************************
-     * we're missing the code to retrieve the new products. 
-     * You'll find this code in "Preparing for Launch - Updating our Product Catalog" Step 3
-     ****************************************************************************************/
-
-   // this function retrieves our product catalog from the Stripe API based on our flag values. 
-// If you want to see the flag evaluations, check out the `/src/utils/product-helpers.ts` 
-
-if (req.method === "GET") {
-  if (enableStripe) {
-  retrieveProducts(req, res)
-}
-else {
-    return res.json(product);
+  } else {
+    const json = decodeURIComponent(clientContext);
+    jsonObject = JSON.parse(json);
   }
-}
-    
-    /**************************************************************************
-     * Put replacement code between these two comments blocks 
-     **************************************************************************/
+  enableStripe = await ldClient.variation("enableStripe", jsonObject, false);
+
+  /****************************************************************************************
+   * we're missing the code to retrieve the new products. 
+   * You'll find this code in "Preparing for Launch - Updating our Product Catalog" Step 3
+   ****************************************************************************************/
+  if (req.method === "GET") {
+    return res.json(product)
   }
+  /**************************************************************************
+   * Put replacement code between these two comments blocks 
+   **************************************************************************/
 }
