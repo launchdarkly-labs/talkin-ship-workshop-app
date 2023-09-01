@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { getServerClient } from '../../utils/ld-server';
 import { LDContext } from 'launchdarkly-node-server-sdk';
 import { v4 as uuidv4 } from 'uuid';
+import databaseConnection from '@/utils/inventory-helps';
 import product from '@/config/products';
 import { getCookie } from 'cookies-next';
 import { PrismaClient } from '@prisma/client'
@@ -24,7 +25,9 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+
   const prisma = new PrismaClient()
+
 
   const ldClient = await getServerClient(process.env.LD_SDK_KEY || "");
   const clientContext: any = getCookie('ldcontext', { req, res })

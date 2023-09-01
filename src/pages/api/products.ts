@@ -1,10 +1,15 @@
-import product from "@/config/products";
+import retrieveProducts from "@/utils/products-helpers";
 import type { NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
-import { v4 as uuidv4 } from "uuid";
-import { getServerClient } from "../../utils/ld-server";
+import product from "@/config/products";
+import { getServerClient } from "@/utils/ld-server";
 import { getCookie } from "cookies-next";
+
 import retrieveProducts from "@/utils/products-helpers";
+
+import { v4 as uuidv4 } from "uuid";
+
+
 
 /************************************************************************************************
 
@@ -24,6 +29,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
 
 export async function listAllProducts() {
   const products: Stripe.Product[] = [];
+
 
   let hasMore = true;
   let startingAfter: string | undefined;
@@ -59,6 +65,7 @@ export default async function handler(
   const clientContext: any = getCookie("ldcontext", { req, res });
   let enableStripe;
   let jsonObject;
+
 
   if (clientContext == undefined) {
     jsonObject = {
