@@ -1,52 +1,42 @@
-import { test, expect } from "@playwright/test";
+import { test } from "@playwright/test";
 import { shouldClickAddToCart, shouldClickCheckout } from "./fixture";
 
 const iterationCount = 100;
-const iterations = Array(iterationCount).fill(0).map((iteration, index) => index)
 
-for (const iteration of iterations) {
+const setup = (test: any) => test.setTimeout(90000);
+setup(test);
+
+for (let iteration = 0; iteration < iterationCount; iteration++) {
   test(`iteration: ${iteration}`, async ({ page }) => {
-    await page.goto("/");
+  
+    await page.goto("http://localhost:3000");
 
-    const labelContainer = await page.waitForSelector(
-      "[data-id='label-container']", { state: 'hidden' }
-    );
+    // Wait for products to load
+    await page.waitForSelector('.prodcard', { timeout: 60000 });
 
-    let labelAccent = "none";
-    if (labelContainer) {
-      const label = await labelContainer.textContent();
-      if (label) labelAccent = label;
+    // Check if any products have the "to-label"
+    const labeledProduct = await page.$('.prodcard .to-label');
+
+    if (!labeledProduct) {
+      console.log(`Iteration: ${iteration}, No products with labels present. Exiting iteration.`);
+      return; // Exit the current iteration of the test if no labeled products are found
     }
 
-    const addToCart = shouldClickAddToCart({
-      label: labelAccent,
-    });
-
-    const checkout =
-      addToCart &&
-      shouldClickCheckout({
-        label: labelAccent,
-      });
-
-    await page.waitForTimeout(Math.floor(Math.random() * 5) * 1000);
+    // If a labeled product is found, continue with the test logic
+    const labelAccent = await labeledProduct.textContent() || "none";
+    const addToCart = shouldClickAddToCart({ label: labelAccent });
+    const checkout = addToCart && shouldClickCheckout();  // Notice the change here, we aren't passing the label anymore
 
     if (addToCart) {
-      await page
-        .locator("div:nth-child(2) > .absolute > .p-6 > .flex > .inline-flex")
-        .click();
-      await page.locator(".flex > .inline-flex").first().click();
+      await page.click('button.cartbutton');
 
       if (checkout) {
         await page.hover("#radix-\\:r0\\:-trigger-radix-\\:r1\\: > button");
-        await page.getByRole("button", { name: "Checkout" }).click();
-        await page.waitForURL("https://checkout.stripe.com/**");
-        console.log("successfuly clicked checkout");
-      } else {
-        // console.log("did not click checkout");
+        await page.click('text=Checkout');
       }
-    } else {
-      // console.log("did not click add to cart");
-      // console.log("did not click checkout");
     }
-  });
+
+    // Logging to see the actions taken
+    console.log(`Iteration: ${iteration}, AddToCart: ${addToCart}, Checkout: ${checkout}`);
+  })
 }

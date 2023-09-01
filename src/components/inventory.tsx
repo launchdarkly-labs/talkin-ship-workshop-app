@@ -121,7 +121,7 @@ const Inventory = () => {
             key={index}
             item={product}
             featuredProductLabel={featuredProductLabel}
-            isGoggle={product.category === "goggle"} //Change this line to match "Using the Metric System", step 8c
+            isGoggle={product.category === "goggle"} 
             isFeatured={featuredProductLabel && index < 4}
           >
             {/*************************************************************************
