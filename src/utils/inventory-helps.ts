@@ -1,4 +1,3 @@
-
 import { PrismaClient } from "@prisma/client";
 import { NextApiResponse, NextApiRequest } from "next";
 
@@ -12,3 +11,5 @@ if (typeof BigInt.prototype.toJSON === 'undefined') {
 
 export default async function databaseConnection (req: NextApiRequest, res: NextApiResponse ) {
     const data = await prisma.toggletable.findMany()
+    res.status(200).json(data)
+}

@@ -1,12 +1,9 @@
-import retrieveProducts from "@/utils/products-helpers";
 import type { NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
 import product from "@/config/products";
 import { getServerClient } from "@/utils/ld-server";
 import { getCookie } from "cookies-next";
-
 import retrieveProducts from "@/utils/products-helpers";
-
 import { v4 as uuidv4 } from "uuid";
 
 
