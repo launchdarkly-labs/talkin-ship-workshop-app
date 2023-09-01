@@ -1,0 +1,23 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model formfills {
+  id    Int     @id @default(autoincrement())
+  name  String? @db.VarChar(255)
+  email String? @db.VarChar(255)
+}
+
+model toggletable {
+  id          BigInt  @id(map: "toggleTable_pkey") @default(autoincrement())
+  toggle_name String? @db.VarChar
+  price       String? @db.VarChar
+  description String?
+  image       String?
+  category    String? @db.VarChar
+}

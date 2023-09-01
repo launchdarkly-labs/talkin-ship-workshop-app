@@ -8,7 +8,7 @@ export default function CornerAccent({
 
   return label ? (
     <div className={styles.ribbon}>
-      <span>{label}</span>
+      <span className="to-label">{label}</span>
     </div>
   ) : null;
 }

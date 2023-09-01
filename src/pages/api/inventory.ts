@@ -5,6 +5,10 @@ import { v4 as uuidv4 } from 'uuid';
 import databaseConnection from '@/utils/inventory-helps';
 import product from '@/config/products';
 import { getCookie } from 'cookies-next';
+import { PrismaClient } from '@prisma/client'
+import databaseConnection from '@/utils/inventory-helps';
+
+
 
 /************************************************************************************************
 
@@ -21,6 +25,9 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+
+  const prisma = new PrismaClient()
+
 
   const ldClient = await getServerClient(process.env.LD_SDK_KEY || "");
   const clientContext: any = getCookie('ldcontext', { req, res })
@@ -41,7 +48,7 @@ export default async function handler(
   {/************************************************************************
   * Replace the code below with the code from the guide located 
   in "Taking On Database Migrations - Prepping the Database Backend", Step 2
-  **************************************************************************/}  
+  **************************************************************************/}
   res.status(200).json(product)
   {/************************************************************************
   * Paste code block above this comment block

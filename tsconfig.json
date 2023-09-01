@@ -18,6 +18,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/bak.bak"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/bak.bak", "src/lib/prisma.js"],
   "exclude": ["node_modules"]
 }
