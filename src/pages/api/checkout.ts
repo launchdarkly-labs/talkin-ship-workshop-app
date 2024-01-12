@@ -10,14 +10,14 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 /************************************************************************************************
 
-  This file uses the `enableStripe` feature flag in LaunchDarkly enable the Stripe API communication
+  This file uses the `migrateToStripeApi` feature flag in LaunchDarkly enable the Stripe API communication
   for the billing component. 
 
   User context is rendered from the 'ldcontext' cookie which gets set during login. It is decoded
   into a JSON object below
 
-  This file also contains the error return for when the `billing` flag is enabled but not the 
-  `enableStripe` flag
+  This file also contains the error return for when the `updatedBillingUi` flag is enabled but not the 
+  `migrateToStripeApi` flag
 
 *************************************************************************************************
 */
@@ -30,7 +30,7 @@ export default async function handler(
   const ldClient = await getServerClient(process.env.LD_SDK_KEY || "");
   const clientContext: any = getCookie("ldcontext", { req, res });
 
-  let enableStripe;
+  let migrateToStripeApi;
   let jsonObject
 
   if (clientContext == undefined) {
@@ -43,17 +43,17 @@ export default async function handler(
     jsonObject = JSON.parse(json);
   }
 
-/************************************************************************************************
-* There is a lot of missing API code here, 
-* retrieve the code from "Migrating Technologies with LaunchDarkly - Fixing Our API Code", Step 2
-*************************************************************************************************/
+  /************************************************************************************************
+  * There is a lot of missing API code here, 
+  * retrieve the code from "Migrating Technologies with LaunchDarkly - Fixing Our API Code", Step 2
+  *************************************************************************************************/
   if (req.method === 'POST') {
-        return res.json("api error");
-      }
+    return res.json("api error");
+  }
   if (req.method === 'GET') {
-      return res.json("the API is unreachable");
-    }
-/*************************************************************************************
- * Put the replacement code up above
- *************************************************************************************/
+    return res.json("the API is unreachable");
+  }
+  /*************************************************************************************
+   * Put the replacement code up above
+   *************************************************************************************/
 }

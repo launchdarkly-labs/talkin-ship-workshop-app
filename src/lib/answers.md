@@ -8,7 +8,7 @@ Below are the missing code snippets for each step of use case 1, risk-free relea
 
 ```jsx
 {
-  storeEnabled ? <StoreLaunch /> : <StorePreview />;
+  releaseUpdatedStorefront ? <StoreLaunch /> : <StorePreview />;
 }
 ```
 
@@ -18,7 +18,7 @@ Below are the missing code snippets for each step of use case 1, risk-free relea
 
 ```jsx
 {
-  billing ? (
+  updatedBillingUi ? (
     <AddToCartButton
       product={product}
       errorTesting={errorTesting}
@@ -36,7 +36,7 @@ Below are the missing code snippets for each step of use case 1, risk-free relea
   );
 }
 {
-  billing && (
+  updatedBillingUi && (
     <ErrorDialog errorState={errorState} setErrorState={setErrorState} />
   );
 }
@@ -48,8 +48,8 @@ Below are the missing code snippets for each step of use case 1, risk-free relea
 
 ```jsx
  if (req.method === 'POST') {
-    const enableStripe = await ldClient.variation("enableStripe", jsonObject, false);
- if (enableStripe) {
+    const migrateToStripeApi = await ldClient.variation("migrateToStripeApi", jsonObject, false);
+ if (migrateToStripeApi) {
       try {
         const cartDetails = await req.body;
         let line_items: any = [];
@@ -78,8 +78,8 @@ Below are the missing code snippets for each step of use case 1, risk-free relea
     }
   }
   if (req.method === 'GET') {
-    const enableStripe = await ldClient.variation("enableStripe", jsonObject, false);
-    if (enableStripe) {
+    const migrateToStripeApi = await ldClient.variation("migrateToStripeApi", jsonObject, false);
+    if (migrateToStripeApi) {
       try {
         res.send("You are good to go!");
       } catch (error: any) {
@@ -144,7 +144,7 @@ if (dbTesting == "postgres") {
 
 ## Use Case 3
 
-This builds off the previous two use cases, make sure they have created flags for `storeEnabled`, `billing`, and `enableStripe` and they are serving all users.
+This builds off the previous two use cases, make sure they have created flags for `releaseUpdatedStorefront`, `updatedBillingUi`, and `migrateToStripeApi` and they are serving all users.
 
 1. Enable the devdebug view
    Needed code:
@@ -173,7 +173,7 @@ This builds off the previous two use cases, make sure they have created flags fo
             {adminMode ? "Enabled" : "Disabled"}
           </ListItem>
           <ListItem title="Billing API">
-            {billing ? "Enabled" : "Disabled"}
+            {updatedBillingUi ? "Enabled" : "Disabled"}
           </ListItem>
         </List>
       </NavigationMenuContent>
@@ -224,14 +224,14 @@ This builds off the previous two use cases, make sure they have created flags fo
    **File - /api/product.ts**
 
 ```jsx
-enableStripe = await ldClient.variation("enableStripe", jsonObject, false);
+migrateToStripeApi = await ldClient.variation("migrateToStripeApi", jsonObject, false);
 newProductExperienceAccess = await ldClient.variation(
   "new-product-experience-access",
   jsonObject,
   "toggle"
 );
 
-if (enableStripe) {
+if (migrateToStripeApi) {
   const products = await listAllProducts();
   const allowedCategories = newProductExperienceAccess.split(",");
 

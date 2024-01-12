@@ -7,33 +7,33 @@ import { CheckCircledIcon } from '@radix-ui/react-icons';
 
 
 const DatabaseState = () => {
-    const {dbTesting, storeEnabled} = useFlags();
-    const [open, setOpen] = React.useState(true);
+  const { dbTesting, releaseUpdatedStorefront } = useFlags();
+  const [open, setOpen] = React.useState(true);
 
-const ToastRoot = styled(Toast.Root, {
-  backgroundColor: (dbTesting == 'postgres') ? grass.grass10 : tomatoDark.tomato11,
-  borderRadius: 6,
-  boxShadow: 'hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px',
-  padding: 15,
-  display: 'grid',
-  gridTemplateAreas: '"title action" "description action"',
-  gridTemplateColumns: 'auto max-content',
-  columnGap: 15,
-  alignItems: 'center',
-  textAlign: 'center',
-});
+  const ToastRoot = styled(Toast.Root, {
+    backgroundColor: (dbTesting == 'postgres') ? grass.grass10 : tomatoDark.tomato11,
+    borderRadius: 6,
+    boxShadow: 'hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px',
+    padding: 15,
+    display: 'grid',
+    gridTemplateAreas: '"title action" "description action"',
+    gridTemplateColumns: 'auto max-content',
+    columnGap: 15,
+    alignItems: 'center',
+    textAlign: 'center',
+  });
 
   return (
     <>
-    { storeEnabled ?
-    <Toast.Provider swipeDirection="right"> 
-      <ToastRoot open={open}>
-        <ToastTitle>Connected Database <u><strong>{dbTesting}</strong></u></ToastTitle>
-      </ToastRoot>
-      <ToastViewport />
-    </Toast.Provider>
- : null}
-      </>
+      {releaseUpdatedStorefront ?
+        <Toast.Provider swipeDirection="right">
+          <ToastRoot open={open}>
+            <ToastTitle>Connected Database <u><strong>{dbTesting}</strong></u></ToastTitle>
+          </ToastRoot>
+          <ToastViewport />
+        </Toast.Provider>
+        : null}
+    </>
   );
 };
 
