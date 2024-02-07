@@ -9,25 +9,25 @@ import { cn } from "@/lib/utils";
 
 export default function Home() {
   // We'll need to import the flag, make sure you uncomment the next line!
-  // const { storeEnabled } = useFlags();
+  // const { releaseUpdatedStorefront } = useFlags();
 
   return (
     <div className={cn("font-sohne")}>
-        <Head>
-          <title>Toggle Outfitters</title>
-        </Head>
-        <div className="min-h-screen bg-black">
+      <Head>
+        <title>Toggle Outfitters</title>
+      </Head>
+      <div className="min-h-screen bg-black">
         <header className={`fixed z-50 ${styles.header}`}>
           <NavigationMenuDemo />
         </header>
-      {/********************************************************************************************************
+        {/********************************************************************************************************
       * Retrieve Code from "Shipping Your First Feature with LaunchDarkly - Dark Launching our Feature", Step 3
       **********************************************************************************************************/}
-      <StorePreview /> 
-      {/**********************************************************
+        <StorePreview />
+        {/**********************************************************
        * Replace the above component with the code from the guide 
        **********************************************************/}
-    </div>
+      </div>
     </div>
   );
 }

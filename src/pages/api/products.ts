@@ -10,7 +10,7 @@ import { v4 as uuidv4 } from "uuid";
 
 /************************************************************************************************
 
-  This file uses the `billing` feature flag in LaunchDarkly switch between an inventory file thats
+  This file uses the `updatedBillingUi` feature flag in LaunchDarkly switch between an inventory file thats
   local or dynamically pull the product inventory directly from the Stripe product api
   
   User context is rendered from the 'ldcontext' cookie which gets set during login. It is decoded
@@ -60,7 +60,7 @@ export default async function handler(
 
   const ldClient = await getServerClient(process.env.LD_SDK_KEY || "");
   const clientContext: any = getCookie("ldcontext", { req, res });
-  let enableStripe;
+  let migrateToStripeApi;
   let jsonObject;
 
 
@@ -73,7 +73,7 @@ export default async function handler(
     const json = decodeURIComponent(clientContext);
     jsonObject = JSON.parse(json);
   }
-  enableStripe = await ldClient.variation("enableStripe", jsonObject, false);
+  migrateToStripeApi = await ldClient.variation("migrateToStripeApi", jsonObject, false);
 
   /****************************************************************************************
    * we're missing the code to retrieve the new products. 

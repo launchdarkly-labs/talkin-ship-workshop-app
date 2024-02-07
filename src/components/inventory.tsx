@@ -25,8 +25,8 @@ const Inventory = () => {
   // import flags
   const {
     devdebug,
-    billing,
-    enableStripe,
+    updatedBillingUi,
+    migrateToStripeApi,
     newProductExperienceAccess,
     featuredProductLabel,
   } = useFlags();
@@ -74,12 +74,12 @@ const Inventory = () => {
     data: stripeProducts,
     error: stripeProductsError,
     isLoading: stripeProductsLoading,
-  } = useFetch("/api/products", enableStripe, newProductExperienceAccess); //confirm in "Preparing for Launch - Updating our Product Catalog" Step 2
+  } = useFetch("/api/products", migrateToStripeApi, newProductExperienceAccess); //confirm in "Preparing for Launch - Updating our Product Catalog" Step 2
 
   useEffect(() => {
     setErrorState(false);
     return () => clearTimeout(timerRef.current);
-  }, [billing]);
+  }, [updatedBillingUi]);
 
   const handleClickTest = (e: any) => {
     e.preventDefault();
@@ -121,7 +121,7 @@ const Inventory = () => {
             key={index}
             item={product}
             featuredProductLabel={featuredProductLabel}
-            isGoggle={product.category === "goggle"} 
+            isGoggle={product.category === "goggle"}
             isFeatured={featuredProductLabel && index < 4}
           >
             {/*************************************************************************

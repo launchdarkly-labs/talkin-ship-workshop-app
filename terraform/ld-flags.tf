@@ -23,8 +23,8 @@ resource "launchdarkly_feature_flag" "admin_access" {
 
 resource "launchdarkly_feature_flag" "store_enabled" {
   project_key = launchdarkly_project.toggle_store_demo.key
-  key         = "storeEnabled"
-  name        = "Enable the Toggle Store"
+  key         = "release-updated-storefront"
+  name        = "Release Updated Storefront"
   description = "Turn on our brand new Toggle Store component"
   tags        = ["terraform-managed"]
   temporary   = true
@@ -46,7 +46,7 @@ resource "launchdarkly_feature_flag" "store_enabled" {
 
 resource "launchdarkly_feature_flag" "stripe_routes" {
   project_key = launchdarkly_project.toggle_store_demo.key
-  key         = "enableStripe"
+  key         = "migrateToStripeApi"
   name        = "New Stripe API Routes"
   description = "This flag enables communication with the Stripe API on the server"
   tags        = ["terraform-managed"]
@@ -69,7 +69,7 @@ resource "launchdarkly_feature_flag" "stripe_routes" {
 
 resource "launchdarkly_feature_flag" "billing_method" {
   project_key = launchdarkly_project.toggle_store_demo.key
-  key         = "billing"
+  key         = "updatedBillingUi"
   name        = "Enable the new billing component"
   description = "This flag changes the webstore to use the Stripe checkout instead of self-hosted"
   tags        = ["terraform-managed"]

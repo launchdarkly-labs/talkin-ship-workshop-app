@@ -29,8 +29,8 @@ import { setCookie } from "cookies-next";
 const NavigationMenuDemo = () => {
   const [uiCountry, setUICountry] = React.useState("US");
   const {
-    billing,
-    storeEnabled,
+    updatedBillingUi,
+    releaseUpdatedStorefront,
     adminMode,
     newProductExperienceAccess,
     devdebug,
@@ -68,7 +68,7 @@ const NavigationMenuDemo = () => {
         "Taking on Database Migrations - Getting Our Application Ready", Step 2, 
         replace this comment block with the code from the guide
         ************************************************************************/}
-        {billing && storeEnabled ? (
+        {updatedBillingUi && releaseUpdatedStorefront ? (
           <NavigationMenu.Item>
             <NavigationMenuTrigger>
               <div className="bg-blue-500 p-2 text-white" style={{ width: "85px", height: "40px", alignItems: 'center', display: 'flex' }}>
